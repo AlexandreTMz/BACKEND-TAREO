@@ -1,0 +1,609 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row">
+	<div class="col-6">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<label> Condicion especial</label>
+					</div>
+					<div class="card-body" id="box-reg-cond" style="position: relative;">
+						<div class="row">
+
+							<div class="col-12"> 
+								<label>Nombre de condicion:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpNombreCondicion" required>
+									<input type="hidden" id="inpIdCondicion">
+								</div>
+							</div>
+
+							<div class="col-12" id="box-success" style="display: none;">
+								<div class="alert alert-success" role="alert">
+									Registro correcto!
+								</div>
+							</div>
+
+							<div class="col-12">
+								<div class="btn-group d-flex" role="group" aria-label="...">
+									<button type="button" class="btn btn-success w-100" id="btnRegistrarCondicion">REGISTRAR</button>
+									<button type="button" class="btn btn-success w-100" id="btnEditarCondicion" style="display: none;">EDITAR</button>
+									<button type="button" class="btn btn-primary w-100" id="btnLimpiarCondicion">LIMPIAR</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<label>LISTA</label>
+					</div>
+					<div class="card-body" id="box-list-cond">
+						<ul class="list-group" id="lsCondicionEspecial">
+
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="col-6">
+		<div class="row">
+
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						Registro de controles <label><span id="spCondicion"></span></label>
+					</div>
+					<div class="card-body" id="box-reg-contro">
+
+						<div class="row">
+							<div class="col-12"> 
+								<label>Nombre de control:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpNombreControl" required>
+									<input type="hidden" class="form-control" id="inpControlId" required>
+									<input type="hidden" class="form-control" id="inpCondicionIdCon" required>
+								</div>
+							</div>
+							<div class="col-6"> 
+								<label>Frecuencia dias:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpFrecuencia" required>
+								</div>
+							</div>
+							<div class="col-6"> 
+								<label>Duracion:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpDuracion" required>
+								</div>
+							</div>
+							<div class="col-12" id="box-success2" style="display: none;">
+								<div class="alert alert-success" role="alert">
+									Registro correcto!
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="btn-group d-flex" role="group" aria-label="...">
+									<button type="button" class="btn btn-success w-100" id="btnRegistrarControl">REGISTRAR</button>
+									<button type="button" class="btn btn-success w-100" id="btnEditarControl" style="display: none;">EDITAR</button>
+									<button type="button" class="btn btn-primary w-100" id="btnLimpiarControl">LIMPIAR</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<label>LISTA</label>
+					</div>
+					<div class="card-body" id="box-list-contro">
+						<ul class="list-group" id="lsControlCondicionEspecial">
+
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+
+
+/**/
+
+const boxRegCond = "box-reg-cond"
+const boxListCond = "box-list-cond"
+const boxRegContr = "box-reg-contro"
+const boxListContr = "box-list-contro"
+
+const boxLoading = (box, state) =>{
+	if(state){
+		if ($("#"+box+" .loading").length) {
+			$("#"+box+" .loading").show()
+		}else{
+			$("#"+box).append(
+				$("<div>").addClass("loading").append(
+					$("<img>").attr("src",`{% Config::getAsset(); %}local/img/cargando2.gif`)
+				)
+			)
+		}
+	}else{
+		if ($("#"+box+" .loading").length) {
+			$("#"+box+" .loading").hide()
+		}
+	}
+}
+/**/
+
+$("#btnRegistrarCondicion").click(function(){
+	let dataEtapa = {}
+	dataEtapa.nombreCondicion = $("#inpNombreCondicion").val()
+	registrarCondicionEspecial(dataEtapa)
+})	
+	
+const registrarCondicionEspecial = (datos) =>{
+	// hide
+	boxLoading(boxRegCond,true)
+
+	fetch(`{{ Config::getUrl() }}/api/agregar/condicion_especiales`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	$("#inpNombreCondicion").val("")
+    	$("#box-success").show()
+    	$("#lsCondicionEspecial").empty()
+    	listarCondicionEspeciales(data)
+    	console.log(data)
+
+    	// hide
+    	boxLoading(boxRegCond,false)
+    })
+    .catch(function(error) {
+    	console.log(error)
+    	// hide
+    	boxLoading(boxRegCond,false)
+    });
+}
+
+
+const listarCondicionEspeciales = () =>{
+	boxLoading(boxListCond,true)
+	fetch(`{{ Config::getUrl() }}/api/listar/condicion_especiales`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	console.log(data)
+    	createListCondicion(data)
+    	// hide
+    	boxLoading(boxListCond,false)
+    })
+    .catch(function(error) {
+    	console.log(error)
+    	// hide
+    	boxLoading(boxListCond,false)
+    });
+}
+
+const createListCondicion = (datos) =>{
+	$("#lsCondicionEspecial").empty()
+	datos.map((e)=>{
+    	const box = $("<li>")
+		box.addClass("list-group-item")
+		box.append(
+			$("<div>").addClass("d-flex").append(
+				$("<div>").addClass("d-flex align-items-start flex-grow-1").append(
+					$("<span>").append(e.desc_condicion_especial)
+				),
+				$("<div>").addClass("d-flex align-items-end").append(
+					btnEditarCondicion(e),
+					btnDeleteCondicion(e),
+					btnMasCondicion(e)
+				)
+			)
+		)
+	  $("#lsCondicionEspecial").append(box)
+    })
+
+}
+
+
+const btnMasCondicion = (datos) =>{
+	const btn = $("<button>")
+	btn.addClass("btn btn-sm btn-info")
+	btn.append("+++")
+	btn.click(function(){
+		$("#spCondicion").text(datos.desc_condicion_especial)
+		listarControlCondicion(datos)
+	})
+	return btn
+}
+
+const btnEditarCondicion = (datos) =>{
+	const btn = $("<button>")
+	btn.addClass("btn btn-sm btn-success")
+	btn.append("Editar")
+	btn.click(function(){
+		$("#inpNombreCondicion").val(datos.desc_condicion_especial)
+		$("#inpIdCondicion").val(datos.id_condicion_especial)
+
+		$("#btnRegistrarCondicion").hide()
+		$("#btnEditarCondicion").show()
+	})
+	return btn
+}
+
+$("#btnEditarCondicion").click(function(){
+	let dataCondicion = {}
+	dataCondicion.nombreCondicion = $("#inpNombreCondicion").val()
+	dataCondicion.idCondicion = $("#inpIdCondicion").val()
+	editarCondicionEspecial(dataCondicion)
+})
+
+
+const editarCondicionEspecial = (datos) =>{
+	// hide
+	boxLoading(boxRegCond,true)
+
+	fetch(`{{ Config::getUrl() }}/api/editar/condicion_especiales`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	// hide
+		boxLoading(boxRegCond,false)
+
+    	$("#inpIdCondicion").val("")
+    	$("#inpNombreCondicion").val("")
+    	$("#box-success").show()
+    	listarCondicionEspeciales(data)
+
+    	$("#btnRegistrarCondicion").show()
+		$("#btnEditarCondicion").hide()
+    })
+    .catch(function(error) {
+    	// hide
+		boxLoading(boxRegCond,false)
+
+    	console.log(error)
+    });
+}
+
+
+const btnDeleteCondicion = (datos) =>{
+	const btn = $("<button>")
+	btn.addClass("btn btn-sm btn-danger")
+	btn.append("Eliminar")
+	btn.click(function(){
+		if (confirm("Desea eliminar esta condicion?")) {
+			eliminarCondicionEspecial(datos.id_condicion_especial)
+			listarCondicionEspeciales()
+		}
+	})
+	return btn
+}
+
+const eliminarCondicionEspecial = (condicion) =>{
+	// hide
+	boxLoading(boxListCond,true)
+
+	fetch(`{{ Config::getUrl() }}/api/eliminar/condicion_especial/${condicion}`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	console.log(data)
+    	// hide
+		boxLoading(boxListCond,false)
+    })
+    .catch(function(error) {
+    	console.log(error)
+    	// hide
+		boxLoading(boxListCond,false)
+    });
+}
+
+const listarControlCondicion = (datos) =>{
+	boxLoading(boxListContr,true)
+	fetch(`{{ Config::getUrl() }}/api/listar/control_condicion_especiales`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	console.log(data)
+    	createListControlCondicion(data)
+		$("#inpCondicionIdCon").val(datos.id_condicion_especial)
+		// hide
+		boxLoading(boxListContr,false)
+    })
+    .catch(function(error) {
+    	console.log(error)
+    	// hide
+		boxLoading(boxListContr,false)
+    });
+}
+
+
+const createListControlCondicion = (datos) =>{
+	$("#lsControlCondicionEspecial").empty()
+	datos.map((e)=>{
+    	const box = $("<li>")
+		box.addClass("list-group-item")
+		const btnMas = $("<button>").addClass("btn btn-sm btn-info").append("++")
+		box.append(
+			$("<div>").addClass("d-flex").append(
+				$("<div>").addClass("d-flex align-items-start flex-grow-1").append(
+					$("<span>").append(e.desc_condicion_especial_control)
+				),
+				$("<div>").addClass("d-flex align-items-end").append(
+					btnEditarControl(e),
+					btnDeleteControl(e)
+				)
+			)
+		)
+		$("#lsControlCondicionEspecial").append(box)
+    })
+
+}
+
+const btnEditarControl = (datos) =>{
+	const btn = $("<button>")
+	btn.addClass("btn btn-sm btn-success")
+	btn.append("Editar")
+	btn.click(function(){
+		$("#inpNombreControl").val(datos.desc_condicion_especial_control)
+		$("#inpFrecuencia").val(datos.frecuencia_dias_control)
+		$("#inpDuracion").val(datos.duracion_controles)
+		$("#inpControlId").val(datos.id_condicion_especial_control)
+
+		$("#btnRegistrarControl").hide()
+		$("#btnEditarControl").show()
+	})
+	return btn
+}
+
+
+$("#btnEditarControl").click(function(){
+	let dataControlCond = {}
+	dataControlCond.idControl = $("#inpControlId").val()
+	dataControlCond.nombreControl = $("#inpNombreControl").val()
+	dataControlCond.frecuencia = $("#inpFrecuencia").val()
+	dataControlCond.duracion = $("#inpDuracion").val()
+	dataControlCond.idCondicion = $("#inpCondicionIdCon").val()
+	console.log(dataControlCond)
+	editarControlCondion(dataControlCond)
+})
+
+const editarControlCondion = (datos) =>{
+	// hide
+	boxLoading(boxRegContr,true)
+
+	fetch(`{{ Config::getUrl() }}/api/editar/control_condicion_especiales`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	let dataControlCond = {}
+    	dataControlCond.id_condicion_especial = $("#inpCondicionIdCon").val()
+    	listarControlCondicion(dataControlCond)
+		
+		$("#inpFrecuencia").val("")
+		$("#inpControlId").val("")
+		$("#inpDuracion").val("")
+    	$("#inpNombreControl").val("")
+    	$("#box-success2").show()
+
+    	$("#btnRegistrarControl").show()
+		$("#btnEditarControl").hide()
+
+		// hide
+		boxLoading(boxRegContr,false)
+
+    })
+    .catch(function(error) {
+    	console.log(error)
+    	// hide
+		boxLoading(boxRegContr,false)
+    });
+}
+
+const btnDeleteControl = (datos) =>{
+	const btn = $("<button>")
+	btn.addClass("btn btn-sm btn-danger")
+	btn.append("Eliminar")
+	btn.click(function(){
+		console.log(datos)
+		//eliminarControlCond()
+	})
+	return btn
+}
+
+const eliminarControlCond = (condicion) =>{
+	// hide
+	boxLoading(boxListContr,true)
+
+	fetch(`{{ Config::getUrl() }}/api/eliminar/condicion_especial/${condicion}`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	console.log(data)
+    	// hide
+		boxLoading(boxListContr,false)
+    })
+    .catch(function(error) {
+    	console.log(error)
+    	// hide
+		boxLoading(boxListContr,false)
+    });
+}
+
+// REGISTRAR CONTROL
+$("#btnRegistrarControl").click(function(){
+
+	if($("#inpCondicionIdCon").val().length <= 0) return alert("Seleccione una condicion!")
+
+	let dataControlCond = {}
+	dataControlCond.nombreControl = $("#inpNombreControl").val()
+	dataControlCond.frecuencia = $("#inpFrecuencia").val()
+	dataControlCond.duracion = $("#inpDuracion").val()
+	dataControlCond.idCondicion = $("#inpCondicionIdCon").val()
+	console.log(dataControlCond)
+	registrarControlEs(dataControlCond)
+})
+
+
+const registrarControlEs = (datos) =>{
+	// hide
+	boxLoading(boxRegContr,true)
+
+	fetch(`{{ Config::getUrl() }}/api/agregar/control_condicion_especiales`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	let dataControlCond = {}
+    	dataControlCond.id_condicion_especial = $("#inpCondicionIdCon").val()
+    	listarControlCondicion(dataControlCond)
+		
+		$("#inpFrecuencia").val("")
+		$("#inpDuracion").val("")
+    	$("#inpNombreControl").val("")
+    	$("#box-success2").show()
+
+    	// hide
+		boxLoading(boxRegContr,false)
+
+    })
+    .catch(function(error) {
+    	console.log(error)
+    	// hide
+		boxLoading(boxRegContr,false)
+    });
+}
+
+
+
+// LISTAR AL INICIAR
+listarCondicionEspeciales()
+
+</script>
+
+{% endblock %}

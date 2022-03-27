@@ -1,0 +1,367 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center"> 
+	<div class="col-12"></div>
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Opciones de busqueda</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+
+					<div class="col-12"> 
+						<label>Filtrar por:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcOpciones">
+								<option value="1" selected>Documento</option>
+								<option value="2">Nombres</option> 
+							</select>
+						</div>
+					</div>
+
+					<div class="col-12">
+						
+						<div class="form-row">
+
+							<!-- POR DOCUMENTO --->
+							<div class="col-12" id="lyDocumento" >
+								<label>Documento</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpDocumento">
+								</div>
+							</div>
+							<!-- POR DOCUMENTO --->
+
+							<!-- POR NOMBRES --->
+							<div class="col-12" id="lyNombres" style="display: none;">
+								<label>Nombres</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									 <input type="text" class="form-control" id="inpNombre">
+								</div>
+							</div>
+							<!-- POR NOMBRES --->
+ 
+						</div>
+
+					</div>
+ 
+
+				</div>
+			</div>
+		</div>
+	</div> 
+	<div class="col-12"></div>
+	<div class="col-6 mb-3">
+		<button class="btn btn-success" id="btnBuscar">BUSCAR</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Lista de personas suplentes</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;"> 
+				<div id="jsgPersona"></div>  
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$("#slcOpciones").change(function(){
+	mtd_CambiarOpcion();
+});
+
+const mtd_CambiarOpcion = () =>{
+	let intL_Opcion = parseInt($("#slcOpciones").val());
+	switch  (intL_Opcion) {
+		  case 1:
+		  		$("#lyDocumento").show();
+		     	$("#lyNombres").hide();
+				$("#lySedes").hide();
+				$("#lyCargo").hide();
+		    break;
+		  case 2:
+		    	$("#lyNombres").show();
+		    	$("#lyDocumento").hide();
+				$("#lySedes").hide();
+				$("#lyCargo").hide();
+		    break; 
+		  default:
+		    alert('Lo lamentamos, por el momento no disponemos la opcion de .');
+	}
+ 
+}
+
+
+$("#btnBuscar").click(function(){
+	let filtro = {}
+	filtro.opcion = $("#slcOpciones").val();
+	filtro.nombres = $("#inpNombre").val();
+	filtro.documento = $("#inpDocumento").val();
+	filtro.sede = $("#slcSede").val();
+	filtro.cargo = $("#slcCargo").val();
+
+	mtd_BuscarEmpleado(filtro);
+})
+
+
+$("#jsgPersona").jsGrid({ 
+	  width: "100%",
+	  height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 10,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+	  pagePrevText: "Anterior",
+	  pageNextText: "Siguiente",
+	  pageFirstText: "Primero",
+	  pageLastText: "Ultima",
+	  pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...",
+	  controller: {
+	    loadData: function(filter) {
+	      return $.ajax({
+	        url: `{{ Config::getUrl() }}/adm/suplente/personas`,
+	        dataType: "json",
+	        type: 'post',
+	        data: JSON.stringify({
+                  	opcion:2,
+                  	nombres:''
+            })
+	      }).then(function(requests) {
+		        return $.grep(requests, function(request) {
+		            return (!filter.per_documento || request.per_documento === filter.per_documento)
+		            && (!filter.datos || request.datos.indexOf(filter.datos) > -1)
+		            && (!filter.tpd_descripcion || request.tpd_descripcion.indexOf(filter.tpd_descripcion) > -1)
+		            && (!filter.na_descripcion || request.na_descripcion.indexOf(filter.na_descripcion) > -1)
+		            && (!filter.ca_descripcion || request.ca_descripcion.indexOf(filter.ca_descripcion) > -1)
+		        });
+		   });
+	    }
+	  },
+	  rowClass: function(item, itemIndex) { 
+	  		let estado = parseInt(item.pe_estado);
+            return estado==0 ? 'table-danger' : 'table-success';
+      },
+	  fields: [
+        {name: 'tpd_descripcion',type: "text", title: "TP. Documento"},
+        {name: 'datos',type: "text", title: "Nombres"}, 
+        {name: 'per_documento',type: "text", title: "Documento"},
+        {name: 'na_descripcion', type: "text",title: "Nacionalidad"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+			    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+
+			    let estado = parseInt(item.pe_estado);
+			    let zoom = $("<div>")
+			    zoom.attr({
+			        class: "fa ico ico-edit",
+			        'data-toggle':"tooltip" ,
+			        'data-placement':"left" ,
+			        'title':"Editar persona?"
+			    })
+			    zoom.click(function(e) {
+			    	window.open(`{{ Config::getUrl() }}/adm/persona/success/${item.id_persona}`, 'Editar persona'); 
+			    });
+
+			    let deshabilitar = $("<div>")
+			    deshabilitar.attr({
+			            class: "fa ico ico-remove",
+			            'data-toggle':"tooltip" ,
+			            'data-placement':"left" ,
+			            'title':"¿Inactivar persona?"
+			    })
+				if(estado == 1){
+					deshabilitar.click(function(e) {
+						mtd_DeshabilitarPersona({
+							'id_persona':item.id_persona
+						})
+					    e.stopPropagation();
+					}); 
+				}else{
+					deshabilitar.addClass("ico-inactive")
+				}
+
+			    let empleado = $("<div>")
+			    empleado.attr({
+			            class: "fa ico ico-employed",
+			            'data-toggle':"tooltip" ,
+			            'data-placement':"left" ,
+			            'title':"¿Cambiar a empleado?"
+			    })
+
+			    if(estado == 1){
+					empleado.click(function(e) {
+						Swal.fire({
+				          title: '¿Quieres cambiar a empleado?',
+				          text: 'Al cambiar ha empleado, automáticamente se generará un usuario y datos internos a esta persona, esto le permitirá usar el aplicativo móvil, generarle planilla etc.',
+				          showDenyButton: true,
+				          showCancelButton: false,
+				          confirmButtonText: `Cambiar`,
+				          denyButtonText: `Cancelar`,
+				        }).then((result) => {
+				          /* Read more about isConfirmed, isDenied below */
+				          if (result.isConfirmed) {
+				            mtd_MigrarSuplenteEmpleado({
+				            	id_persona:item.id_persona
+				            })
+				          } else if (result.isDenied) {
+				            Swal.fire('Cancelado', '', 'info')
+				          }
+				        })
+					    e.stopPropagation();
+					}); 
+				}else{
+					empleado.addClass("ico-inactive")
+				}
+
+
+			    return $("<div>").attr({
+			    	class:'d-flex'
+			    }).append(zoom).append(empleado).append(deshabilitar);
+
+
+			},
+        }
+	  ]
+}); 
+
+const mtd_MigrarSuplenteEmpleado = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/suplente/migrar`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+ 		$("#jsgPersona .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_DeshabilitarPersona = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/suplente/persona`,{
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+ 		$("#jsgPersona .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+// OCULTAR LAS BUSQUEDAS
+$(".jsgrid-search-mode-button").click()
+
+
+const mtd_BuscarEmpleado = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/suplente/personas`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+         console.log(data)
+         $("#jsgPersona").jsGrid("option", "data", data) 
+    })
+    .catch(function(error) { 
+       	console.log(error)  
+    });
+} 
+
+/* FETCHS */
+
+
+</script>
+
+{% endblock %}

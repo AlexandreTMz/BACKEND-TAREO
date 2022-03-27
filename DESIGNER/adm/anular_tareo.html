@@ -1,0 +1,420 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-md-center">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <label> Opciones de busqueda</label>
+            </div>
+            <div class="card-body" style="position: relative;">
+                <div class="row">
+                    <!-- POR SEDES --->
+                    <div class="col-6" id="lySedes">
+                        <label>Sedes</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcSede"> </select>
+                        </div>
+                    </div>
+                    <!-- POR SEDES --->
+
+                    <div class="col-6">
+                        <label>Documento/Nombres</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="inpDocumento">
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <label>Fecha Inicio:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <input type="date" class="form-control" id="inpFechaInicio">
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <label>Fecha Fin:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <input type="date" class="form-control" id="inpFechaFin">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12"></div>
+    <div class="col-6 mb-3">
+        <button class="btn btn-success" id="btnBuscar">GENERAR</button>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <!---<button id="btnExportar">EXPORTAR</button>-->
+       <div class="card">
+	       <div class="card-body">
+	       	<table class="table table-striped" id="tbTareo">
+				  <thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">NOMBRES</th>
+				      <th scope="col">SEDE</th>
+				      <th scope="col">ESTADO</th>
+                      <th scope="col">ETAPA</th>
+				      <th scope="col">FECHA ING</th>
+				      <th scope="col">HORA ING</th>
+				      <th scope="col">FECHA CIE</th>
+				      <th scope="col">HORA CIE</th>
+				      <th scope="col">MARCADOR</th>
+				      <th scope="col"></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    
+				  </tbody>
+			</table>
+	       </div>
+	   </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalImpresion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+        	Editar estado tareo
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	  <div class="row">
+      	  	<div class="col-12">
+      	  		<label>Empleado:</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-file-signature"></i>
+                        </span>
+                    </div> 
+                    <input class="form-control" type="text" id="inpDatos" disabled>
+                    <input class="form-control" type="hidden" id="inpIdTareo" disabled>
+                </div>
+      	  	</div>
+      	  	<div class="col-6">
+      	  		<label>Fecha Ingreso:</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-file-signature"></i>
+                        </span>
+                    </div> 
+                    <input class="form-control" type="text" id="inpFechaIng" disabled>
+                </div>
+      	  	</div>
+      	  	<div class="col-6">
+      	  		<label>Hora Ingreso:</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-file-signature"></i>
+                        </span>
+                    </div> 
+                    <input class="form-control" type="text" id="inpHoraIng" disabled>
+                </div>
+      	  	</div>
+      	  	<div class="col-12">
+      	  		<label>Estado:</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-file-signature"></i>
+                        </span>
+                    </div>
+                    <select class="form-control" id="slcEstadoTareo">
+						<option value="1">Activo</option>
+						<option value="0">Inactivo</option>
+					</select>
+                    <input type="hidden" id="inpIdTareo">
+                </div>
+      	  	</div>
+      	  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" id="btnMdEliminar">Eliminar</button>
+        <button type="button" class="btn btn-primary" id="btnMdCerrar">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+  
+$("#btnBuscar").click(function(){
+    mtd_GenerarObjeto()
+})
+ 
+const mtd_GenerarObjeto = () =>{ 
+    let data = new FormData();
+	data.append('id_sede', $("#slcSede").val());
+	data.append('inicio', $("#inpFechaInicio").val());
+	data.append('fin', $("#inpFechaFin").val());
+    data.append('documento', $("#inpDocumento").val());
+    mtd_BuscarTareo(data) 
+} 
+
+$(document).ready(function () {
+
+  $("#inpFechaInicio").val(new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 10));
+  $("#inpFechaFin").val(new Date().toISOString().slice(0, 10));
+
+  $('#tbTareo').DataTable({
+    "bSort": false,
+    dom: 'Bfrtip',
+	buttons: [
+		'excelHtml5' 
+	],
+	'autoWidth': false,
+    'lengthChange': false, 
+    'pageLength': 10,
+    "language": {
+        "sProcessing":    "Procesando...",
+        "sLengthMenu":    "Mostrar _MENU_ registros",
+        "sZeroRecords":   "No se encontraron resultados",
+        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":   "",
+        "sSearch":        "Buscar:",
+        "sUrl":           "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":    "Último",
+            "sNext":    "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    },
+	destroy: true,
+    ajax: {
+        url: `{{ Config::getUrl() }}/adm/administrador/tareo`,
+        'method':'POST',
+		'dataType': 'json', 
+		'data':{
+		    "id_sede": 7,
+		    //"inicio": new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 10),
+		    "inicio":"2021-06-01",
+		    "fin": new Date().toISOString().slice(0, 10)
+		},
+	    dataSrc:""
+    },
+    createdRow: function(row, data, dataIndex) {
+    	if(parseInt(data.ta_estado) == 0){
+    		$(row).addClass('red');
+    	}
+    },
+    columns: [
+            {"data": "codigo"},
+            { "data": "datos" },
+            { "data": "sede_datos" },
+            { "data": "estado" },
+            { "data": "etapa" },
+            { "data": "fecha_ingreso" },
+            { "data": "hora_ingreso" },
+            { "data": "fecha_cierre" },
+            { "data": "hora_cierre" },
+            { "data": "marcador_datos" },
+            { data: "id_tareo" , render : function ( data, type, item, meta ) { 
+            	let estado = parseInt(item.ta_estado);
+			    let edit = $("<div>")
+			    edit.attr({
+			        'class': "fa ico ico-editp",
+			        'data-toggle':"tooltip" ,
+			        'data-placement':"left" ,
+			        'title':"¿Editar estado del tareo?",
+			        'id':"btnCambiarEstado",
+			        'data-row':JSON.stringify(item)
+			    }) 
+			    return $("<div>").attr({
+			    	'class':'d-flex'
+			    }).append(edit).html(); 
+            }}
+    ] 
+  });
+  //table.buttons().container().appendTo('#tbTareo_wrapper .col-md-6:eq(0)');
+});
+
+$('#tbTareo').on('click', '#btnCambiarEstado', function() {
+	let dataTareo = $(this).data('row')
+  	//console.log($(this).data('row'));
+	$("#modalImpresion").modal('show')
+	$("#inpDatos").val(dataTareo.datos) 
+	$("#inpFechaIng").val(dataTareo.fecha_ingreso)
+	$("#inpHoraIng").val(dataTareo.hora_ingreso)
+	$('#slcEstadoTareo').val(dataTareo.ta_estado)
+	$('#inpIdTareo').val(dataTareo.id_tareo) 
+});
+
+$("#btnMdCerrar").click(function(){
+	let tareo = {}
+	tareo.id_tareo = $("#inpIdTareo").val() 
+	tareo.ta_estado = $("#slcEstadoTareo").find(":selected").val()
+	console.log(tareo)
+	//$('#tbTareo').DataTable().ajax.reload(); 
+	mtd_ModificarTareo(tareo)
+})
+
+$("#btnMdEliminar").click(function(){
+    if (confirm("Eliminar tareo ?")) {
+        let tareo = {}
+        tareo.id_tareo = $("#inpIdTareo").val() 
+        mtd_EliminarTareo(tareo)
+    } 
+}) 
+
+const mtd_EliminarTareo = (tareo) =>{
+    fetch(`{{ Config::getUrl() }}/adm/tareo/eliminar`,{
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tareo)
+    })  
+    .then((data) =>{
+        if (data.ok) {
+            return data.json();
+        } else {
+            return data.json().then(err => {throw err;});
+        }
+    })
+    .then((data) => { 
+        Swal.fire(
+            'Mensaje del sistema!',
+            data.msg,
+            'success'
+        )  
+        $('#btnBuscar').click()
+        $("#modalImpresion").modal('hide')
+        //$('#tbTareo').DataTable().ajax.reload();
+    })
+    .catch(function(error) { 
+        console.log(error)
+        alert("Error!")
+    });
+}
+
+const mtd_ModificarTareo = (tareo) =>{
+	fetch(`{{ Config::getUrl() }}/adm/tareo/estado`,{
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(tareo)
+	})	
+	.then((data) =>{
+		if (data.ok) {
+			return data.json();
+		} else {
+			return data.json().then(err => {throw err;});
+		}
+	})
+	.then((data) => { 
+		Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		//$('#tbTareo').DataTable().ajax.reload();
+         $('#btnBuscar').click()
+	})
+	.catch(function(error) { 
+		console.log(error)
+		alert("Error!")
+	});
+}
+
+
+const mtd_BuscarTareo = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/administrador/tareo`,{
+            method: 'POST', 
+            body: datos
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {  
+    	  $('#tbTareo').DataTable().clear().rows.add(data).draw();
+    })
+    .catch(function(error) { 
+        console.log(error)  
+    });
+}
+
+
+ const mtd_ListarSede = () =>{ 
+    fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}sede`)
+    .then((data) =>{
+            if (data.ok) {
+               return data.json();
+            } else {
+               return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => { 
+        data.forEach((e)=>{
+            $(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+        }) 
+    })
+    .catch(function(error) {
+        console.log(error) 
+    });
+}
+
+mtd_ListarSede()
+
+</script>
+{% endblock %}

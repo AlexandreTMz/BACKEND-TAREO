@@ -1,0 +1,467 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos personales</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+					<div class="col-3"> 
+						<label>Nombres:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNombres" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Apellido paterno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpApellidoPa" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Apellido materno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpApellidoMa" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Sexo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-venus-mars"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcSexo">
+								<option value="2">M - MASCULINO</option>
+								<option value="1">F - FEMENINO</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Nacionalidad:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-globe-americas"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcNacionalidad">
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Tipo de documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-passport"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcTipoDocumento">
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Numero documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-sort-numeric-up"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNumeroDocumento" required>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Fecha de nacimiento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-calendar-alt"></i>
+								</span>
+							</div>
+							<input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="inpFechaNacimiento" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Direccion:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-map-marked-alt"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpDireccion" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Celular:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-phone-square-alt"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCelular" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Correo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-envelope-square"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCorreo" required>
+							
+						</div>
+					</div> 
+				</div> 
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label>Banco</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+					<div class="col-3"> 
+						<label>Banco:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-university"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcBanco">
+								<option selected disabled>Seleccione!</option>
+							</select>
+						</div>
+					</div> 
+					<div class="col-3"> 
+						<label>Tipo de cuenta:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-university"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcTipoCuenta">
+								<option selected disabled>Seleccione!</option>
+							</select>
+						</div>
+					</div> 
+				</div>
+
+				<div class="row">
+					<div class="col-6"> 
+						<label>Numero:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fab fa-cc-visa"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNumeroCuenta"> 
+						</div>
+					</div>  
+				</div>
+
+				<div class="row">
+					<div class="col-6"> 
+						<label>CCI:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fab fa-cc-visa"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCcii"> 
+						</div>
+					</div>  
+				</div> 
+
+				<div class="row">
+					<div class="col-12">
+						<button class="btn btn-success" id="btnRegistrar">REGISTRAR</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>  
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$("#btnRegistrar").click(function() {
+	mtd_CrearPersonaJson()
+})
+
+
+// CREAR OBJETO
+const mtd_CrearPersonaJson = () =>{
+	let { state, msg } = fn_Validaciones()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	} 
+
+	let objL_Persona = {}
+	objL_Persona.nombres = $("#inpNombres").val()
+	objL_Persona.apellido_paterno = $("#inpApellidoPa").val()
+	objL_Persona.apellido_materno = $("#inpApellidoMa").val()
+	objL_Persona.sexo = $("#slcSexo").val()
+	objL_Persona.nacionalidad = $("#slcNacionalidad").val()
+	objL_Persona.tipo_documento = $("#slcTipoDocumento").val()
+	objL_Persona.documento = $("#inpNumeroDocumento").val()
+	objL_Persona.fecha_nacimiento = $("#inpFechaNacimiento").val()
+	objL_Persona.direccion = $("#inpDireccion").val()
+	objL_Persona.celular = $("#inpCelular").val()
+	objL_Persona.correo = $("#inpCorreo").val()  
+	objL_Persona.fecha_ingreso = moment(new Date()).format('YYYY-MM-DD');
+	objL_Persona.titular = 1
+ 	objL_Persona.usuario = `{{ Session::getSession('usuario')->id_persona }}`
+ 	objL_Persona.estado = 1
+
+	objL_Persona.pago = []
+	objL_Persona.pago[0] = {}
+	objL_Persona.pago[0].tipo = 1  // 1 titutal 0 no titular
+	objL_Persona.pago[0].banco = $("#slcBanco").val() 
+	objL_Persona.pago[0].tipo_cuenta = $("#slcTipoCuenta").val() 
+	objL_Persona.pago[0].cuenta = $("#inpNumeroCuenta").val()
+	objL_Persona.pago[0].cuentaCi = $("#inpCcii").val()
+	console.log(objL_Persona)
+	mtd_RegistrarPersona(objL_Persona)
+}
+
+
+const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = "";
+
+	// VALIDACIONES DATOS PERSONALES 
+	if($('#inpNombres').val()==''  || !$('#inpNombres').val()){
+ 	    strL_msg += 'Ingrese un nombre<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpApellidoPa').val()==''  || !$('#inpApellidoPa').val()){
+ 	    strL_msg += 'Ingrese un apellido paterno<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpApellidoMa').val()==''  || !$('#inpApellidoMa').val()){
+ 	    strL_msg += 'Ingrese un apellido materno<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcSexo').val()=='Seleccione!' || !$('#slcSexo').val()){
+ 	    strL_msg += 'Seleccione el sexo<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcNacionalidad').val()=='Seleccione!'  || !$('#slcNacionalidad').val()){
+ 	    strL_msg += 'Seleccione una nacionalidad<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcTipoDocumento').val()=='Seleccione!' || !$('#slcTipoDocumento').val()){
+ 	    strL_msg += 'Seleccione un tipo de documento<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpNumeroDocumento').val()==''  || !$('#inpNumeroDocumento').val()){
+ 	    strL_msg += 'Ingrese el numero de documento<br>'
+	    blnL_Validar = true;
+	}
+	if(!moment($('#inpFechaNacimiento').val()).isValid()){
+ 	    strL_msg += 'La fecha de nacimiento es incorrecto!<br>'
+	    blnL_Validar = true;
+	}   
+ 	 
+	// VALIDACIONES DE PAGO
+	if($('#slcBanco').val()=='Seleccione!' || !$('#slcBanco').val()){
+ 		    strL_msg += "Seleccione un banco<br>"
+		    blnL_Validar = true;
+	}  
+	if($('#slcTipoCuenta').val()=='Seleccione!' || !$('#slcTipoCuenta').val()){
+ 		    strL_msg += "Seleccione un tipo de cuenta<br>"
+		    blnL_Validar = true;
+	}
+	if($('#inpNumeroCuenta').val()=='' || $('#inpNumeroCuenta').val().length <= 4){
+ 		    strL_msg += "Ingrese un numero de cuenta<br>"
+		    blnL_Validar = true;
+	} 
+	return {state:blnL_Validar,msg:strL_msg}
+}
+
+// REGISTRAR
+const mtd_RegistrarPersona = (datos) =>{
+    fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}persona/suplente`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+        console.log(data)
+        Swal.fire(
+			  'Mensaje del sistema!',
+			  	data.msg,
+			  'success'
+		)  
+        mtd_ClearInputs();
+    })
+    .catch(function(error) {
+    	Swal.fire("Error!", error.msg, "error");
+       	console.log(error)  
+    });
+}
+
+const mtd_ClearInputs = () =>{
+	$('.card-body').find('input:text').val('');
+	$('#slcBanco option')[0].selected = true;
+	$('#slcTipoCuenta option')[0].selected = true;
+	$('#slcSexo option')[0].selected = true;
+	$('#slcNacionalidad option')[0].selected = true;
+	$('#slcTipoDocumento option')[0].selected = true;
+}
+
+// LISTA DE MAESTROS
+const mtd_ListarNacionalidad = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}nacionalidad`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	data.forEach((e)=>{
+			$(`#slcNacionalidad`).append(new Option(e.datos, e.id_nacionalidad)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+const mtd_ListarBanco = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}banco`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcBanco`).append(new Option(e.datos, e.id_banco)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarTipoCuenta = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_cuenta`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTipoCuenta`).append(new Option(e.datos, e.id_tpcuenta)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+const mtd_ListarTipoDocumento = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_documento`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTipoDocumento`).append(new Option(e.datos, e.id_tpdocumento)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+mtd_ListarTipoCuenta()
+mtd_ListarNacionalidad()
+mtd_ListarTipoDocumento();
+mtd_ListarBanco()
+
+</script>
+{% endblock %}

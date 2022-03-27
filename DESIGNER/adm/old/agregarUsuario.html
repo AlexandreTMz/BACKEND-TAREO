@@ -1,0 +1,77 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+<div class="row">
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Agregar usuario a: Jose Armando Casas</label>
+			</div>
+			<div class="card-body">
+
+				<div class="form-row">
+					<div class="col-12"> 
+						<label>Tipo de usuario:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control">
+								{% foreach($tipoUsuarios as $tpUsuario): %}
+									<option value="{{ $tpUsuario->id_tipo_us }}">
+										{{ $tpUsuario->desc_tipo_us }}
+									</option>
+								{% endForeach; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Usuario:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" name="inpNombre" id="inpNombre" required>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Contraseña:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" name="inpNombre" id="inpNombre" required>
+						</div>
+					</div>
+
+					<div class="col-12"> 
+						<button class="btn btn-primary">Agregar usuario</button>
+					</div>
+                    {% if(isset($_SESSION['msg'])): %}
+                        <div class="col-12 mt-3">
+                            <div class="alert {{ $_SESSION['msg']['type'] }}" role="alert">
+                                {{ $_SESSION['msg']['msg'] }}
+                            </div>
+                        </div> 
+                      {% Utilities::clearMsg(); %}
+                    {% endIf; %}
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+<style type="text/css">
+	th.dt-center, td.dt-center { text-align: center; }
+</style>

@@ -1,0 +1,242 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center">
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos necesarios</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+
+					<div class="col-6"> 
+						<label>Nombre:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNombre"> 
+							<input type="hidden" class="form-control"  value="0" id="inpIdCargo"> 
+						</div>
+					</div> 
+
+					<div class="col-6"> 
+						<label>Abreviatura:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpAbreviatura">   
+						</div>
+					</div> 
+
+					<div class="col-12"> 
+						<label>Estado:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcEstado">
+								<option value="1">Activo</option>
+								<option value="0">Inactivo</option>
+							</select>
+						</div>
+					</div>  
+				</div>
+			</div>
+		</div>
+	</div> 
+	<div class="col-12"></div>
+	<div class="col-6 mb-3">
+		<button class="btn btn-success" id="btnRegistrar">REGISTRAR</button>
+		<button class="btn btn-primary" id="btnLimpiar">LIMPIAR</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Lista de sedes</label>
+			</div>
+			<div class="card-body" style="position: relative;">
+				 <div id="jsgCargo"></div> 
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+ 
+$("#btnLimpiar").click(function() {
+	mtd_LimpiarCargo()
+})
+ 
+ $("#btnRegistrar").click(function(){
+ 	let { state, msg } = fn_Validaciones()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	}
+ 	mtd_CrearObjeto()
+ })
+
+const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = ""; 
+	// VALIDACIONES DATOS PERSONALES  
+	 
+	if($('#inpNombre').val().trim() ==''  || !$('#inpNombre').val()){
+ 	    strL_msg += 'Ingrese un nombre<br>'
+	    blnL_Validar = true;
+	} 
+
+	if($('#inpAbreviatura').val().trim() ==''  || !$('#inpAbreviatura').val()){
+ 	    strL_msg += 'Ingrese una abreviatura<br>'
+	    blnL_Validar = true;
+	} 
+
+	if($('#slcEstado').val().trim() ==''  || !$('#slcEstado').val()){
+ 	    strL_msg += 'Seleccione un estado<br>'
+	    blnL_Validar = true;
+	}  
+	return {state:blnL_Validar,msg:strL_msg}
+}
+
+	const mtd_LimpiarCargo = () =>{
+		$("#inpIdCargo").val("") 
+	 	$("#inpNombre").val("")
+	 	$("#slcEstado").val(1)
+	 	$("#inpAbreviatura").val("") 
+	 	$("#btnRegistrar").text("REGISTRAR")
+	}
+
+ const mtd_CrearObjeto = () =>{
+ 	let cargo = {}
+ 	cargo.id_cargo   = 	$("#inpIdCargo").val()
+ 	cargo.ca_descripcion = $("#inpNombre").val() 
+ 	cargo.ca_estado	= $("#slcEstado").val()
+ 	cargo.ca_abreviatura	= $("#inpAbreviatura").val() 
+ 	console.log(cargo)
+ 	mtd_MergePermiso(cargo)
+ }
+
+ const mtd_MergePermiso = (datos) =>{
+    fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}cargo`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarCargo()
+		$(".jsgrid-search-button").click(); 
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+$("#jsgCargo").jsGrid({ 
+	  width: "100%",
+	  height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 10,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+	  pagePrevText: "Anterior",
+	  pageNextText: "Siguiente",
+	  pageFirstText: "Primero",
+	  pageLastText: "Ultima",
+	  pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...",
+	  controller: {
+	    loadData: function(filter) {
+	      return $.ajax({
+	        url: `{{ Config::getUrl() }}/adm/api/cargo`,
+	        dataType: "json"
+	      }).then(function(requests) {
+		        return $.grep(requests, function(request) {
+		            return (!filter.ca_estado || request.ca_estado === filter.ca_estado)
+		            && (!filter.ca_descripcion || request.ca_descripcion.indexOf(filter.ca_descripcion) > -1)
+		        });
+		   });
+	    }
+	  },
+		rowClass: function(item, itemIndex) { 
+		  	let estado = parseInt(item.ca_estado);
+	    return estado==0 ? 'table-danger' : 'table-success';
+	  },
+	  fields: [
+        {name: 'ca_descripcion', type: "text",title: "Nombre"},
+        {name: 'ca_abreviatura',type: "text", title: "Abreviatura"},
+        {name: 'estado', type: "text",title: "Estado"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+			    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+			    var $customEditButton = $("<button>").attr({
+			            class: "customGridEditbutton jsgrid-button jsgrid-edit-button"
+			        })
+			        .click(function(e) { 
+			            $("#inpIdCargo").val(item.id_cargo) 
+					 	$("#inpNombre").val(item.ca_descripcion)
+					 	$("#slcEstado").val(item.ca_estado) 
+					 	$("#inpAbreviatura").val(item.ca_abreviatura)  
+					 	$("#btnRegistrar").text("ACTUALIZAR")
+			            e.stopPropagation();
+			        }); 
+			    return $("<div>").append($customEditButton);
+			},
+        }
+	  ]
+}); 
+
+$(".jsgrid-search-mode-button").click()
+
+</script>
+
+{% endblock %}

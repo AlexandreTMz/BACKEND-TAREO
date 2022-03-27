@@ -1,0 +1,691 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row"> 
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos personales</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+					<div class="col-3"> 
+						<label>Nombres:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNombres" required>
+							<input type="hidden" class="form-control" id="inpIdPersona" required>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Apellido paterno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpApellidoPa" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Apellido materno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpApellidoMa" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Sexo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-venus-mars"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcSexo">
+								<option value="2">M - MASCULINO</option>
+								<option value="1">F - FEMENINO</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Nacionalidad:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-globe-americas"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcNacionalidad">
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Tipo de documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-passport"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcTipoDocumento">
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Numero documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-sort-numeric-up"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNumeroDocumento" required>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Fecha de nacimiento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-calendar-alt"></i>
+								</span>
+							</div>
+							<input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="inpFechaNacimiento" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Direccion:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-map-marked-alt"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpDireccion" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Celular:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-phone-square-alt"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCelular" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Correo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-envelope-square"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCorreo" required>
+							
+						</div>
+					</div> 
+
+					<div class="col-3"> 
+						<label>Estado:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-envelope-square"></i>
+								</span>
+							</div> 
+							<select class="form-control" id="slcEstadoPersona">
+								<option value="1">Activo</option>
+								<option value="0">Inactivo</option>
+							</select>
+						</div>
+					</div> 
+
+					<div class="col-12 mb-3">
+						<button class="btn btn-success" id="btnActualizarDatos">ACTUALIZAR DATOS</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label>Banco</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+					<div class="col-3"> 
+						<label>Banco:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-university"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcBanco">
+							</select>
+							<input type="hidden" class="form-control" id="inpIdPhp"> 
+						</div>
+					</div> 
+					<div class="col-3"> 
+						<label>Tipo de cuenta:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-university"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcTipoCuenta">
+							</select>
+						</div>
+					</div> 
+				</div>
+
+				<div class="row">
+					<div class="col-6"> 
+						<label>Numero:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fab fa-cc-visa"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNumeroCuenta"> 
+						</div>
+					</div>  
+				</div>
+
+				<div class="row">
+					<div class="col-6"> 
+						<label>CCI:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fab fa-cc-visa"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCcii"> 
+						</div>
+					</div>   
+				</div> 
+				<div class="row">
+					<div class="col-6"> 
+						<label>Estado:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fab fa-cc-visa"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcEstadoCuenta">
+								<option value="1">Activo</option>
+								<option value="0">Inactivo</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12">
+						<button class="btn btn-success" id="btnRegistrarCuenta">REGISTRAR CUENTA</button>
+						<button class="btn btn-primary" id="btnLimpiarCuenta">LIMPIAR</button>
+					</div>  
+				</div> 
+
+				<div class="row mt-3">
+					<div class="col-12">
+						<h2>Historico de cuentas</h2>
+						<div id="jsgBanco"></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>  
+</div>
+
+ 
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+
+
+function fileNameFromUrl(url) {
+   var matches = url.match(/\/([^\/?#]+)[^\/]*$/);
+   if (matches.length > 1) {
+     return matches[1];
+   }
+   return null;
+}
+
+let queryUrl = fileNameFromUrl(window.location.href);
+console.log(window.location.href)
+let IdPersona = queryUrl
+
+$(document).ready(function(){ 
+	$("#inpIdPersona").val(IdPersona) 
+})
+  
+const mtd_GetDataPersona = () =>{ 
+	fetch(`{{ Config::getUrl() }}/adm/persona/datos/${IdPersona}`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((persona) => { 
+    	console.log(persona)
+    	$("#inpIdPersona").val(persona.id_persona) 
+    	$("#inpNombres").val(persona.per_nombre) 
+    	$("#inpApellidoPa").val(persona.per_apellido_paterno) 
+    	$("#inpApellidoMa").val(persona.per_apellido_materno)  
+    	$("#slcSexo").val(persona.pe_sexo) 
+    	$("#slcNacionalidad").val(persona.id_nacionalidad) 
+    	$("#slcTipoDocumento").val(persona.id_tpdocumento) 
+    	$("#inpNumeroDocumento").val(persona.per_documento) 
+    	$("#inpFechaNacimiento").val(persona.per_fecha_nac) 
+    	$("#inpDireccion").val(persona.pe_direccion)  
+    	$("#inpCelular").val(persona.per_celular) 
+    	$("#inpCorreo").val(persona.per_correo)
+    	$("#slcEstadoPersona").val(persona.pe_estado)
+    	let classActive = parseInt($("#slcEstadoPersona").val()) == 1 ? "green": "reed"
+    	$("#slcEstadoPersona").addClass(classActive)       
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+
+/*ACTUALIZAR DATOS*/
+
+$("#btnActualizarDatos").click(function(){
+	mtd_CrearObjetoPersona()
+})
+
+const mtd_CrearObjetoPersona = () =>{
+	let { state, msg } = fn_Validaciones()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	}
+	let objL_Persona = {}
+	objL_Persona.id_persona = $("#inpIdPersona").val()  
+	objL_Persona.nombres = $("#inpNombres").val()
+	objL_Persona.apellido_paterno = $("#inpApellidoPa").val()
+	objL_Persona.apellido_materno = $("#inpApellidoMa").val()
+	objL_Persona.sexo = $("#slcSexo").val()
+	objL_Persona.nacionalidad = $("#slcNacionalidad").val()
+	objL_Persona.tipo_documento = $("#slcTipoDocumento").val()
+	objL_Persona.documento = $("#inpNumeroDocumento").val()
+	objL_Persona.fecha_nacimiento = $("#inpFechaNacimiento").val()
+	objL_Persona.direccion = $("#inpDireccion").val()
+	objL_Persona.celular = $("#inpCelular").val()
+	objL_Persona.correo = $("#inpCorreo").val() 
+	objL_Persona.titular = 1
+	objL_Persona.estado = $("#slcEstadoPersona").val() 
+	objL_Persona.fecha_ingreso = $("#inpFechaIngreso").val()
+	objL_Persona.usuario = 1  
+	mtd_MergePersona(objL_Persona) 
+	console.log(objL_Persona) 
+}
+
+const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = ""; 
+	// VALIDACIONES DATOS PERSONALES 
+	if($('#inpNombres').val()==''  || !$('#inpNombres').val()){
+ 	    strL_msg += 'Ingrese un nombre<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpApellidoPa').val()==''  || !$('#inpApellidoPa').val()){
+ 	    strL_msg += 'Ingrese un apellido paterno<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpApellidoMa').val()==''  || !$('#inpApellidoMa').val()){
+ 	    strL_msg += 'Ingrese un apellido materno<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcSexo').val()=='Seleccione!' || !$('#slcSexo').val()){
+ 	    strL_msg += 'Seleccione el sexo<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcNacionalidad').val()=='Seleccione!'  || !$('#slcNacionalidad').val()){
+ 	    strL_msg += 'Seleccione una nacionalidad<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcTipoDocumento').val()=='Seleccione!' || !$('#slcTipoDocumento').val()){
+ 	    strL_msg += 'Seleccione un tipo de documento<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpNumeroDocumento').val().trim()==''  || !$('#inpNumeroDocumento').val()){
+ 	    strL_msg += 'Ingrese el numero de documento<br>'
+	    blnL_Validar = true;
+	}
+	if(!moment($('#inpFechaNacimiento').val()).isValid()){
+ 	    strL_msg += 'La fecha de nacimiento es incorrecto!<br>'
+	    blnL_Validar = true;
+	}   
+	return {state:blnL_Validar,msg:strL_msg}
+}
+ 
+const mtd_MergePersona = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/actualizar`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)  
+		$(".jsgrid-search-button").click(); 
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+ 
+/*CEUNTAS*/ 
+ 
+ $("#btnRegistrarCuenta").click(function(){
+ 	mtd_CrearObjetoCuenta()
+ })
+
+
+ $("#btnLimpiarCuenta").click(function(){
+ 	mtd_LimpiarCuenta()
+ }) 
+
+const mtd_LimpiarCuenta = () =>{
+	$("#inpIdPhp").val("") 
+	$("#slcBanco").val(1) 
+	$("#slcTipoCuenta").val(1)
+	$("#inpNumeroCuenta").val("") 
+	$("#inpCcii").val("")  
+	$("#btnRegistrarCuenta").text("REGISTRAR") 
+}
+
+ const mtd_CrearObjetoCuenta = () =>{
+ 	let banco = {}
+ 	banco.id_phbanco   = $("#inpIdPhp").val()
+ 	banco.id_persona   	= $("#inpIdPersona").val()
+ 	banco.id_banco 		= $("#slcBanco").val() 
+ 	banco.id_tpcuenta	= $("#slcTipoCuenta").val()
+ 	banco.phb_cuenta	= $("#inpNumeroCuenta").val() 
+ 	banco.phb_cci		= $("#inpCcii").val() 
+ 	banco.phb_estado	= $("#slcEstadoCuenta").val()
+ 	console.log(banco)
+ 	mtd_MergeCuenta(banco)
+ }
+
+ const mtd_MergeCuenta = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/suplente/actualizar/cuenta`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarCuenta()
+		$(".jsgrid-search-button").click(); 
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+} 
+
+/*DATOS*/
+
+const mtd_ListarNacionalidad = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}nacionalidad`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	data.forEach((e)=>{
+			$(`#slcNacionalidad`).append(new Option(e.datos, e.id_nacionalidad)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarTipoDocumento = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_documento`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTipoDocumento`).append(new Option(e.datos, e.id_tpdocumento)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarBanco = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}banco`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcBanco`).append(new Option(e.datos, e.id_banco)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarTipoCuenta = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_cuenta`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTipoCuenta`).append(new Option(e.datos, e.id_tpcuenta)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+ 
+$(document).ready(function(){ 
+	mtd_ListarTipoDocumento()
+	mtd_ListarNacionalidad()
+	mtd_ListarBanco()
+	mtd_ListarTipoCuenta()
+	mtd_GetDataPersona() 
+	$("#jsgBanco").jsGrid({ 
+	  width: "100%",
+	  height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 10,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+	  pagePrevText: "Anterior",
+	  pageNextText: "Siguiente",
+	  pageFirstText: "Primero",
+	  pageLastText: "Ultima",
+	  pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...",
+	  controller: {
+	    loadData: function(filter) {
+	      return $.ajax({
+	        url: `{{ Config::getUrl() }}/adm/suplente/cuentas/${IdPersona}`,
+	        dataType: "json"
+	      }).then(function(requests) {
+		        return $.grep(requests, function(request) {
+		            return (!filter.ba_estado || request.ba_estado === filter.ba_estado)
+		            && (!filter.ba_nombre || request.ba_nombre.indexOf(filter.ba_nombre) > -1)
+		        });
+		   });
+	    }
+	  },
+		rowClass: function(item, itemIndex) { 
+		  	let estado = parseInt(item.phb_estado);
+	    	return estado==0 ? 'table-danger' : 'table-success';
+	  },
+	  fields: [
+	  	{name: 'banco', type: "text",title: "Banco"},
+        {name: 'estado', type: "text",title: "Estado"},
+        {name: 'phb_cuenta',type: "text", title: "Cuenta"},
+        {name: 'phb_cci', type: "text",title: "CCI"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+
+			    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+
+			    let estado = parseInt(item.phc_estado);
+			    let edit = $("<div>")
+			    edit.attr({
+			        class: "fa ico ico-editp",
+			        'data-toggle':"tooltip" ,
+			        'data-placement':"left" ,
+			        'title':"¿Editar cuenta?"
+			    })
+			    edit.click(function(e) {
+			    	 $("#inpIdPhp").val(item.id_phbanco) 
+			    	 $("#slcBanco").val(item.id_banco) 
+					 $("#slcTipoCuenta").val(item.id_tpcuenta)
+					 $("#inpNumeroCuenta").val(item.phb_cuenta) 
+					 $("#inpCcii").val(item.phb_cci) 
+					 $("#slcEstadoCuenta").val(item.phb_estado) 
+					 $("#btnRegistrarCuenta").text("ACTUALIZAR")
+			         e.stopPropagation();
+			    });
+
+			    /*let deshabilitar = $("<div>")
+			    deshabilitar.attr({
+			            class: "fa ico ico-remove",
+			            'data-toggle':"tooltip" ,
+			            'data-placement':"left" ,
+			            'title':"¿Inactivar sueldo?"
+			    })
+				if(estado == 1){
+					deshabilitar.click(function(e) {
+					    e.stopPropagation();
+					}); 
+				}else{
+					deshabilitar.addClass("ico-inactive")
+				}*/
+			    return $("<div>").attr({
+			    	class:'d-flex'
+			    }).append(edit);
+			},
+        }
+	  ]
+	});
+
+	$(".jsgrid-search-mode-button").click()
+	 
+}) 
+
+</script>
+
+{% endblock %}

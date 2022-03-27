@@ -1,0 +1,214 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-md-center">
+    <div class="col-9">
+        <div class="card">
+            <div class="card-header">
+                <label> Opciones de busqueda</label>
+            </div>
+            <div class="card-body" style="position: relative;"> 
+                <div class="row">
+                    <!-- POR SEDES --->
+                    <div class="col-3" id="lySedes">
+                        <label>Sedes</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcSede" name="sede"> </select>
+                        </div>
+                    </div>
+                    <!-- POR SEDES --->
+
+                    <div class="col-3">
+                        <label>Mes:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcMes" name="mes">
+								<option value="01">Enero</option> 
+								<option value="02">Febrero</option>
+								<option value="03">Marzo</option>
+								<option value="04">Abril</option> 
+								<option value="05">Mayo</option>
+								<option value="06">Junio</option>
+								<option value="07">Julio</option>
+								<option value="08">Agosto</option> 
+								<option value="09">Septiembre</option>
+								<option value="10">Octubre</option> 
+								<option value="11">Noviembre</option>
+								<option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label>Año:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcAnio" name="anio">
+                               	{% for($i = 2021 ; $i < date('Y')+1; $i++): %}
+									<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+								{% endFor; %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label>Periodo:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcPeriodo" name="periodo">
+                                <option value="1">1 Quincena</option>
+                                <option value="2">2 Quincena</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label>Reprocesar?:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcReproceso">
+                                <option value="1">No</option>
+                                <option value="2">Si</option>
+                            </select>
+                        </div>
+                    </div>  
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-12"></div>
+    <div class="col-9 mb-3">
+        <button class="btn btn-success" id="btnGenerarPlanilla" type="submit">PROCESAR PLANILLA</button>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <!---<button id="btnExportar">EXPORTAR</button>-->
+        <div id="jsgTareo" class="p-2"></div> 
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$("#btnGenerarPlanilla").click(function(){
+	mtd_CrearObjeto();
+})
+
+const mtd_CrearObjeto = () =>{
+	let planilla = {}
+	planilla.mes = $("#slcMes").val();
+	planilla.anio =$("#slcAnio").val();
+    planilla.sede =$("#slcSede").val();
+    planilla.periodo =$("#slcPeriodo").val();
+    planilla.reproceso = $("#slcReproceso").val();
+
+    if(parseInt(planilla.reproceso) == 2){
+        Swal.fire({
+          title: '¿Quieres reprocesar planilla?',
+          text: 'Al reprocesar se volverá a generar la planilla, esto borrara los datos de la planilla anterior!',
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: `Reprocesar`,
+          denyButtonText: `Cancelar`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            mtd_ProcesarPlanilla(planilla)
+          } else if (result.isDenied) {
+            Swal.fire('Cancelado', '', 'info')
+          }
+        })
+    }else{
+        mtd_ProcesarPlanilla(planilla);
+    } 
+    console.log(planilla); 
+} 
+
+const mtd_ProcesarPlanilla = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/procesar/planilla/api`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {  
+        console.log(data) 
+        Swal.fire(
+            'Mensaje del sistema!',
+            data.msg,
+            'success'
+        ) 
+    })
+    .catch(function(error) { 
+        console.log(error)  
+        Swal.fire(
+            'Mensaje del sistema!',
+            error.msg,
+            'error'
+        )
+    });
+}
+
+const mtd_ListarSede = () =>{ 
+    fetch(`{{ Config::getUrl() }}/adm/api/sede`)
+    .then((data) =>{
+            if (data.ok) {
+               return data.json();
+            } else {
+               return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => { 
+        data.forEach((e)=>{
+            $(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+        }) 
+    })
+    .catch(function(error) {
+        console.log(error) 
+    });
+}
+
+mtd_ListarSede();
+
+</script>
+
+{% endblock %}

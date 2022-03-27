@@ -1,0 +1,517 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center">
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Opciones de busqueda</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+
+					<div class="col-12"> 
+						<label>Filtrar por:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcOpciones">
+								<option value="1" selected>Documento</option>
+								<option value="2">Nombres</option>
+								<option value="3">Sedes</option>
+								<option value="4">Cargo</option> 
+							</select>
+						</div>
+					</div>
+
+					<div class="col-12">
+						
+						<div class="form-row">
+
+							<!-- POR DOCUMENTO --->
+							<div class="col-12" id="lyDocumento" >
+								<label>Documento</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpDocumento">
+								</div>
+							</div>
+							<!-- POR DOCUMENTO --->
+
+							<!-- POR NOMBRES --->
+							<div class="col-12" id="lyNombres" style="display: none;">
+								<label>Nombres</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									 <input type="text" class="form-control" id="inpNombre">
+								</div>
+							</div>
+							<!-- POR NOMBRES --->
+
+							<!-- POR SEDES --->
+							<div class="col-12" id="lySedes" style="display: none;">
+								<label>Sedes</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcSede">
+									</select>
+								</div>
+							</div>
+							<!-- POR SEDES --->
+
+							<!-- POR CARGO --->
+							<div class="col-12" id="lyCargo" style="display: none;">
+								<label>Cargo</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcCargo">
+									</select>
+								</div>
+							</div>
+							<!-- POR CARGO --->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> 
+	<div class="col-12"></div>
+	<div class="col-6 mb-3">
+		<button class="btn btn-success" id="btnBuscar">BUSCAR</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Lista de empleados</label>
+				<button class="btn btn-success" id="btnExcel">Excel</button>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				
+				<div id="jsgEmpleado"></div>
+
+
+				<!---<table class="table table-bordered table-hover table-sm" id="tbEmpleados">
+					<thead class="table-active">
+						<tr align="center">
+							<th style="width: 7%">TP Doc</th> 
+							<th style="width: 7%">Doc</th> 
+							<th style="width: 20%">Nombre</th>
+							<th style="width: 20%">Apellido Paterno</th>
+							<th style="width: 20%">Apellido Materno</th>
+							<th style="width: 8%">Nacionalidad</th>
+							<th style="width: 5%">Cargo</th>  
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>--->
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+let dataExcel;
+
+$("#btnExcel").click(function(){
+	if(dataExcel.length>0){
+		createExcel(dataExcel)
+	}else{
+		alert("No hay datos que exportar")
+	}
+	
+})	
+
+$("#slcOpciones").change(function(){
+	mtd_CambiarOpcion();
+});
+
+const mtd_CambiarOpcion = () =>{
+	let intL_Opcion = parseInt($("#slcOpciones").val());
+	switch  (intL_Opcion) {
+		  case 1:
+		  		$("#lyDocumento").show();
+		     	$("#lyNombres").hide();
+				$("#lySedes").hide();
+				$("#lyCargo").hide();
+		    break;
+		  case 2:
+		    	$("#lyNombres").show();
+		    	$("#lyDocumento").hide();
+				$("#lySedes").hide();
+				$("#lyCargo").hide();
+		    break;
+		  case 3:
+		     	$("#lyNombres").hide();
+		     	$("#lyDocumento").hide();
+				$("#lySedes").show();
+				$("#lyCargo").hide();
+		    break;
+		  case 4:
+		  		$("#lyDocumento").hide();
+		     	$("#lyNombres").hide();
+				$("#lySedes").hide();
+				$("#lyCargo").show();
+		    break; 
+		  default:
+		    alert('Lo lamentamos, por el momento no disponemos la opcion de .');
+	}
+ 
+}
+
+
+$("#btnBuscar").click(function(){
+	let filtro = {}
+	filtro.opcion = $("#slcOpciones").val();
+	filtro.nombres = $("#inpNombre").val();
+	filtro.documento = $("#inpDocumento").val();
+	filtro.sede = $("#slcSede").val();
+	filtro.cargo = $("#slcCargo").val();
+
+	mtd_BuscarEmpleado(filtro);
+})
+
+
+$("#jsgEmpleado").jsGrid({ 
+	  width: "100%",
+	  height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 10,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+	  pagePrevText: "Anterior",
+	  pageNextText: "Siguiente",
+	  pageFirstText: "Primero",
+	  pageLastText: "Ultima",
+	  pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...",
+	  controller: {
+	    loadData: function(filter) {
+	      return $.ajax({
+	        url: `{{ Config::getUrl() }}/adm/api/empleado`,
+	        dataType: "json",
+	        type: 'post',
+	        data: JSON.stringify({
+                  	opcion:2,
+                  	nombres:''
+            })
+	      }).then(function(requests) {
+		        return $.grep(requests, function(request) {
+		            return (!filter.per_documento || request.per_documento === filter.per_documento)
+		            && (!filter.datos || request.datos.indexOf(filter.datos) > -1)
+		            && (!filter.tpd_descripcion || request.tpd_descripcion.indexOf(filter.tpd_descripcion) > -1)
+		            && (!filter.na_descripcion || request.na_descripcion.indexOf(filter.na_descripcion) > -1)
+		            && (!filter.ca_descripcion || request.ca_descripcion.indexOf(filter.ca_descripcion) > -1)
+		        });
+		   });
+	    }
+	  },
+	  rowClass: function(item, itemIndex) { 
+	  		let estado = parseInt(item.pe_estado);
+            return estado==0 ? 'table-danger' : 'table-success';
+      },
+	  fields: [
+        {name: 'tpd_descripcion',type: "text", title: "TP. Documento"},
+        {name: 'per_documento',type: "text", title: "Documento"},
+        {name: 'datos',type: "text", title: "Nombres"},
+        {name: 'na_descripcion', type: "text",title: "Nacionalidad"},
+        {name: 'ca_descripcion', type: "text",title: "Cargo"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+			    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+
+			    let estado = parseInt(item.pe_estado);
+			    let zoom = $("<div>")
+			    zoom.attr({
+			        class: "fa ico ico-edit",
+			        'data-toggle':"tooltip" ,
+			        'data-placement':"left" ,
+			        'title':"¿Editar empleado?"
+			    })
+			    zoom.click(function(e) {
+			    	window.open(`{{ Config::getUrl() }}/adm/empleados/${item.id_persona}`, 'Editar empleado'); 
+			    });
+			    return $("<div>").attr({
+			    	class:'d-flex'
+			    }).append(zoom);
+
+
+			},
+        }
+	  ]
+}); 
+
+// OCULTAR LAS BUSQUEDAS
+$(".jsgrid-search-mode-button").click()
+
+
+const mtd_BuscarEmpleado = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/api/empleado`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => { 
+    	dataExcel = []
+    	dataExcel = JSON.parse(JSON.stringify(data));
+        
+        console.log(data)
+        
+        $("#jsgEmpleado").jsGrid("option", "data", data)
+
+         /*$('#tbEmpleados').DataTable( {
+         	dom: 'Bfrtip',
+		    buttons: [
+		     'copyHtml5',
+		     'excelHtml5' 
+		    ],
+			data: data,
+			destroy: true,
+			columns:[
+				{ data: 'id_tpdocumento' },
+	            {
+	                data: 'per_documento'
+	            },
+	            {
+	                data: 'per_nombre'
+	            },
+	            {
+	                data: 'per_apellido_paterno'
+	            },
+	            {
+	                data: 'per_apellido_materno'
+	            },
+	            {
+	                data: 'na_descripcion'
+	            },
+	            {
+	                data: 'ca_descripcion'
+	            } 
+			] 
+		});*/
+    })
+    .catch(function(error) { 
+       	console.log(error)  
+    });
+}
+
+const createExcel = (data) =>{
+		
+		data.forEach((e, i)=>{
+			delete e.se_descripcion
+			delete e.phc_estado
+			delete e.id_persona
+			delete e.per_nombre
+			delete e.per_apellido_paterno
+			delete e.per_apellido_materno
+			delete e.pe_estado
+			delete e.id_nacionalidad
+			delete e.tpd_descripcion
+		})
+
+
+		data = data.map((e)=>
+		({
+			 id_tpdocumento : e.id_tpdocumento,
+			 per_documento : e.per_documento,
+			 datos : e.datos,
+			 na_descripcion : e.na_descripcion,
+			 ca_descripcion : e.ca_descripcion,
+			 tpCuenta:e.tpCuenta,
+			 suplente:e.suplente,
+			 cuenta:e.cuenta,
+			 cci:e.cci,
+			 banco:e.banco
+		}))
+
+		console.log('OP2:: ',data)
+
+         var createXLSLFormatObj = [];
+
+        /* XLS Head Columns */
+        var xlsHeader = [
+	        "TP. Documento", 
+	        "Documento", 
+	        "Nombres", 
+	        "Nacionalidad", 
+	        "Cargo",
+	        "Tipo cuenta",
+	        "Suplente", 
+	        "Cuenta", 
+	        "Ci",
+	        "Banco"
+        ];
+
+        /* XLS Rows Data */
+
+        createXLSLFormatObj.push(xlsHeader);
+        $.each(data, function(index, value) {
+            var innerRowData = [];
+            $.each(value, function(ind, val) {
+                innerRowData.push(val);
+            });
+            createXLSLFormatObj.push(innerRowData);
+        });
+
+
+        /* File Name */
+        var filename = "ReporteEmpleados.xlsx";
+
+        /* Sheet Name */
+        var ws_name = "FreakySheet";
+
+        //if (typeof console !== 'undefined') console.log(new Date());
+        var wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.aoa_to_sheet(createXLSLFormatObj);
+
+        /* Add worksheet to workbook */
+        XLSX.utils.book_append_sheet(wb, ws, ws_name);
+
+        /* Write workbook and Download */
+        //if (typeof console !== 'undefined') console.log(new Date());
+        XLSX.writeFile(wb, filename);
+        //if (typeof console !== 'undefined') console.log(new Date());
+}
+
+/*
+$(document).ready( function () { 
+    $('#tbEmpleados').DataTable( {
+    	dom: 'Bfrtip',
+		    buttons: ['copyHtml5',
+		        'excelHtml5' 
+		    ],
+    	destroy: true,
+	    ajax: {
+	        url: `{{ Config::getUrl() }}/adm/api/empleado`,
+	        dataSrc: '',
+	        type: "POST",
+	        data: function (d) {
+                  return JSON.stringify({
+                  	opcion:2,
+                  	nombres:''
+                  });
+            }
+		},
+		columns:[
+			{
+                data: 'id_tpdocumento'
+            },
+            {
+                data: 'per_documento'
+            },
+            {
+                data: 'per_nombre'
+            },
+            {
+                data: 'per_apellido_paterno'
+            },
+            {
+                data: 'per_apellido_materno'
+            },
+            {
+                data: 'na_descripcion'
+            },
+            {
+                data: 'ca_descripcion'
+            } 
+		]
+	});
+} );
+
+*/
+
+/* FETCHS */
+const mtd_ListarSede = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}sede`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarCargo = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}cargo`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcCargo`).append(new Option(e.datos, e.id_cargo)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+
+mtd_ListarCargo()
+mtd_ListarSede()
+
+
+</script>
+
+{% endblock %}

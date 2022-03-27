@@ -1,0 +1,2313 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos personales</label>
+			</div>
+			<div class="card-body" style="position: relative;">
+				<div class="row">
+					<div class="col-3"> 
+						<label>Nombres:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNombres" required>
+							<input type="hidden" id="inpIdPersona">
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Apellido paterno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpApellidoPa" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Apellido materno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpApellidoMa" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Sexo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-venus-mars"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcSexo">
+								<option selected disabled>Seleccione!</option>
+								<option value="2">M - MASCULINO</option>
+								<option value="1">F - FEMENINO</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Nacionalidad:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-globe-americas"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcNacionalidad">
+								<option selected disabled>Seleccione!</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Tipo de documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-passport"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcTipoDocumento">
+								<option selected disabled>Seleccione!</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Numero documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-sort-numeric-up"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNumeroDocumento" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Fecha de nacimiento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-calendar-alt"></i>
+								</span>
+							</div>
+							<input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="inpFechaNacimiento" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Direccion:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-map-marked-alt"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpDireccion" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Celular:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-phone-square-alt"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCelular" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Correo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-envelope-square"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCorreo" required>
+							
+						</div>
+					</div> 
+
+					<div class="col-3"> 
+						<label>Estado:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-user-check"></i>
+								</span>
+							</div> 
+							<select class="form-control" id="slcEstadoPersona">
+								<option value="1">Activo</option>
+								<option value="0">Inactivo</option>
+							</select>
+						</div>
+					</div> 
+
+					<div class="col-3"> 
+						<label>Fecha de ingreso:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-envelope-square"></i>
+								</span>
+							</div> 
+							<input class="form-control" type="date" id="inpFechaIngreso">
+						</div>
+					</div> 
+
+					<div class="col-3" id="cessee" style="display: none;"> 
+						<label>Fecha de cese:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-envelope-square"></i>
+								</span>
+							</div> 
+							<input class="form-control" type="date" id="inpFechaCese">
+						</div>
+					</div> 
+
+					<div class="col-12">
+						<button class="btn btn-success" id="btnActualizarDatos">ACTUALIZAR</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body reg-datos-sueldo" style="position: relative;">
+				<ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="tb-laborales" data-toggle="pill" href="#tb-laboralesc" role="tab" aria-controls="tb-laboralesc" aria-selected="true">SUELDOS</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="tb-descanso" data-toggle="pill" href="#tb-descansoc" role="tab" aria-controls="tb-descansoc" aria-selected="false">DESCANSO</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="tb-cargo" data-toggle="pill" href="#tb-cargoc" role="tab" aria-controls="tb-cargoc" aria-selected="false">CARGO</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="tb-sede" data-toggle="pill" href="#tb-sedec" role="tab" aria-controls="tb-sedec" aria-selected="false">SEDES</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="tb-formaspago" data-toggle="pill" href="#tb-formaspagoc" role="tab" aria-controls="tb-formaspagoc" aria-selected="false">FORMAS DE PAGO</a>
+					</li>
+				</ul>
+				<div class="tab-content" id="custom-content-below-tabContent">
+					<div class="tab-pane fade show active pt-2"  id="tb-laboralesc" role="tabpanel" aria-labelledby="tb-laborales">
+
+						<div class="row">
+							<div class="col-3"> 
+								<label>Fecha de vigencia</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-calendar-alt"></i>
+										</span>
+									</div>
+									<input type="date" class="form-control" id="inpFechaVI" required> 
+								</div>
+							</div>
+							<div class="col-3"> 
+								<label>Final de vigencia:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-calendar-alt"></i>
+										</span>
+									</div>
+									<input type="date" class="form-control" id="inpFechaVF" required> 
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+
+							<div class="col-3"> 
+								<label>Sueldo basico:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo bruta" id="inpSueldoBasico">
+									<input type="hidden" value="0" class="form-control" id="inpIdSueldo">
+								</div>
+							</div>
+
+							<div class="col-3"> 
+								<label>Asignacion familiar:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo bruta" id="inpAsignacionFamiliar"> 
+								</div>
+							</div>
+
+							<div class="col-3"> 
+								<label>Bonificacion:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo" id="inpBonificacion"> 
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<div class="col-3"> 
+								<label>Movilidad:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo" id="inpMovilidad"> 
+								</div>
+							</div>
+
+							<div class="col-3"> 
+								<label>Alimentos:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo" id="inpAlimentos"> 
+								</div>
+							</div>
+							<div class="col-12"></div> 
+							<div class="col-3"> 
+								<label>Sueldo total:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-poll"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control" id="inpSueldoTotal" readonly> 
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							 <div class="col-12 mb-3">
+								<button class="btn btn-success" id="btnRegistrarSueldo">REGISTRAR</button>
+								<button class="btn btn-primary" id="btnLimpiarSueldo">LIMPIAR</button>
+							</div>
+						</div>
+
+						<div class="row mt-5 mb-5">
+							<div class="col-12">
+								<h3>Historicos de sueldo</h3>
+								<hr>
+								<div id="jsgSueldo"></div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="tab-pane fade pt-2" id="tb-descansoc" role="tabpanel" aria-labelledby="tb-descanso">
+
+						<div class="row">
+
+							<div class="col-3"> 
+								<label>Descanso:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-address-card"></i>
+										</span>
+									</div>
+									<select id="slcDescanso" class="form-control">
+										<option value="Lunes">Lunes</option>
+										<option value="Martes">Martes</option>
+										<option value="Miercoles">Miercoles</option>
+										<option value="Jueves">Jueves</option>
+										<option value="Viernes">Viernes</option>
+										<option value="Sabado">Sabado</option>
+										<option value="Domingo">Domingo</option>
+									</select>
+									<input type="hidden"  class="form-control" id="inpDescanso" required>
+									<input type="hidden" id="inpIdDescanso">
+								</div>
+							</div> 
+
+							<div class="col-3"> 
+								<label>Estado:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-address-card"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcEstadoDescanso">
+										<option value="1">Activo</option>
+										<option value="0">Inactivo</option>
+									</select> 
+								</div>
+							</div>
+
+							<div class="col-12 d-flex justify-content-center flex-column" style="display:none !important;">
+								<label>Descanso:</label>
+								<span>
+									Dia de descanso: <strong id="diaDescanso"></strong>
+								</span>
+							</div>
+
+							<div class="col-12 d-flex justify-content-center flex-column mt-3">
+								<label>Observacion:</label>
+								<textarea class="form-control" rows="2" id="txtDescripcionDescanso"></textarea>
+							</div>
+
+							<div class="col-12 mt-3">
+								<button class="btn btn-success" id="btnRegistrarDescanso">REGISTRAR</button>
+								<button class="btn btn-primary" id="btnLimpiarDescanso">LIMPIAR</button>
+							</div>
+
+							<div class="col-12 mt-3">
+								<h3>Historico de descansos</h3>
+								<div id="jsgDescanso"></div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="tab-pane fade pt-2"  id="tb-cargoc" role="tabpanel" aria-labelledby="tb-cargo">
+
+						<div class="row">
+							<div class="col-3"> 
+								<label>Cargo:</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-clinic-medical"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcCargo">
+										<option selected disabled>Seleccione!</option>
+									</select> 
+								</div>
+							</div>
+							<div class="col-12 d-flex justify-content-center flex-column mt-3">
+								<label>Observacion:</label>
+								<textarea class="form-control" rows="2" id="txtDescripcionCargo"></textarea>
+							</div>
+							<div class="col-12 mt-3">
+								<button class="btn btn-success" id="btnRegistrarCargo">REGISTRAR</button>
+								<button class="btn btn-primary" id="btnLimpiarCargo">LIMPIAR</button>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 mt-3">
+								<h3>Historico de cargos</h3>
+								<div id="jsgCargo"></div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="tab-pane fade pt-2"  id="tb-sedec" role="tabpanel" aria-labelledby="tb-sede">
+						<div class="row">
+							<div class="col-5"> 
+								<label>Sede:</label>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-clinic-medical"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcSede">
+										<option selected disabled>Seleccione!</option>
+									</select> 
+								</div>
+							</div>
+							<div class="col-3"> 
+								<label>Estado:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-address-card"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcEstadoSede">
+										<option value="1">Activo</option>
+										<option value="0">Inactivo</option>
+									</select> 
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-5 d-flex justify-content-center flex-column mt-3">
+								<label>Observacion:</label>
+								<textarea class="form-control" rows="2" id="txtDescripcionSede"></textarea>
+							</div>
+							<div class="col-12 mt-3">
+								<button class="btn btn-success" id="btnRegistrarSede">REGISTRAR</button>
+								<button class="btn btn-primary" id="btnLimpiarSede">LIMPIAR</button>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 mt-3">
+								<h3>Historico de sede</h3>
+								<div id="jsgSede"></div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="tab-pane fade" id="tb-formaspagoc" role="tabpanel" aria-labelledby="tb-formaspago">
+	                    
+	                     <div class="row">
+ 
+	                     	<div class="col-6 mt-3">
+	                     		<h4>Cuentas propias</h4>
+	                     		<hr>
+	                     		<div id="isTitular">
+			                    	<div class="row">
+			                    		<div class="col-6"> 
+			                    			<label>Banco:</label>
+			                    			<div class="input-group mb-3">
+			                    				<div class="input-group-prepend">
+			                    					<span class="input-group-text" >
+			                    						<i class="fas fa-university"></i>
+			                    					</span>
+			                    				</div>
+			                    				<select class="form-control" id="slcBanco">
+			                    					<option selected disabled>Seleccione!</option>
+			                    				</select>
+			                    				<input type="hidden" value="0" id="inpIdBancoPer" />
+			                    			</div>
+			                    		</div> 
+			                    		<div class="col-6"> 
+			                    			<label>Tipo de cuenta:</label>
+			                    			<div class="input-group mb-3">
+			                    				<div class="input-group-prepend">
+			                    					<span class="input-group-text" >
+			                    						<i class="fas fa-university"></i>
+			                    					</span>
+			                    				</div>
+			                    				<select class="form-control" id="slcTipoCuenta">
+			                    					<option selected disabled>Seleccione!</option>
+			                    				</select>
+			                    			</div>
+			                    		</div> 
+			                    	</div>
+
+			                    	<div class="row">
+			                    		<div class="col-12"> 
+			                    			<label>Numero:</label>
+			                    			<div class="input-group mb-3">
+			                    				<div class="input-group-prepend">
+			                    					<span class="input-group-text">
+			                    						<i class="fab fa-cc-visa"></i>
+			                    					</span>
+			                    				</div>
+			                    				<input type="text" class="form-control" id="inpNumeroCuenta"> 
+			                    			</div>
+			                    		</div>  
+			                    	</div>
+
+			                    	<div class="row">
+			                    		<div class="col-12"> 
+			                    			<label>CCI:</label>
+			                    			<div class="input-group mb-3">
+			                    				<div class="input-group-prepend">
+			                    					<span class="input-group-text">
+			                    						<i class="fab fa-cc-visa"></i>
+			                    					</span>
+			                    				</div>
+			                    				<input type="text" class="form-control" id="inpCciC"> 
+			                    			</div>
+			                    		</div>  
+			                    	</div>
+
+			                    	<div class="row">
+			                    		<div class="col-md-12">
+			                    			<button class="btn btn-success" id="btnTitularReg">REGISTRAR CUENTA</button>
+			                    			<button class="btn btn-primary" id="btnLimpiarCuenta">LIMPIAR</button>
+			                    		</div> 
+			                    	</div>
+
+			                    </div>
+
+			                    <div class="mt-3" id="jsgCuentasS"></div>
+
+	                     	</div>
+	                     	<div class="col-6 mt-3">
+	                     		<h4>Suplentes</h4>
+	                     		<hr>
+
+	                     		<div class="row">
+	                    		<div class="col-12"> 
+	                    			<label>Documento:</label>
+	                    			<div class="input-group mb-3">
+	                    				<input type="text" class="form-control" id="inpDocumentoSer"> 
+	                    				<div class="input-group-prepend">
+	                    					<button type="button" class="btn btn-primary" id="btnBuscarPersona">Buscar</button>
+	                    				</div>
+	                    				<div class="input-group-append">
+	                    					<button type="button" class="btn btn-success" id="btnAgregarSuplente">Agregar Persona</button>
+	                    				</div>
+	                    			</div>
+	                    		</div>
+	                    		<div class="col-12"></div>
+	                    		<div class="col-12">
+	                    			<ul style="list-style: none;" class="p-0 m-0" id="ulSuplentes">
+	                    				 
+	                    			</ul>
+	                    		</div> 
+	                    	</div>
+	                    	<div class="row mt-3">
+		                    	<div class="col-md-12">
+		                    		<button class="btn btn-success" id="btnTerceroReg">REGISTRAR SUPLENTE</button>
+		                    	</div>
+		                    </div>
+
+		                    <div class="row mt-3">
+		                    	<div class="col-md-12">
+		                    		<div id="jsgSuplente"></div>
+		                    	</div>
+		                    </div> 
+
+	                     	</div>
+
+	                     </div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script type="text/javascript">
+ 
+let objL_Suplente = []
+
+function fileNameFromUrl(url) {
+   var matches = url.match(/\/([^\/?#]+)[^\/]*$/);
+   if (matches.length > 1) {
+     return matches[1];
+   }
+   return null;
+}
+
+let queryUrl = fileNameFromUrl(window.location.href);
+console.log(window.location.href)
+let IdPersona = queryUrl
+
+$(document).ready(function(){
+ 		
+ 	$("#slcEstadoPersona").change(function(){
+ 		let data = parseInt($(this).val())
+ 		if(data == 1){
+ 			$(this).removeClass('reed').addClass('green')
+ 			$("#cessee").hide()
+ 		}else{
+ 			$(this).removeClass('green').addClass('reed')
+ 			//$("#inpFechaCese").val(new Date().toISOString().substring(0, 10))
+ 			$("#inpFechaCese").val("")
+ 			$("#cessee").show()
+ 		}
+ 	})
+
+	$("#jsgSueldo").jsGrid({ 
+		  width: "100%",
+		  height: "auto",  
+	      filtering: true, 
+	      sorting: true,
+	      paging: true,
+	      autoload: true,
+	      pageSize: 10,
+	      pageButtonCount: 5,
+	      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+		  pagePrevText: "Anterior",
+		  pageNextText: "Siguiente",
+		  pageFirstText: "Primero",
+		  pageLastText: "Ultima",
+		  pageNavigatorNextText: "...",
+	      pageNavigatorPrevText: "...",
+	      loadMessage: "Cargando, espero por favor...",
+		  controller: {
+		    loadData: function(filter) {
+		      return $.ajax({
+		        url: `{{ Config::getUrl() }}/adm/persona/empleado/sueldo/${IdPersona}`,
+		        dataType: "json"
+		      }).then(function(requests) {
+			        return $.grep(requests, function(request) {
+			            return (!filter.ta_estado || request.ta_estado === filter.ta_estado)
+			            && (!filter.ta_fecha_r || request.ta_fecha_r.indexOf(filter.ta_fecha_r) > -1)
+			        });
+			   });
+		    }
+		  },
+		  rowClass: function(item, itemIndex) { 
+		  		let estado = parseInt(item.ta_estado);
+	            return estado==0 ? 'table-danger' : 'table-success';
+	      },
+		  fields: [
+	        {name: 'ta_vigenciaInicio',type: "text", title: "F. Vigencia inicio"},
+	        {name: 'ta_vigenciaFin',type: "text", title: "F. Vigencia fin"},
+	        {name: 'ta_basico', type: "text",title: "Sueldo basico"},
+	        {name: 'ta_asignacion_familiar', type: "text",title: "Asginacion familiar"},
+	        {name: 'ta_movilidad', type: "text",title: "Movilidad"},
+	        {name: 'ta_alimentos', type: "text",title: "Alimentos"},
+	        {name: 'ta_bonificacion', type: "text",title: "Bonificacion"},
+	        {name: 'ta_total', type: "text",title: "Total"}, 
+	        {type: "control", editButton: false, deleteButton: false,
+	            itemTemplate: function(value, item) {
+				    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+				    let estado = parseInt(item.ta_estado); 
+
+				    let edit = $("<div>")
+				    edit.attr({
+				        class: "fa ico ico-editp",
+				        'data-toggle':"tooltip" ,
+				        'data-placement':"left" ,
+				        'title':"¿Editar sueldo?"
+				    })
+
+				    edit.click(function(e) {  
+				        	$("#inpIdSueldo").val(item.id_sueldo) 
+	 					 	$("#inpFechaIngreso").val(item.ta_fecha_r) 
+						 	$("#inpSueldoBasico").val(item.ta_basico)
+						 	$("#inpAsignacionFamiliar").val(item.ta_asignacion_familiar)
+						 	$("#inpBonificacion").val(item.ta_bonificacion) 
+						 	$("#inpMovilidad").val(item.ta_movilidad)
+						 	$("#inpAlimentos").val(item.ta_alimentos)
+						 	$("#inpBonificacion").val(item.ta_bonificacion) 
+						 	$("#inpSueldoTotal").val(item.ta_total)  
+						 	$("#inpFechaVI").val(item.ta_vigenciaInicio)  
+						 	$("#inpFechaVF").val(item.ta_vigenciaFin)  
+						 	$("#btnRegistrarSueldo").text("ACTUALIZAR")
+				            e.stopPropagation();
+				    });
+
+				    let deshabilitar = $("<div>")
+				    deshabilitar.attr({
+				            class: "fa ico ico-remove",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Inactivar sueldo?"
+				    })
+					if(estado == 1){
+						deshabilitar.click(function(e) {
+							mtd_DeshabilitarSueldo({
+								'id_sueldo':item.id_sueldo
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						deshabilitar.addClass("ico-inactive")
+					}
+				    return $("<div>").attr({
+				    	class:'d-flex'
+				    }).append(edit).append(deshabilitar);
+				},
+	        }
+		  ]
+	});
+
+	$("#jsgDescanso").jsGrid({ 
+		  width: "100%",
+		  height: "auto",  
+	      filtering: true, 
+	      sorting: true,
+	      paging: true,
+	      autoload: true,
+	      pageSize: 8,
+	      pageButtonCount: 5,
+	      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+		  pagePrevText: "Anterior",
+		  pageNextText: "Siguiente",
+		  pageFirstText: "Primero",
+		  pageLastText: "Ultima",
+		  pageNavigatorNextText: "...",
+	      pageNavigatorPrevText: "...",
+	      loadMessage: "Cargando, espero por favor...",
+		  controller: {
+		    loadData: function(filter) {
+		      return $.ajax({
+		        url: `{{ Config::getUrl() }}/adm/persona/empleado/descanso/${IdPersona}`,
+		        dataType: "json"
+		      }).then(function(requests) {
+			        return $.grep(requests, function(request) {
+			            return (!filter.de_estado || request.de_estado === filter.de_estado)
+			            && (!filter.de_fecha || request.de_fecha.indexOf(filter.de_fecha) > -1)
+			        });
+			   });
+		    }
+		  },
+		  rowClass: function(item, itemIndex) { 
+		  		let estado = parseInt(item.de_estado);
+	            return estado==0 ? 'table-danger' : 'table-success';
+	      },
+		  fields: [
+	        {name: 'de_referencia',type: "text", title: "Dia de descanso (Referencia)"},
+	        {name: 'estado', type: "text",title: "Estado"},
+	        {name: 'de_observacion', type: "text",title: "Observacion"},
+	        {type: "control", editButton: false, deleteButton: false,
+	            itemTemplate: function(value, item) {
+				    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+				    let estado = parseInt(item.de_estado);
+				    let zoom = $("<div>")
+				    zoom.attr({
+				        class: "fa ico ico-zoom",
+				        'data-toggle':"tooltip" ,
+				        'data-placement':"left" ,
+				        'title':"¿Replicar descanso?"
+				    })
+				    zoom.click(function(e) {  
+				        	$("#slcEstadoDescanso").val(item.de_estado) 
+						 	$("#inpDescanso").val(item.de_fecha)
+						 	$("#slcEstadoDescanso").val(item.de_estado) 
+						 	$("#txtDescripcionDescanso").val(item.de_observacion)
+						 	$("#diaDescanso").text(item.dia) 
+				            e.stopPropagation();
+				    });
+
+				    let deshabilitar = $("<div>")
+				    deshabilitar.attr({
+				            class: "fa ico ico-remove",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Eliminar descanso?"
+				    })
+					if(estado == 1){
+						deshabilitar.click(function(e) {
+							mtd_DeshabilitarDescanso({
+								'id_descanso':item.id_descanso
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						deshabilitar.addClass("ico-inactive")
+					}
+				    return $("<div>").attr({
+				    	class:'d-flex'
+				    }).append(zoom).append(deshabilitar);
+
+				},
+	        }
+		  ]
+	});
+
+	$("#jsgCargo").jsGrid({ 
+		  width: "100%",
+		  height: "auto",  
+	      filtering: true, 
+	      sorting: true,
+	      paging: true,
+	      autoload: true,
+	      pageSize: 8,
+	      pageButtonCount: 5,
+	      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+		  pagePrevText: "Anterior",
+		  pageNextText: "Siguiente",
+		  pageFirstText: "Primero",
+		  pageLastText: "Ultima",
+		  pageNavigatorNextText: "...",
+	      pageNavigatorPrevText: "...",
+	      loadMessage: "Cargando, espero por favor...",
+		  controller: {
+		    loadData: function(filter) {
+		      return $.ajax({
+		        url: `{{ Config::getUrl() }}/adm/persona/empleado/cargo/${IdPersona}`,
+		        dataType: "json"
+		      }).then(function(requests) {
+			        return $.grep(requests, function(request) {
+			            return (!filter.de_estado || request.de_estado === filter.de_estado)
+			            && (!filter.de_fecha || request.de_fecha.indexOf(filter.de_fecha) > -1)
+			        });
+			   });
+		    }
+		  },
+		  rowClass: function(item, itemIndex) { 
+		  		let estado = parseInt(item.ce_estado);
+	            return estado==0 ? 'table-danger' : 'table-success';
+	      },
+		  fields: [
+	        {name: 'ce_fecha_r',type: "text", title: "Fecha de registro"},
+	        {name: 'ca_descripcion', type: "text",title: "Cargo"},
+	        {name: 'estado', type: "text",title: "Estado"},
+	        {name: 'ce_observacion', type: "text",title: "Observacion"},
+	        {type: "control", editButton: false, deleteButton: false,
+	            itemTemplate: function(value, item) {
+				    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+				    let estado = parseInt(item.ce_estado);
+				    let zoom = $("<div>")
+				    zoom.attr({
+				        class: "fa ico ico-zoom",
+				        'data-toggle':"tooltip" ,
+				        'data-placement':"left" ,
+				        'title':"¿Replicar Cargo?"
+				    })
+				    zoom.click(function(e) {  
+				        	$("#slcCargo").val(item.id_cargo) 
+						 	$("#txtDescripcionCargo").val(item.ce_observacion) 
+				            e.stopPropagation();
+				    });
+
+				    let deshabilitar = $("<div>")
+				    deshabilitar.attr({
+				            class: "fa ico ico-remove",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Inactivar Cargo?"
+				    })
+					if(estado == 1){
+						deshabilitar.click(function(e) {
+							mtd_DeshabilitarCargo({
+								'id_caempleado':item.id_caempleado
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						deshabilitar.addClass("ico-inactive")
+					}
+				    return $("<div>").attr({
+				    	class:'d-flex'
+				    }).append(zoom).append(deshabilitar);
+
+				},
+	        }
+		  ]
+	});
+
+	$("#jsgSede").jsGrid({ 
+		  width: "100%",
+		  height: "auto",  
+	      filtering: true, 
+	      sorting: true,
+	      paging: true,
+	      autoload: true,
+	      pageSize: 8,
+	      pageButtonCount: 5,
+	      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+		  pagePrevText: "Anterior",
+		  pageNextText: "Siguiente",
+		  pageFirstText: "Primero",
+		  pageLastText: "Ultima",
+		  pageNavigatorNextText: "...",
+	      pageNavigatorPrevText: "...",
+	      loadMessage: "Cargando, espero por favor...",
+		  controller: {
+		    loadData: function(filter) {
+		      return $.ajax({
+		        url: `{{ Config::getUrl() }}/adm/persona/empleado/sede/${IdPersona}`,
+		        dataType: "json"
+		      }).then(function(requests) {
+			        return $.grep(requests, function(request) {
+			            return (!filter.sm_estado || request.sm_estado === filter.sm_estado)
+			            && (!filter.sm_observacion || request.sm_observacion.indexOf(filter.sm_observacion) > -1)
+			        });
+			   });
+		    }
+		  },
+		  rowClass: function(item, itemIndex) { 
+		  		let estado = parseInt(item.sm_estado);
+	            return estado==0 ? 'table-danger' : 'table-success';
+	      },
+		  fields: [
+	        {name: 'ta_fecha_r',type: "text", title: "Fecha de registro"},
+	        {name: 'sede', type: "text",title: "Sede"},
+	        {name: 'sm_observacion', type: "text",title: "Observacion"},
+	        {name: 'estado', type: "text",title: "Estado"},
+	        {type: "control", editButton: false, deleteButton: false,
+	            itemTemplate: function(value, item) {
+				    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+				    let estado = parseInt(item.sm_estado);
+				    let zoom = $("<div>")
+				    zoom.attr({
+				        class: "fa ico ico-zoom",
+				        'data-toggle':"tooltip" ,
+				        'data-placement':"left" ,
+				        'title':"¿Replicar Sede?"
+				    })
+				    zoom.click(function(e) {   
+						 	$("#slcSede").val(item.id_sede) 
+						 	$("#slcEstadoSede").val(item.sm_estado) 
+						 	$("#txtDescripcionSede").val(item.sm_observacion) 
+				            e.stopPropagation();
+				    });
+
+				    let deshabilitar = $("<div>")
+				    deshabilitar.attr({
+				            class: "fa ico ico-remove",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Inactivar Sede?"
+				    })
+					if(estado == 1){
+						deshabilitar.click(function(e) {
+							mtd_CambioEstadoSede({
+								'id_sede_em':item.id_sede_em,
+								'opcion':0
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						deshabilitar.addClass("ico-inactive")
+					}
+
+					let habilitar = $("<div>")
+				    habilitar.attr({
+				            class: "fa ico ico-acept",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Activar Sede?"
+				    })
+					if(estado == 0){
+						habilitar.click(function(e) {
+							mtd_CambioEstadoSede({
+								'id_sede_em':item.id_sede_em,
+								'opcion':1
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						habilitar.addClass("ico-inactive")
+					} 
+
+				    return $("<div>").attr({
+				    	class:'d-flex'
+				    }).append(zoom).append(deshabilitar).append(habilitar);
+
+				},
+	        }
+		  ]
+	});
+
+
+	$("#jsgCuentasS").jsGrid({ 
+		  width: "100%",
+		  height: "auto",  
+	      //filtering: true, 
+	      sorting: true,
+	      paging: true,
+	      autoload: true,
+	      pageSize: 8,
+	      pageButtonCount: 5,
+	      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+		  pagePrevText: "Anterior",
+		  pageNextText: "Siguiente",
+		  pageFirstText: "Primero",
+		  pageLastText: "Ultima",
+		  pageNavigatorNextText: "...",
+	      pageNavigatorPrevText: "...",
+	      loadMessage: "Cargando, espero por favor...",
+		  controller: {
+		    loadData: function(filter) {
+		      return $.ajax({
+		        url: `{{ Config::getUrl() }}/adm/persona/empleado/cuentas/${IdPersona}`,
+		        dataType: "json"
+		      }).then(function(requests) {
+			        return $.grep(requests, function(request) {
+			            return (!filter.pe_titular || request.pe_titular === filter.pe_titular)
+			            && (!filter.banco || request.banco.indexOf(filter.banco) > -1)
+			            && (!filter.tercero || request.tercero.indexOf(filter.tercero) > -1)
+			        });
+			   });
+		    }
+		  },
+		  rowClass: function(item, itemIndex) { 
+		  		let estado = parseInt(item.phb_estado);
+	            return estado==0 ? 'table-danger' : 'table-success';
+	      },
+		  fields: [
+	        {name: 'ba_nombre',type: "text", title: "Banco"},
+ 	        {name: 'phb_cuenta', type: "text",title: "Cuenta"},
+ 	        {name: 'phb_cci', type: "text",title: "CCI"}, 
+ 	        {name: 'estado', type: "text",title: "Estado"},
+	        {type: "control", editButton: false, deleteButton: false,
+	            itemTemplate: function(value, item) {
+				    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+				    let estado = parseInt(item.phb_estado);
+				      
+				    let deshabilitar = $("<div>")
+				    deshabilitar.attr({
+				            class: "fa ico ico-remove",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Inactivar Cuenta?"
+				    })
+
+				    deshabilitar.click(function(e) {
+							console.log(item)
+						    e.stopPropagation();
+					});
+
+					if(estado == 1){
+						deshabilitar.click(function(e) {
+							mtd_HabilitarDeshabilitarTitular({
+								'id_persona': $("#inpIdPersona").val(),
+								'id_phbbanco': item.id_phbanco,
+								'opcion':0
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						deshabilitar.addClass("ico-inactive")
+					}
+
+					let habilitar = $("<div>")
+				    habilitar.attr({
+				            class: "fa ico ico-acept",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Activar Cuenta?"
+				    })
+					if(estado == 0){
+						habilitar.click(function(e) {
+							mtd_HabilitarDeshabilitarTitular({
+								'id_persona': $("#inpIdPersona").val(),
+								'id_phbbanco': item.id_phbanco,
+								'opcion':1
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						habilitar.addClass("ico-inactive")
+					} 
+
+					let editar = $("<div>")
+				    editar.attr({
+				            class: "fa ico ico-editp",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Editar cuenta?"
+				    })
+
+					editar.click(function(e) {
+							$("#slcBanco").val(item.id_banco) 
+	 					 	$("#slcTipoCuenta").val(item.id_tpcuenta) 
+						 	$("#inpNumeroCuenta").val(item.phb_cuenta)
+						 	$("#inpCciC").val(item.phb_cci)
+						 	$("#inpIdBancoPer").val(item.id_phbanco)
+						 	$("#btnTitularReg").text("ACTUALIZAR")
+						e.stopPropagation();
+					});  
+
+				    return $("<div>").attr({
+				    	class:'d-flex'
+				    }).append(editar).append(deshabilitar).append(habilitar);
+
+				},
+	        }
+		  ]
+	});
+
+
+	$("#jsgSuplente").jsGrid({ 
+		  width: "100%",
+		  height: "auto",  
+	      //filtering: true, 
+	      sorting: true,
+	      paging: true,
+	      autoload: true,
+	      pageSize: 8,
+	      pageButtonCount: 5,
+	      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+		  pagePrevText: "Anterior",
+		  pageNextText: "Siguiente",
+		  pageFirstText: "Primero",
+		  pageLastText: "Ultima",
+		  pageNavigatorNextText: "...",
+	      pageNavigatorPrevText: "...",
+	      loadMessage: "Cargando, espero por favor...",
+		  controller: {
+		    loadData: function(filter) {
+		      return $.ajax({
+		        url: `{{ Config::getUrl() }}/adm/persona/empleado/suplente/${IdPersona}`,
+		        dataType: "json"
+		      }).then(function(requests) {
+			        return $.grep(requests, function(request) {
+			            return (!filter.pe_titular || request.pe_titular === filter.pe_titular)
+			            && (!filter.banco || request.banco.indexOf(filter.banco) > -1)
+			            && (!filter.tercero || request.tercero.indexOf(filter.tercero) > -1)
+			        });
+			   });
+		    }
+		  },
+		  rowClass: function(item, itemIndex) { 
+		  		let estado = parseInt(item.suc_estado);
+	            return estado==0 ? 'table-danger' : 'table-success';
+	      },
+		  fields: [
+	        {name: 'datos',type: "text", title: "Suplente", width:'45%'},
+	        {name: 'banco',type: "text", title: "Banco", width:'20%'},
+ 	        {name: 'phb_cuenta', type: "text",title: "Cuenta", width:'10%'},
+ 	        {name: 'phb_cci', type: "text",title: "CCI", width:'10%'},
+ 	        {name: 'estado', type: "text",title: "Estado", width:'10%'},
+	        {type: "control", editButton: false, deleteButton: false, width:'10%',
+	            itemTemplate: function(value, item) {
+				    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+				    let estado = parseInt(item.suc_estado);
+				      
+				    let deshabilitar = $("<div>")
+				    deshabilitar.attr({
+				            class: "fa ico ico-remove",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Inactivar Cuenta?"
+				    })
+
+				    deshabilitar.click(function(e) {
+							console.log(item)
+						    e.stopPropagation();
+					});
+
+					if(estado == 1){
+						deshabilitar.click(function(e) {
+							mtd_HabilitarDeshabilitarTercero({
+								'id_persona': $("#inpIdPersona").val(),
+								'id_sucobrar': item.id_sucobrar,
+								'opcion':0
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						deshabilitar.addClass("ico-inactive")
+					}
+
+					let habilitar = $("<div>")
+				    habilitar.attr({
+				            class: "fa ico ico-acept",
+				            'data-toggle':"tooltip" ,
+				            'data-placement':"left" ,
+				            'title':"¿Activar Cuenta?"
+				    })
+					if(estado == 0){
+						habilitar.click(function(e) {
+							mtd_HabilitarDeshabilitarTercero({
+								'id_persona': $("#inpIdPersona").val(),
+								'id_sucobrar': item.id_sucobrar,
+								'opcion':1
+							}) 
+						    e.stopPropagation();
+						}); 
+					}else{
+						habilitar.addClass("ico-inactive")
+					}  
+				    return $("<div>").attr({
+				    	class:'d-flex'
+				    }).append(deshabilitar).append(habilitar);
+
+				},
+	        }
+		  ]
+	});
+
+})
+
+// REGISTRAR CUENTAS
+$("#btnTitularReg").click(function(){
+	mtd_CrearObjetoCuentaTitu()
+}) 
+
+$("#btnLimpiarCuenta").click(function(){
+	mtd_LimpiarCuentaTitular()
+}) 
+
+const mtd_CrearObjetoCuentaTitu = () =>{
+	let cuenta = {}
+	cuenta.id_persona = $("#inpIdPersona").val()
+	cuenta.id_banco = $("#slcBanco").val()
+	cuenta.id_tpcuenta = $("#slcTipoCuenta").val() 
+	cuenta.phb_cuenta = $("#inpNumeroCuenta").val() 
+	cuenta.phb_cci = $("#inpCciC").val()
+	cuenta.id_phbbanco = $("#inpIdBancoPer").val()
+	mtd_RegistrarTitular(cuenta)
+	console.log(cuenta)
+}
+
+const mtd_RegistrarTitular = (datos) => {
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/cuenta/titular`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarCuentaTitular()
+		$("#jsgCuentasS .jsgrid-search-button").click();
+		$("#jsgSuplente .jsgrid-search-button").click(); 
+		 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_HabilitarDeshabilitarTitular = (datos) => {
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/cuenta/titular`,{
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)  
+		$("#jsgCuentasS .jsgrid-search-button").click(); 
+		$("#jsgSuplente .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_HabilitarDeshabilitarTercero = (datos) => {
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/cuenta/tercero`,{
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)  
+		$("#jsgCuentasS .jsgrid-search-button").click(); 
+		$("#jsgSuplente .jsgrid-search-button").click();  
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_LimpiarCuentaTitular = () =>{ 
+	 $("#inpIdBancoPer").val(0)
+	 $("#slcBanco").val(1)
+	 $("#slcTipoCuenta").val(1) 
+	 $("#inpNumeroCuenta").val("") 
+	 $("#inpCciC").val("") 
+	 $("#btnTitularReg").text("REGISTRAR CUENTA") 
+}
+
+// ACTUALIZAR DATOS
+
+$("#btnActualizarDatos").click(function(){
+	mtd_CrearObjetoPersona()
+})
+
+const mtd_CrearObjetoPersona = () =>{
+	let { state, msg } = fn_Validaciones()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	}
+	let objL_Persona = {}
+	objL_Persona.id_persona = $("#inpIdPersona").val()  
+	objL_Persona.nombres = $("#inpNombres").val()
+	objL_Persona.apellido_paterno = $("#inpApellidoPa").val()
+	objL_Persona.apellido_materno = $("#inpApellidoMa").val()
+	objL_Persona.sexo = $("#slcSexo").val()
+	objL_Persona.nacionalidad = $("#slcNacionalidad").val()
+	objL_Persona.tipo_documento = $("#slcTipoDocumento").val()
+	objL_Persona.documento = $("#inpNumeroDocumento").val()
+	objL_Persona.fecha_nacimiento = $("#inpFechaNacimiento").val()
+	objL_Persona.direccion = $("#inpDireccion").val()
+	objL_Persona.celular = $("#inpCelular").val()
+	objL_Persona.correo = $("#inpCorreo").val() 
+	objL_Persona.titular = 1
+	objL_Persona.estado = $("#slcEstadoPersona").val() 
+	objL_Persona.fecha_ingreso = $("#inpFechaIngreso").val()
+	objL_Persona.fecha_cese = $("#inpFechaCese").val()  
+	objL_Persona.usuario = 1  
+	mtd_MergePersona(objL_Persona) 
+	console.log(objL_Persona) 
+}
+
+const mtd_MergePersona = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/actualizar2`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)  
+		$(".jsgrid-search-button").click(); 
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = ""; 
+	// VALIDACIONES DATOS PERSONALES 
+	if($('#inpNombres').val()==''  || !$('#inpNombres').val()){
+ 	    strL_msg += 'Ingrese un nombre<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpApellidoPa').val()==''  || !$('#inpApellidoPa').val()){
+ 	    strL_msg += 'Ingrese un apellido paterno<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpApellidoMa').val()==''  || !$('#inpApellidoMa').val()){
+ 	    strL_msg += 'Ingrese un apellido materno<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcSexo').val()=='Seleccione!' || !$('#slcSexo').val()){
+ 	    strL_msg += 'Seleccione el sexo<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcNacionalidad').val()=='Seleccione!'  || !$('#slcNacionalidad').val()){
+ 	    strL_msg += 'Seleccione una nacionalidad<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcTipoDocumento').val()=='Seleccione!' || !$('#slcTipoDocumento').val()){
+ 	    strL_msg += 'Seleccione un tipo de documento<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpNumeroDocumento').val().trim()==''  || !$('#inpNumeroDocumento').val()){
+ 	    strL_msg += 'Ingrese el numero de documento<br>'
+	    blnL_Validar = true;
+	}   
+	return {state:blnL_Validar,msg:strL_msg}
+}
+
+// REGISTRAR CUENTAS TERCERO
+$("#btnTerceroReg").click(function(){
+	mtd_CrearObjetoCuentaTerce()
+}) 
+
+$("#btnAgregarSuplente").click(function(){
+	window.open(`{{ Config::getUrl() }}/adm/persona`, '_blank');
+}) 
+
+const mtd_CrearObjetoCuentaTerce = () =>{
+	let { state, msg } = fn_ValidacionesSSS()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	}
+	let cuenta = {}
+	cuenta.id_origen = $("#inpIdPersona").val()
+	cuenta.doc_suplente = $("#inpDocumentoSer").val() 
+	mtd_RegistrarTercero(cuenta)
+	console.log(cuenta)
+}
+
+const fn_ValidacionesSSS = () =>{
+	let blnL_Validar = false;
+	let strL_msg = "";
+
+	// VALIDACIONES DATOS PERSONALES 
+	if($('#inpDocumentoSer').val()=='' || $('#inpDocumentoSer').val().length <= 4){
+ 		   strL_msg += "Ingrese un documento<br>"
+		   blnL_Validar = true;
+		} 
+		if(objL_Suplente.length == 0){
+  			strL_msg += "Seleccione un suplente<br>"
+		   blnL_Validar = true;
+		}
+	return {state:blnL_Validar,msg:strL_msg}
+}
+
+const mtd_RegistrarTercero = (datos) => {
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/cuenta/tercero`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarCuentaTercero()
+		$("#jsgCuentasS .jsgrid-search-button").click(); 
+		$("#jsgSuplente .jsgrid-search-button").click();  
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_LimpiarCuentaTercero = () =>{
+	 $("#ulSuplentes").empty()
+	 $("#inpDocumentoSer").val("")
+	 objL_Suplente = []
+}
+
+// REGISTRAR SUELDO
+$("#btnRegistrarSueldo").click(function(){
+	mtd_CrearObjetoSueldo()
+}) 
+
+const mtd_CrearObjetoSueldo = () =>{
+	if(parseInt($("#inpSueldoBasico").val()) <= 0){
+		Swal.fire(
+			'Mensaje del sistema!',
+			'Ingrese un sueldo!',
+			'error'
+		)
+		return 
+	}
+	let sueldo = {}
+	sueldo.id_sueldo = $("#inpIdSueldo").val()
+	sueldo.id_persona = $("#inpIdPersona").val()
+	sueldo.ta_basico = $("#inpSueldoBasico").val()
+	sueldo.ta_estado = 1
+	sueldo.ta_observacion = ''
+	sueldo.ta_csdia = 0
+	sueldo.ta_asignacion_familiar = $("#inpAsignacionFamiliar").val()
+	sueldo.ta_bonificacion = $("#inpBonificacion").val()
+	sueldo.ta_movilidad = $("#inpMovilidad").val()
+	sueldo.ta_alimentos = $("#inpAlimentos").val()
+	sueldo.ta_total = $("#inpSueldoTotal").val() 
+	sueldo.ta_vigenciaInicio = $("#inpFechaVI").val()
+	sueldo.ta_vigenciaFin = $("#inpFechaVF").val()
+
+	mtd_RegistrarSueldo(sueldo)
+	console.log(sueldo)
+}
+
+$("#btnLimpiarSueldo").click(function() {
+	mtd_LimpiarSueldos()
+})
+
+const mtd_LimpiarSueldos = () =>{
+	$("#inpIdSueldo").val("")
+	$("#inpSueldoBasico").val(0) 
+	$("#inpAsignacionFamiliar").val(0)
+	$("#inpBonificacion").val(0)
+	$("#inpMovilidad").val(0)
+	$("#inpAlimentos").val(0)
+	$("#inpSueldoTotal").val(0)
+	$('#inpFechaVI').val(new Date()) 
+	$('#inpFechaVF').val(new Date()) 
+	$("#btnRegistrarSueldo").text("REGISTRAR")
+}
+
+$(".sueldo").on("input",function() {
+      var total=0;
+      $(".sueldo").each(function(){
+          if(!isNaN(parseInt($(this).val())))
+          {
+            total+=parseInt($(this).val());  
+          }
+      });
+      $("#inpSueldoTotal").val(total); 
+});
+ 
+ const mtd_RegistrarSueldo = (datos) => {
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/other/sueldo`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarSueldos()
+		$("#jsgSueldo .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_DeshabilitarSueldo = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/other/sueldo`,{
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)
+		mtd_LimpiarSueldos(); 
+ 		$("#jsgSueldo .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+// END
+
+// DESCANSO FUNCTIONS
+
+const mtd_TraerNombreDelDia = () => {
+	let dates = new Date($('#inpDescanso').val());
+	let diasSemana = new Array(7);
+	diasSemana[0] = "Lunes";
+	diasSemana[1] = "Martes";
+	diasSemana[2] = "Miercoles";
+	diasSemana[3] = "Jueves";
+	diasSemana[4] = "Viernes";
+	diasSemana[5] = "Sabado";
+	diasSemana[6] = "domingo";
+	let nombreDia = diasSemana[dates.getDay()]; 
+	console.log(nombreDia, dates.getDay())
+	$('#diaDescanso').text(nombreDia)
+}
+
+$('#inpDescanso').on("change keyup paste", function() {
+   console.log($('#inpDescanso').val())
+   mtd_TraerNombreDelDia()
+});
+
+
+$("#btnRegistrarDescanso").click(function(){
+	mtd_CrearObjetoDescanso()
+})
+
+$("#btnLimpiarDescanso").click(function(){
+	mtd_LimpiarDescanso()
+})
+
+
+const mtd_CrearObjetoDescanso = () =>{
+	let descanso = {}
+	descanso.id_persona = $("#inpIdPersona").val()
+	descanso.de_fecha = $('#inpDescanso').val()
+	descanso.de_estado = $('#slcEstadoDescanso').val()
+	descanso.de_observacion = $('#txtDescripcionDescanso').val() 
+	descanso.de_referencia = $('#slcDescanso').val() 
+	console.log(descanso)
+	mtd_RegistrarDescanso(descanso)
+}
+
+const mtd_LimpiarDescanso = () =>{
+	$("#inpDescanso").val(new Date().toISOString().substring(0, 10))
+	$("#slcEstadoDescanso").val(1)
+	$("#txtDescripcionDescanso").val("") 
+	$("#diaDescanso").text("") 
+}
+
+const mtd_RegistrarDescanso = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/descanso`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarDescanso()
+		$("#jsgDescanso .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_DeshabilitarDescanso = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/descanso`,{
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		//mtd_LimpiarSueldos()
+		$("#jsgDescanso .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+// END
+
+// REGISTRO CARGO
+$("#btnRegistrarCargo").click(function(){
+	mtd_CrearObjetoCargo()
+})
+
+const mtd_CrearObjetoCargo = () =>{
+	let cargo = {}
+	cargo.id_persona = $("#inpIdPersona").val()
+	cargo.id_cargo = $("#slcCargo").val()
+	cargo.ce_observacion = $("#txtDescripcionCargo").val() 
+	cargo.ce_estado = 1
+	mtd_RegistrarCargo(cargo)
+	console.log(cargo)
+}
+
+const mtd_LimpiarCargo = () =>{
+ 	$("#slcCargo").val(1)
+	$("#txtDescripcionCargo").val("")  
+}
+
+const mtd_RegistrarCargo = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/cargo`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarCargo()
+		$("#jsgCargo .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_DeshabilitarCargo = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/cargo`,{
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		//mtd_LimpiarSueldos()
+		$("#jsgCargo .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+// END
+
+
+// REGISTRO CARGO
+$("#btnRegistrarSede").click(function(){
+	mtd_CrearObjetoSede()
+})
+
+const mtd_CrearObjetoSede = () =>{
+	let sede = {}
+	sede.id_persona = $("#inpIdPersona").val()
+	sede.id_sede = $("#slcSede").val()
+	sede.sm_estado = $("#slcEstadoSede").val() 
+	sede.sm_observacion = $("#txtDescripcionSede").val() 
+	sede.sm_estado = 1
+	mtd_RegistrarSede(sede)
+	console.log(sede)
+}
+
+const mtd_LimpiarSede = () =>{
+ 	$("#slcSede").val(1)
+	$("#slcEstadoSede").val(1)  
+	$("#txtDescripcionSede").val("")  
+}
+
+const mtd_RegistrarSede = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/sede`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarSede()
+		$("#jsgSede .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+const mtd_CambioEstadoSede = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/persona/empleado/sede`,{
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)  
+		$("#jsgSede .jsgrid-search-button").click(); 
+		console.log(data)
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+// end
+
+
+ 
+$(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+});
+ 
+// LISTA DE MAESTROS
+
+const mtd_GetDataPersona = () =>{ 
+	fetch(`{{ Config::getUrl() }}/adm/persona/empleado/datos/${IdPersona}`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((persona) => { 
+    	console.log(persona)
+    	$("#inpIdPersona").val(persona.id_persona) 
+    	$("#inpNombres").val(persona.per_nombre) 
+    	$("#inpApellidoPa").val(persona.per_apellido_paterno) 
+    	$("#inpApellidoMa").val(persona.per_apellido_materno)  
+    	$("#slcSexo").val(persona.pe_sexo) 
+    	$("#slcNacionalidad").val(persona.id_nacionalidad) 
+    	$("#slcTipoDocumento").val(persona.id_tpdocumento) 
+    	$("#inpNumeroDocumento").val(persona.per_documento) 
+    	$("#inpFechaNacimiento").val(persona.per_fecha_nac) 
+    	$("#inpDireccion").val(persona.pe_direccion)  
+    	$("#inpCelular").val(persona.per_celular) 
+    	$("#inpCorreo").val(persona.per_correo)  
+    	$("#slcEstadoPersona").val(persona.pe_estado)  
+    	$("#inpFechaIngreso").val(persona.pe_fecha_ingreso)  
+    	$("#inpFechaCese").val(persona.pe_fecha_cese) 
+    	let classActive = parseInt($("#slcEstadoPersona").val()) == 1 ? "green": "reed"
+    	$("#slcEstadoPersona").addClass(classActive) 
+
+    	let estado = parseInt(persona.pe_estado)
+
+    	if(estado == 0){
+    		$("#cessee").show()
+    	}else{
+    		$("#cessee").hide()
+    	}
+
+    	IdPersona = persona.id_persona
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarNacionalidad = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}nacionalidad`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	data.forEach((e)=>{
+			$(`#slcNacionalidad`).append(new Option(e.datos, e.id_nacionalidad)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarTipoDocumento = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_documento`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTipoDocumento`).append(new Option(e.datos, e.id_tpdocumento)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarSede = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}sede`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarCargo = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}cargo`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcCargo`).append(new Option(e.datos, e.id_cargo)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarBanco = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}banco`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcBanco`).append(new Option(e.datos, e.id_banco)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarTipoCuenta = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_cuenta`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTipoCuenta`).append(new Option(e.datos, e.id_tpcuenta)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+
+$(document).ready(function(){
+	$(".jsgrid-search-mode-button").click()
+	mtd_ListarCargo()
+	mtd_ListarTipoDocumento()
+	mtd_ListarNacionalidad()
+	mtd_ListarSede()
+	mtd_ListarBanco()
+	mtd_ListarTipoCuenta()
+	mtd_GetDataPersona()
+}) 
+
+$("#chbTitular").change(function(){
+	  if ($(this).is(':checked')){
+	  		$("#isTitular").show()
+	  		$("#notTitular").hide()
+	  }else{
+	  		$("#isTitular").hide()
+	  		$("#notTitular").show()
+	  }
+});
+
+
+// BUSCAR PERSONA
+// BUSCAR PERSONA 
+
+$('#btnBuscarPersona').click(function() {
+   console.log($('#inpDocumentoSer').val())
+   mtd_BuscarPersona($('#inpDocumentoSer').val())
+}); 
+
+const mtd_CrearListaPersonas = (data) =>{
+	let objL_Padre = $("#ulSuplentes")
+	objL_Padre.empty()
+	data.forEach((e)=>{
+		let objL_Limaster = $("<li>")
+		objL_Limaster.append(
+			$("<div>").addClass("box d-flex align-items-center").append(
+				$("<img>").addClass("img-circle elevation-2 mr-3").attr({
+					"width":50,
+					"height":50,
+					"src":"{% Config::getAsset(); %}admlite/dist/img/user2-160x160.jpg"
+				}),
+				$("<div>").addClass("d-flex flex-column flex-grow-1").append(
+					$("<span>").append(e.datos),
+					$("<strong>").append(e.ba_abreviatura),
+					$("<strong>").append(e.phb_cuenta),
+				),
+				$("<div>").addClass("d-flex justify-content-end flex-grow-1").append(
+					fn_CrearBottonSustituto(e)
+				),
+			)
+		)
+		objL_Padre.append(objL_Limaster)
+	})
+}
+
+const fn_CrearBottonSustituto = (data) =>{
+	let objL_Master = $("<button>")
+	objL_Master.append(
+		"Seleccionar"
+	).addClass("btn btn-success btn-sm").click(function(event){
+		objL_Suplente[0] = {}
+		objL_Suplente.documento = data.per_documento
+		$("#inpDocumentoSer").val(data.per_documento)
+		$(this).closest('div').closest('div').closest('li').closest('ul').find('li').not($(this).closest('div').closest('div').closest('li')).remove();
+		$(this).closest('div').closest('div').closest('li').addClass("border-red")
+		Swal.fire(
+			'Mensaje del sistema!',
+			'Persona seleccionada',
+			'success'
+		)  
+		//console.log($(event.target).parents())
+	})
+	return objL_Master
+} 
+
+const mtd_BuscarPersona = (documento) =>{ 
+	fetch(`{{ Config::getUrl() }}/adm/persona/suplente2/tareo/${documento}`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	mtd_CrearListaPersonas(data)
+    	if(data.length<=0){
+    		Swal.fire("Error!", "No se encontro a esta persona!", "error");
+    	}
+    	console.log(data) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+</script>
+
+{% endblock %}

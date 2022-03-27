@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{% yield titulo %}</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Language" content="es"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admlite/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admlite/dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admlite/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admlite/dist/css/aos.css">
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admlite/dist/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admlite/dist/css/main.min.css">
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admlite/dist/css/plantilla_adm.css">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admLite/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admLite/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admLite/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admLite/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="{% Config::getAsset(); %}admLite/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+
+  <style>
+  .border-red {
+      border: 2px solid #3fb618;
+      border-radius: 5px;
+      padding: 5px;
+  }
+   .ico {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 35px;
+      width: 35px;
+      margin: 1px;
+  }
+
+    .ico-inactive:before{
+       color: #9e9e9e !important;
+    }
+    
+    .ico.ico-remove:before {
+        content: "\f056";
+        color: #ff0000;
+        z-index: 1;
+        font-size: 20px;
+    }
+
+    .ico.ico-zoom:before {
+        content: "\f002";
+        color: #2780e3;
+        z-index: 1;
+        font-size: 20px;
+    }
+
+    .ico.ico-acept:before {
+        content: "\f058";
+        color: #4caf50;
+        z-index: 1;
+        font-size: 20px;
+    }
+
+    .ico.ico-edit:before {
+        content: "\f4ff";
+        color: #82c91e;
+        z-index: 1;
+        font-size: 20px;
+    }
+
+    .ico.ico-editp:before {
+        content: "\f303";
+        color: #82c91e;
+        z-index: 1;
+        font-size: 20px;
+    }
+
+    .ico.ico-employed:before {
+        content: "\f0b1";
+        color: #F97F51;
+        z-index: 1;
+        font-size: 20px;
+    }
+
+    .preloader {
+      position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background-image: url(http://praxiscorpremsac.org/tareo-raul/ui/admlite/dist/img/publico/loader.gif);
+        background-repeat: no-repeat;
+        background-color: #fffffff5;
+        background-position: center;
+    }
+
+    tr.red {
+        background: #f9695e !important;
+        color: white;
+    }
+
+    .reed {
+      background: red;
+      color: white;
+      font-weight: 600;
+    }
+
+    .green {
+      background: green;
+      color: white;
+      font-weight: 600;
+    }
+
+  </style>
+  
+</head>
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <!-- <li class="nav-item d-none d-sm-inline-block">
+        <a href="../../index3.html" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li> -->
+    </ul>
+
+    <!-- SEARCH FORM -->
+    <form class="form-inline ml-3">
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <!-- <a href="../../index3.html" class="brand-link">
+      <img src="{{ Config::getUrl(); }}/app/tema/dist/img/AdminLTELogo.png"
+           alt="AdminLTE Logo"
+           class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a> -->
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{% Config::getAsset(); %}admlite/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">
+            {{ Session::getSession('usuario')->datos  }}
+           </a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+           with font-awesome or any other icon font library -->
+           <li class="nav-header">MANTENIMIENTO</li>
+
+           <li class="nav-item">
+            <a href="{{ Config::getUrl(); }}/adm/" class="nav-link">
+              <i class="nav-icon fas fa-home"></i> 
+              <p>
+                Inicio
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-toolbox"></i>
+              <p>
+                  &nbsp;&nbsp;MAESTROS
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/persona" class="nav-link">&nbsp;
+                  <i class="fas fa-user-plus"></i>
+                  <p>Registro suplentes</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/personas" class="nav-link">&nbsp;
+                  <i class="fas fa-users"></i>
+                  <p>Lista de suplentes</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/banco" class="nav-link">&nbsp;
+                  <i class="fas fa-university"></i>
+                  <p>Registrar banco</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/tipo_documento" class="nav-link">&nbsp;
+                  <i class="fas fa-money-check"></i>
+                  <p>Registrar TP documento</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/marcador" class="nav-link">&nbsp;
+                  <i class="fas fa-clipboard-list"></i>
+                  <p>Registrar marcador</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/nacionalidad" class="nav-link">&nbsp;
+                  <i class="fas fa-globe-americas"></i>
+                  <p>Registrar nacionalidad</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/sede" class="nav-link">&nbsp;
+                  <i class="fas fa-route"></i>
+                  <p>Registrar sede</p>
+                </a>
+              </li> 
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/feriado" class="nav-link">&nbsp;
+                  <i class="fas fa-calendar-day"></i>
+                  <p>Registrar feriado</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/permiso" class="nav-link">&nbsp;
+                  <i class="fas fa-thumbtack"></i>
+                  <p>Registrar permiso</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/cargo" class="nav-link">&nbsp;
+                  <i class="fas fa-address-card"></i>
+                  <p>Registrar cargo</p>
+                </a>
+              </li> 
+
+            </ul>
+          </li>
+
+           <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-sitemap"></i>
+              <p>
+                  &nbsp;&nbsp;EMPLEADOS
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/empleado" class="nav-link">&nbsp;
+                  <i class="fas fa-user-plus"></i>
+                  <p>Registro empleado</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/empleados" class="nav-link">&nbsp;
+                  <i class="fas fa-users"></i>
+                  <p>Lista de empleados</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/usuarios" class="nav-link">&nbsp;
+                  <i class="fas fa-portrait"></i>
+                  <p>Usuarios</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/aprobar/persona" class="nav-link">&nbsp;
+                  <i class="fas fa-user-check"></i>
+                  <p>Aprobar empleado</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/empleado/permiso" class="nav-link">&nbsp;
+                  <i class="fas fa-users"></i>
+                  <p>Registro de permiso</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/empleado/sueldo/masivo" class="nav-link">&nbsp;
+                  <i class="fas fa-hand-holding-usd"></i>
+                  <p>Sueldo masivo</p>
+                </a>
+              </li>
+            </ul>
+          </li> 
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-calendar-alt"></i>
+              <p>
+                  &nbsp;&nbsp;TAREO
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/configurar/planilla" class="nav-link">&nbsp;
+                  <i class="fas fa-users"></i>
+                  <p>Configurar planilla</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/procesar/planilla" class="nav-link">&nbsp;
+                  <i class="fas fa-users"></i>
+                  <p>Procesar planilla</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/excel/planilla" class="nav-link">&nbsp;
+                  <i class="fas fa-users"></i>
+                  <p>Reporte Planilla</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/tareo/anular" class="nav-link">&nbsp;
+                  <i class="fas fa-users"></i>
+                  <p>TAREO (CELULAR)</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/tareo/permisos" class="nav-link">&nbsp;
+                  <i class="fas fa-users"></i>
+                  <p>PERMISOS (CELULAR)</p>
+                </a>
+              </li>
+            </ul>
+          </li> 
+
+          <!--<li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-mobile-alt"></i>
+              <p>
+                  &nbsp;&nbsp;APLICATIVO
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ Config::getUrl(); }}/adm/version" class="nav-link">&nbsp;
+                  <i class="fas fa-code-branch"></i>
+                  <p>Manejo de version</p>
+                </a>
+              </li> 
+            </ul>
+          </li> -->
+
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content p-3">
+        {% yield contenido %}
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; {{$Date = strftime("%Y");}}.</strong> Todos los derechos reservados.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{% Config::getAsset(); %}admlite/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="{% Config::getAsset(); %}admlite/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="{% Config::getAsset(); %}admlite/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% Config::getAsset(); %}admlite/dist/js/demo.js"></script> 
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/jszip/jszip.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="{% Config::getAsset(); %}admlite/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Calendar -->
+<script src="{% Config::getAsset(); %}admlite/dist/js/main.min.js"></script>
+<!-- lag Calendar es -->
+<script src="{% Config::getAsset(); %}admlite/dist/js/fullcalendar_lang_es.js"></script>
+<!-- select2 -->
+<script src="{% Config::getAsset(); %}admlite/plugins/select2/js/select2.full.min.js"></script>
+<!-- moment -->
+<script src="{% Config::getAsset(); %}admlite/dist/js/moment.js"></script>
+<!-- swee -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- js char -->
+<script src="{% Config::getAsset(); %}admlite/plugins/chart.js/Chart.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+<script type="text/javascript" src="//unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+<script type="text/javascript">
+    moment.locale('es')
+    $(document).ready(function () {
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        var url = window.location; 
+        var liTest = $('ul > li'); // ' was missing
+          liTest.each(function() {
+             if(window.location.href == $('a', this).attr('href')) // 
+             {
+                $(this).parentsUntil('nav-item has-treeview', 'li').addClass('menu-open');
+                $(this).children().addClass('active');
+                return;
+             }
+        }); 
+    });
+    String.prototype.trim = function() {
+        return this.replace(/^\s+|\s+$/g, "");
+    };
+
+
+    // Store a copy of the fetch function
+      var _oldFetch = fetch; 
+
+        // Create our new version of the fetch function
+        window.fetch = function(){
+
+            // Create hooks
+            var fetchStart = new Event( 'fetchStart', { 'view': document, 'bubbles': true, 'cancelable': false } );
+            var fetchEnd = new Event( 'fetchEnd', { 'view': document, 'bubbles': true, 'cancelable': false } );
+
+            // Pass the supplied arguments to the real fetch function
+            var fetchCall = _oldFetch.apply(this, arguments);
+
+            // Trigger the fetchStart event
+            document.dispatchEvent(fetchStart);
+
+            fetchCall.then(function(){
+                // Trigger the fetchEnd event
+                document.dispatchEvent(fetchEnd);
+            }).catch(function(){
+                // Trigger the fetchEnd event
+                document.dispatchEvent(fetchEnd);
+            });
+
+            return fetchCall;
+        };
+
+        document.addEventListener('fetchStart', function() {
+            console.log("Show spinner");
+            $("body").append($("<div>").addClass("preloader"));
+        });
+
+        document.addEventListener('fetchEnd', function() {
+            console.log("Hide spinner");
+            $(".preloader").remove();
+        });
+</script>
+
+{% yield javascript %}
+
+</body>
+</html>

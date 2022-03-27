@@ -1,0 +1,243 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-md-center">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header">
+                <label> Opciones de busqueda</label>
+            </div>
+            <div class="card-body" style="position: relative;">
+                <div class="row">
+                    <!-- POR SEDES --->
+                    <div class="col-4" id="lySedes">
+                        <label>Sedes</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcSede"> </select>
+                        </div>
+                    </div>
+                    <!-- POR SEDES --->
+
+                    <div class="col-4">
+                        <label>Mes:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcMes">
+								<option value="1">Enero</option> 
+								<option value="2">Febrero</option>
+								<option value="3">Marzo</option>
+								<option value="4">Abril</option> 
+								<option value="5">Mayo</option>
+								<option value="6">Junio</option>
+								<option value="7">Julio</option>
+								<option value="8">Agosto</option> 
+								<option value="9">Septiembre</option>
+								<option value="10">Octubre</option> 
+								<option value="11">Noviembre</option>
+								<option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <label>Año:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcAnio">
+                               	{% for($i = 2015 ; $i < date('Y')+1; $i++): %}
+									<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+								{% endFor; %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12"></div>
+    <div class="col-8 mb-3">
+        <button class="btn btn-success" id="btnBuscar">GENERAR</button>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <!---<button id="btnExportar">EXPORTAR</button>-->
+        <div id="jsgTareo" class="p-2"></div> 
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $(".jsgrid-search-mode-button").click()
+})
+
+
+$("#btnBuscar").click(function(){
+    mtd_GenerarObjeto()
+})
+ 
+const mtd_GenerarObjeto = () =>{
+    let opciones = {}
+     opciones.id_sede = $("#slcSede").val()
+     opciones.mes = $("#slcMes").val()
+     opciones.anio = $("#slcAnio").val()
+
+    mtd_BuscarTareo(opciones)
+
+}
+
+let dattt 
+
+$("#jsgTareo").jsGrid({ 
+      width: "100%",
+      height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 10,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+      pagePrevText: "Anterior",
+      pageNextText: "Siguiente",
+      pageFirstText: "Primero",
+      pageLastText: "Ultima",
+      pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...", 
+      noDataContent: "No se encontro datos!",
+      controller: {
+        loadData: function(filter) {
+          return $.ajax({
+            url: `{{ Config::getUrl() }}/adm/administrador/tareo`,
+            dataType: "json",
+            type: 'post',
+            data: JSON.stringify({
+                id_sede:0,
+                mes:1,
+                anio:1
+            }),
+            success: (items) =>{
+                console.log("Items;",items)
+                console.log("json", JSON.stringify(items))
+                $('#btnExportar').data('test',items); //setter
+            }
+          }).then(function(requests) { 
+                //$('#btnExportar').data('test',1); //setter
+                return $.grep(requests, function(request) {
+                    return (!filter.ca_estado || request.ca_estado === filter.ca_estado)
+                    && (!filter.ca_descripcion || request.ca_descripcion.indexOf(filter.ca_descripcion) > -1)
+                });
+           });
+        }
+      },
+      fields: [
+        {name: 'registro', type: "text",title: "Fecha de registro", width: 50},
+        {name: 'ta_hora_r',type: "text", title: "Hora de ingres", width: 50},
+        {name: 'ta_hora_c', type: "text",title: "Hora de cierre", width: 50},
+        {name: 'marcador_datos', type: "text",title: "Turno"},
+        {name: 'sede_datos', type: "text",title: "Sede"},
+        {name: 'datos', type: "text",title: "Persona"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+                var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+                var $customEditButton = $("<button>").attr({
+                        class: "customGridEditbutton jsgrid-button jsgrid-edit-button"
+                    })
+                    .click(function(e) { 
+                        $("#inpIdCargo").val(item.id_cargo) 
+                        $("#inpNombre").val(item.ca_descripcion)
+                        $("#slcEstado").val(item.ca_estado) 
+                        $("#inpAbreviatura").val(item.ca_abreviatura)  
+                        $("#btnRegistrar").text("ACTUALIZAR")
+                        e.stopPropagation();
+                    });
+                var $customDeleteButton = $("<button>").attr({
+                        class: "customGridDeletebutton jsgrid-button jsgrid-delete-button"
+                    })
+                    .click(function(e) {
+                        alert("Deshabilitado temporalmente!");
+                        e.stopPropagation();
+                    });
+                return $("<div>").append($customEditButton).append($customDeleteButton);
+            },
+        }
+      ]
+}); 
+
+
+const mtd_BuscarTareo = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/administrador/tareo`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => { 
+
+        console.log("Items;",data)
+        console.log("json", JSON.stringify(data))
+        $('#btnExportar').data('test',data); //setter
+        $("#jsgTareo").jsGrid("option", "data", data) 
+    })
+    .catch(function(error) { 
+        console.log(error)  
+    });
+}
+
+
+ const mtd_ListarSede = () =>{ 
+    fetch(`{{ Config::getUrl() }}/adm/api/sede`)
+    .then((data) =>{
+            if (data.ok) {
+               return data.json();
+            } else {
+               return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => { 
+        data.forEach((e)=>{
+            $(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+        }) 
+    })
+    .catch(function(error) {
+        console.log(error) 
+    });
+}
+
+mtd_ListarSede()
+
+</script>
+{% endblock %}

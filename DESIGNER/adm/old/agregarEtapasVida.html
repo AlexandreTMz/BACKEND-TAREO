@@ -1,0 +1,94 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+<div class="row">
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label>LISTA</label>
+			</div>
+			<div class="card-body">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<div class="d-flex">
+							<div class="d-flex align-items-start flex-grow-1">
+								<span>Etapa de vida 1</span>
+							</div>
+							<div class="d-flex align-items-end">
+								<button class="btn btn-sm btn-success">Editar</button>
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item">
+						<div class="d-flex">
+							<div class="d-flex align-items-start flex-grow-1">
+								<span>Etapa de vida 2</span>
+							</div>
+							<div class="d-flex align-items-end">
+								<button class="btn btn-sm btn-success">Editar</button>
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item">
+						<div class="d-flex">
+							<div class="d-flex align-items-start flex-grow-1">
+								<span>Etapa de vida 3</span>
+							</div>
+							<div class="d-flex align-items-end">
+								<button class="btn btn-sm btn-success">Editar</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$("#btnRegistrar").click(function(){
+	let dataEtapa = {}
+	dataEtapa.nombreEtapa = $("#inpNombreEtapa").val()
+	dataEtapa.edadInicio = $("#inpNombreEtapa").val()
+	dataEtapa.edadFin = $("#inpNombreEtapa").val()
+	registrarEtapaVida(dataEtapa)
+})	
+	
+const registrarEtapaVida = (datos) =>{
+	fetch(`{{ Config::getUrl() }}/api/agregar/etapa_vida`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	console.log(data)
+    })
+    .catch(function(error) {
+    	console.log(error)
+    });
+}
+
+
+</script>
+
+{% endblock %}

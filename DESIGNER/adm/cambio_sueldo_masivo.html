@@ -1,0 +1,169 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center">
+	<div class="col-12"></div>
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos necesarios</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+
+					<div class="col-6"> 
+						<label>Sede:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcSede" name="sede"> </select>
+						</div>
+					</div> 
+
+					<div class="col-6"> 
+						<label>Fecha nueva:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="date" class="form-control" id="inpFechaSueldo">   
+						</div>
+					</div> 
+ 
+					<div class="col-12">
+						<label>Descripcion:</label>
+						<p>
+							Este módulo le permite ampliar la fecha de vigencia del sueldo del empleado de manera masiva, de esta manera se evitará realizarlo persona por persona.
+						</p>
+					</div> 
+
+				</div>
+			</div>
+		</div>
+	</div> 
+	<div class="col-12"></div>
+	<div class="col-6 mb-3">
+		<button class="btn btn-success" id="btnValidar">Ampliar</button> 
+	</div>
+</div>
+  
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$("#btnValidar").click(function(){
+	let { state, msg } = fn_Validaciones() 
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	}
+
+	Swal.fire({
+      title: '¿Quieres ampliar la fecha de vigencia?',
+      text: 'Solo se cambiarán las fechas de los sueldos que estén activos y de las personas que estén activas.',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Ampliar`,
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        mtd_CambioMasivo({
+        	id_sede: $('#slcSede').val(),
+        	fecha:$('#inpFechaSueldo').val()
+        })
+      } else if (result.isDenied) {
+        Swal.fire('Cancelado', '', 'info')
+      }
+    })
+	console.log("xdd")
+})
+
+const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = "";
+
+	// VALIDACIONES DATOS PERSONALES  
+	if(!moment($('#inpFechaSueldo').val()).isValid()){
+ 	    strL_msg += 'La fecha es invalido!<br>'
+	    blnL_Validar = true;
+	}    
+
+	return {state:blnL_Validar,msg:strL_msg}
+}
+ 
+const mtd_ListarSede = () =>{ 
+    fetch(`{{ Config::getUrl() }}/adm/api/sede`)
+    .then((data) =>{
+            if (data.ok) {
+               return data.json();
+            } else {
+               return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {  
+        //$("#slcSede").append(new Option('Todos', 'T'));
+        data.forEach((e)=>{
+            $(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+        }) 
+    })
+    .catch(function(error) {
+        console.log(error) 
+    });
+}
+
+
+const mtd_CambioMasivo = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/api/sueldo/cambio/masivo`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)   
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+
+mtd_ListarSede();
+</script>
+
+{% endblock %}

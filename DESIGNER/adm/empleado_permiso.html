@@ -1,0 +1,183 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row">
+	  
+</div>
+ 
+ 
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+
+
+$(document).ready(function(){
+	$(".jsgrid-search-mode-button").click()
+})
+
+
+const mtd_ClearInputs = () =>{ 
+ 	$('.reg-datos-sueldo').find('input').val('');
+ 	$('#lbNombrePersona').text("")
+ 	$('#sldPorDia').text("")
+ 	$(".jsgrid-search-button").click() 
+ }
+
+$("#btnRegistrar").click(function(){
+	mtd_CrearObjeto()
+})
+
+const mtd_CrearObjeto = () =>{
+	let sueldo = {}
+	sueldo.id_persona   	=  $("#inpIdPersona").val()
+	sueldo.id_tpdocumento   =  $("#inpIdTpDocumento").val()
+	sueldo.id_nacionalidad  =  $("#inpIdNacionalidad").val()
+	sueldo.ta_basico   		=  $("#inpSueldoBasico").val()
+	sueldo.ta_estado   		=  1
+	sueldo.ta_asignacion_familiar   =  $("#inpAsignacionFamiliar").val()
+	sueldo.ta_bonificacion  =  $("#inpBonificacion").val()
+	sueldo.ta_movilidad   	=  $("#inpMovilidad").val()
+	sueldo.ta_alimentos   	=  $("#inpAlimentos").val() 
+	sueldo.ta_total   		=  $("#inpSueldoTotal").val()
+	sueldo.ta_csdia   		=  $("#inpCostoXdia").val()
+
+	sueldo.id_sede   	=  $("#inpIdSede").val()
+	sueldo.id_cargo   	=  $("#inpIdCargo").val()
+
+ 	console.log(sueldo)
+ 	mtd_RegistrarSueldo(sueldo)
+}
+
+// REGISTRAR SUELDO
+const mtd_RegistrarSueldo = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/api/empleado/sueldo`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+         console.log(data)
+         Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)  
+         mtd_ClearInputs()
+    })
+    .catch(function(error) {
+    	Swal.fire("Error!", error.msg, "error");
+       	console.log(error)  
+    });
+}
+
+
+/*$(".sueldo").on("input",function() {
+      var total=0;
+      $(".sueldo").each(function(){
+          if(!isNaN(parseFloat($(this).val())))
+          {
+            total+=parseFloat($(this).val());  
+          }
+      });
+      $("#inpSueldoTotal").val(total);
+      let  fltLDia = ((parseFloat($("#inpSueldoBasico").val())+parseFloat($("#inpAsignacionFamiliar").val()))/30)
+      console.log(fltLDia.toFixed(2))
+      $("#sldPorDia").text(fltLDia.toFixed(2));
+      $("#inpXporDia").val(fltLDia.toFixed(2));
+});*/
+
+$(".sueldo").on("input",function() {
+      var total=0;
+      $(".sueldo").each(function(){
+          if(!isNaN(parseInt($(this).val())))
+          {
+            total+=parseInt($(this).val());  
+          }
+      });
+      $("#inpSueldoTotal").val(total);
+      let  fltLDia = ((parseFloat($("#inpSueldoBasico").val())+parseFloat($("#inpAsignacionFamiliar").val()))/30)
+      console.log(fltLDia.toFixed(2)) 
+      $("#inpCostoXdia").val(fltLDia.toFixed(2));
+});
+
+
+  $("#jsgAprobar").jsGrid({ 
+	  width: "100%",
+	  height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 2,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+	  pagePrevText: "Anterior",
+	  pageNextText: "Siguiente",
+	  pageFirstText: "Primero",
+	  pageLastText: "Ultima",
+	  pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...",
+	  controller: {
+	    loadData: function(filter) {
+	      return $.ajax({
+	        url: `{{ Config::getUrl() }}/adm/api/empleado/sin_aprobar`,
+	        dataType: "json"
+	      }).then(function(requests) {
+		        return $.grep(requests, function(request) {
+		            return (!filter.ba_estado || request.ba_estado === filter.ba_estado)
+		            && (!filter.ba_nombre || request.ba_nombre.indexOf(filter.ba_nombre) > -1)
+		        });
+		   });
+	    }
+	  },
+	  fields: [
+        {name: 'datos', type: "text",title: "PERSONA"}, 
+	  	{name: 'tpd_descripcion', type: "text",title: "TP DOC"},
+        {name: 'per_documento', type: "text",title: "DOCUMENTO"},
+        {name: 'na_descripcion',type: "text", title: "NACIONALIDAD"},
+        {name: 'ca_descripcion',type: "text", title: "CARGO"},
+        {name: 'sede',type: "text", title: "SEDE"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+			    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+			     
+			    var $btnAprobar = $("<button>").attr({
+			            class: "customGridDeletebutton jsgrid-button jsgrid-update-button"
+			        })
+			        .click(function(e) {
+ 						$("#inpIdPersona").val(item.id_persona)
+					    $("#inpPerDocumento").val(item.per_documento)
+					    $("#inpIdTpDocumento").val(item.id_tpdocumento)
+					    $("#inpIdNacionalidad").val(item.id_nacionalidad)
+					    $("#lbNombrePersona").text(item.datos)
+					    $("#inpIdSede").val(item.id_sede)
+						$("#inpIdCargo").val(item.id_cargo)
+			            e.stopPropagation();
+			        });
+
+			    return $("<div>").append($btnAprobar);
+			},
+        }
+	  ]
+});
+</script>
+
+{% endblock %}

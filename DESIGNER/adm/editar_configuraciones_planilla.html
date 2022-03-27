@@ -1,0 +1,122 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center">
+	<div class="col-12"></div>
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos necesarios</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+
+					<div class="col-12"> 
+						<label>Descanso:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcModoDescanso">
+								<option value="1">Utilizar el maestro de descanso</option>
+								<option value="0">Utilizar los registros del tareo</option>
+							</select>
+							<input type="hidden" id="inpIdCondiguracion">
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div> 
+	<div class="col-12"></div>
+	<div class="col-6 mb-3">
+		<button class="btn btn-success" id="btnActualizar">Actualizar</button> 
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+ 
+ 
+ $("#btnActualizar").click(function(){ 
+ 	mtd_CrearObjeto()
+ })
+ 
+
+ const mtd_CrearObjeto = () =>{
+ 	let configuraciones = {}
+ 	configuraciones.modo_descanso   = 	$("#slcModoDescanso").val()
+ 	configuraciones.id_configuracion   = 	$("#inpIdCondiguracion").val()
+ 	console.log(configuraciones)
+ 	mtd_ActualizarConfiguracionPlanilla(configuraciones)
+ }
+
+ const mtd_ActualizarConfiguracionPlanilla = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/planilla/configuraciones`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		)  
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+
+// configuraciones
+const mtd_GetConfiguracionesPlanilla = () =>{ 
+	fetch(`{{ Config::getUrl() }}/adm/planilla/configuraciones`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	console.log(data)
+    	$(`#slcModoDescanso`).val(data.pc_modo_descanso); 
+    	$(`#inpIdCondiguracion`).val(data.id_configuracion); 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+mtd_GetConfiguracionesPlanilla();
+
+</script>
+
+{% endblock %}

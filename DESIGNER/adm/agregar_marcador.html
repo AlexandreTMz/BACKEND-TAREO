@@ -1,0 +1,235 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center">
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos necesarios</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+
+					<div class="col-6"> 
+						<label>Abreviatura:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpAbreviatura"> 
+							<input type="hidden" class="form-control"  value="0" id="inpIdMarcador"> 
+						</div>
+					</div>   
+					<div class="col-6"> 
+						<label>Estado:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcEstado">
+								<option value="1">Activo</option>
+								<option value="0">Inactivo</option>
+							</select>
+						</div>
+					</div>  
+
+					<div class="col-12">
+						<label>Descripcion:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<textarea class="form-control" rows="2" id="txtDescripcion"></textarea>
+						</div>
+					</div> 
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12"></div> 
+	<div class="col-6 mb-3">
+		<button class="btn btn-success" id="btnRegistrar">REGISTRAR</button>
+		<button class="btn btn-primary" id="btnLimpiar">LIMPIAR</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Lista de Marcadores</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				 <div id="jsgBanco"></div> 
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+ 
+$("#btnLimpiar").click(function() {
+	mtd_LimpiarMarcador()
+})
+ 
+ $("#btnRegistrar").click(function(){
+ 	let { state, msg } = fn_Validaciones()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	} 
+ 	mtd_CrearObjeto()
+ })
+
+ const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = ""; 
+	// VALIDACIONES DATOS PERSONALES  
+	if($('#inpAbreviatura').val().trim()==''  || !$('#inpAbreviatura').val()){
+ 	    strL_msg += 'Ingrese una abreviatura<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcEstado').val().trim() ==''  || !$('#slcEstado').val()){
+ 	    strL_msg += 'Seleccione un estado<br>'
+	    blnL_Validar = true;
+	} 
+	return {state:blnL_Validar,msg:strL_msg}
+}
+
+	const mtd_LimpiarMarcador = () =>{
+		$("#inpIdMarcador").val("")  
+	 	$("#slcEstado").val(1)
+	 	$("#inpAbreviatura").val("") 
+	 	$("#txtDescripcion").val("")
+	 	$("#btnRegistrar").text("REGISTRAR")
+	}
+
+ const mtd_CrearObjeto = () =>{
+ 	let marcador = {}
+ 	marcador.id_marcador     = $("#inpIdMarcador").val() 
+ 	marcador.ma_abreviatura	= $("#inpAbreviatura").val()
+ 	marcador.ma_descripcion	= $("#txtDescripcion").val() 
+ 	marcador.ma_estado		= $("#slcEstado").val()
+ 	console.log(marcador)
+ 	mtd_MergeMarcador(marcador)
+ }
+
+ const mtd_MergeMarcador = (datos) =>{
+    fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}marcador`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarMarcador()
+		$(".jsgrid-search-button").click(); 
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+$("#jsgBanco").jsGrid({ 
+	  width: "100%",
+	  height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 10,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+	  pagePrevText: "Anterior",
+	  pageNextText: "Siguiente",
+	  pageFirstText: "Primero",
+	  pageLastText: "Ultima",
+	  pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...",
+	  controller: {
+	    loadData: function(filter) {
+	      return $.ajax({
+	        url: `{{ Config::getUrl() }}/adm/api/marcador/1`,
+	        dataType: "json"
+	      }).then(function(requests) {
+		        return $.grep(requests, function(request) {
+		            return (!filter.ma_estado || request.ma_estado === filter.ma_estado)
+		            && (!filter.ma_descripcion || request.ma_descripcion.indexOf(filter.ma_descripcion) > -1)
+		        });
+		   });
+	    }
+	  },
+		rowClass: function(item, itemIndex) { 
+		  	let estado = parseInt(item.ma_estado);
+	    return estado==0 ? 'table-danger' : 'table-success';
+	  },
+	  fields: [
+	  	{name: 'ma_descripcion', type: "text",title: "Descripcion"},
+        {name: 'ma_abreviatura', type: "text",title: "Abreviatura"}, 
+        {name: 'estado', type: "text",title: "Estado"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+			    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+			    var $customEditButton = $("<button>").attr({
+			            class: "customGridEditbutton jsgrid-button jsgrid-edit-button"
+			        })
+			        .click(function(e) { 
+			            $("#inpIdMarcador").val(item.id_marcador) 
+					 	$("#slcEstado").val(item.ma_estado) 
+					 	$("#txtDescripcion").val(item.ma_descripcion) 
+					 	$("#inpAbreviatura").val(item.ma_abreviatura)  
+					 	$("#btnRegistrar").text("ACTUALIZAR")
+			            e.stopPropagation();
+			        }); 
+			    return $("<div>").append($customEditButton);
+			},
+        }
+	  ]
+}); 
+
+$(".jsgrid-search-mode-button").click()
+
+</script>
+
+{% endblock %}

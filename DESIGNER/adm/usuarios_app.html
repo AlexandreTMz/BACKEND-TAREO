@@ -1,0 +1,302 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center">
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos necesarios</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+
+					<div class="col-6"> 
+						<label>Usuario:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpUsuario"> 
+							<input type="hidden" class="form-control"  value="0" id="inpIdUsuario"> 
+						</div>
+					</div>   
+
+					<div class="col-6"> 
+						<label>Contraseña:</label>
+						<div class="input-group mb-3" id="box-contrasenia">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="password" class="form-control" id="inpContrasenia">  
+							<div class="input-group-append">
+								<span class="input-group-text" id="inpChangeType" role="button">
+									<i class="fas fa-eye"></i>
+								</span>
+							</div>
+						</div>
+					</div>   
+
+					<div class="col-12"> 
+						<label>Tipo de usuario:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcTpUsuario"> 
+							</select>
+						</div>
+					</div> 
+
+					<div class="col-12"> 
+						<label>Estado:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcEstado">
+								<option value="1">Activo</option>
+								<option value="0">Inactivo</option>
+							</select>
+						</div>
+					</div> 
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12"></div> 
+	<div class="col-6 mb-3">
+		<button class="btn btn-success" id="btnRegistrar">ACTUALIZAR</button>
+		<button class="btn btn-primary" id="btnLimpiar">LIMPIAR</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Lista de Marcadores</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				 <div id="jsgBanco"></div> 
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$("#inpChangeType").click(function() {
+  	let input = $(this).parent().closest('#box-contrasenia').find('input');
+ 	if($(this).find('i').hasClass('fa-eye')){
+		$(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash')
+		input.attr({
+			type:"text"
+		}) 
+	}else{
+		$(this).find('i').removeClass('fa-eye-slash').addClass('fa-eye')
+		input.attr({
+			type:"password"
+		})
+ 	} 
+}) 
+ 
+ 
+$("#btnLimpiar").click(function() {
+	mtd_LimpiarUsuario()
+})
+ 
+ $("#btnRegistrar").click(function(){
+ 	let { state, msg } = fn_Validaciones()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	} 
+ 	mtd_CrearObjeto()
+ })
+
+ const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = ""; 
+	// VALIDACIONES DATOS PERSONALES  
+	if($('#inpUsuario').val().trim()==''  || !$('#inpUsuario').val()){
+ 	    strL_msg += 'Ingrese un usuario<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpContrasenia').val().trim()==''  || !$('#inpContrasenia').val()){
+ 	    strL_msg += 'Ingrese una contraseña<br>'
+	    blnL_Validar = true;
+	} 
+	if($('#slcTpUsuario').val().trim() ==''  || !$('#slcTpUsuario').val()){
+ 	    strL_msg += 'Seleccione un tipo de usuario<br>'
+	    blnL_Validar = true;
+	} 
+	if($('#slcEstado').val().trim() ==''  || !$('#slcEstado').val()){
+ 	    strL_msg += 'Seleccione un estado<br>'
+	    blnL_Validar = true;
+	} 
+	return {state:blnL_Validar,msg:strL_msg}
+}
+
+	const mtd_LimpiarUsuario = () =>{
+		$("#inpUsuario").val("")  
+	 	$("#slcTpUsuario").val(1)
+	 	$("#inpContrasenia").val("") 
+	 	$("#slcEstado").val(1) 
+	 	$("#inpIdUsuario").val("") 
+	}
+
+ const mtd_CrearObjeto = () =>{ 
+ 	let usuario = {}
+ 	usuario.id_usuario     = $("#inpIdUsuario").val() 
+ 	usuario.us_usuario	= $("#inpUsuario").val()
+ 	usuario.us_contrasenia	= $("#inpContrasenia").val() 
+ 	usuario.id_tpusuario	= $("#slcTpUsuario").val() 
+ 	usuario.us_estado		= $("#slcEstado").val()
+ 	console.log(usuario)
+ 	mtd_ActualizarUsuario(usuario)
+ }
+
+ const mtd_ActualizarUsuario = (datos) =>{
+    fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}usuario`,{
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    Swal.fire(
+			'Mensaje del sistema!',
+			data.msg,
+			'success'
+		) 
+		mtd_LimpiarUsuario()
+		$(".jsgrid-search-button").click(); 
+    })
+    .catch(function(error) { 
+    	Swal.fire(
+			'Mensaje del sistema!',
+			error.msg,
+			'error'
+		)
+       	console.log(error)  
+    });
+}
+
+$("#jsgBanco").jsGrid({ 
+	  width: "100%",
+	  height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 10,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+	  pagePrevText: "Anterior",
+	  pageNextText: "Siguiente",
+	  pageFirstText: "Primero",
+	  pageLastText: "Ultima",
+	  pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...",
+	  controller: {
+	    loadData: function(filter) {
+	      return $.ajax({
+	        url: `{{ Config::getUrl() }}/adm/usuarios/sistema`,
+	        dataType: "json"
+	      }).then(function(requests) {
+		        return $.grep(requests, function(request) {
+		            return (!filter.us_estado || request.us_estado === filter.us_estado)
+		            && (!filter.us_usuario || request.us_usuario.indexOf(filter.us_usuario) > -1)
+		        });
+		   });
+	    }
+	  },
+		rowClass: function(item, itemIndex) { 
+		  	let estado = parseInt(item.us_estado);
+	    return estado==0 ? 'table-danger' : 'table-success';
+	  },
+	  fields: [
+	  	{name: 'datos', type: "text",title: "Persona"},
+        {name: 'us_usuario', type: "text",title: "Usuario"}, 
+        {name: 'estado', type: "text",title: "Estado"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+			    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+			    var $customEditButton = $("<button>").attr({
+			            class: "customGridEditbutton jsgrid-button jsgrid-edit-button"
+			        })
+			        .click(function(e) { 
+			        	console.log(item)
+			            $("#inpIdUsuario").val(item.id_usuario) 
+			            $("#inpUsuario").val(item.us_usuario) 
+					 	$("#slcTpUsuario").val(item.id_tpusuario)   
+					 	$("#slcEstado").val(item.us_estado) 
+					 	$("#inpContrasenia").val(item.us_contrasenia)  
+					 	$("#btnRegistrar").text("ACTUALIZAR")
+			            e.stopPropagation();
+			        }); 
+			    return $("<div>").append($customEditButton);
+			},
+        }
+	  ]
+}); 
+
+$(".jsgrid-search-mode-button").click()
+
+
+const mtd_ListarTpUsuario = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_usuario`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTpUsuario`).append(new Option(e.datos, e.id_tpusuario)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+mtd_ListarTpUsuario();
+</script>
+
+{% endblock %}

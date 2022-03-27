@@ -1,0 +1,9 @@
+# ignore an entire directory
+/CORE/cache
+*.zip
+*.pdf
+*.jpg
+.htaccess2
+UTILITIES/config.php
+UTILITIES/config.php
+UTILITIES/config.php

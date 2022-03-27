@@ -1,0 +1,549 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+
+
+{% block contenido %}
+
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Parametros de busqueda</label>
+			</div>
+			<div class="card-body">
+				
+				<div class="form-row">
+					<div class="col-4"> 
+						<label>Filtrar por:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcOpciones">
+								<option selected disabled>Seleccione!</option>
+								<option value="1">Paciente por años</option>
+								<option value="2">Paciente por meses</option>
+								<option value="3">Paciente por datos</option>
+								<option value="4">Paciente por documento</option>
+								<option value="5">Paciente por establecimiento</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-8"> 
+						<!-- OP1 -->
+						<div class="form-row" id="boxPacienteAnios" style="display: none;">
+							<div class="col-4">
+								<label>Opciones años:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcOpcionAnio">
+										<option value="1">Solo inicio</option>
+										<option value="2">Ambos</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-8">
+								<label>Edad:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpInicioAnio">
+									<div class="input-group-prepend input-group-append">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpFinAnio" disabled>
+								</div>
+							</div>
+						</div>
+						<!-- OP1 -->
+
+						<!-- OP2 -->
+						<div class="form-row" id="boxPacienteMeses" style="display: none;">
+							<div class="col-4">
+								<label>Opciones Meses:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcOpcionMes">
+										<option value="1">Solo inicio</option>
+										<option value="2">Ambos</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-8">
+								<label>Mes:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpInicioMes">
+									<div class="input-group-prepend input-group-append">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpFinMes" disabled>
+								</div>
+							</div>
+						</div>
+						<!-- OP2 -->
+
+						<!-- OP3 -->
+						<div class="form-row" id="boxPacienteDatos" style="display: none;">
+							<div class="col-8">
+								<label>Nombres/Apellidos:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpNombres">
+								</div>
+							</div>
+						</div>
+						<!-- OP3 -->
+
+						<!-- OP4 -->
+						<div class="form-row" id="boxPacienteDocumento" style="display: none;">
+							<div class="col-8">
+								<label>Documento:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" id="inpDocumento">
+								</div>
+							</div>
+						</div>
+						<!-- OP4 -->
+
+						<!-- OP5 -->
+						<div class="form-row" id="boxPacienteUbigeo" style="display: none;">
+							<div class="col-3">
+								<label>Disa:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcDisa">
+										{% foreach($disas as $disa): %}
+											<option value="{{$disa->codigo_disa}}">
+												{{$disa->disa}}
+											</option>
+										{% endForeach; %}
+									</select>
+								</div>
+							</div>
+							<div class="col-3"> 
+								<label>Red:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcRed" name="slcRed">
+									</select>
+								</div>
+							</div>
+							<div class="col-3">
+								<label>Micro red:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcMicroRed">
+									</select>
+								</div>
+							</div>
+							<div class="col-3">
+								<label>Establecimiento:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-file-signature"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcEstablecimiento"> 
+									</select>
+								</div>
+							</div>
+						</div>
+						<!-- OP5 -->
+
+					</div>
+
+				</div>
+
+				<div class="form-row">
+					<div class="col-2">
+						<button class="btn btn-primary w-100" id="btnBuscarPaciente">Buscar</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Resultados!</label>
+			</div>
+			<div class="card-body">
+				
+				<table class="table table-bordered table-hover" id="dtablePaciente">
+					<thead class="table-active">
+						<tr>
+							<th style="width: 30%">Nombre</th>
+							<th style="width: 5%">Documento</th>
+							<th style="width: 5%">Historia</th>
+							<th style="width: 5%">Sexo</th>
+							<th style="width: 10%">Correo</th>
+							<th style="width: 30%">Direccion</th>
+							<th style="width: 10%">Accesos</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
+
+
+
+{% block javascript %}
+
+
+<script type="text/javascript">
+
+	//let slcOpcionAnio = $('#slcOpcionAnio option').filter(':selected').val()
+	//console.log(slcOpcionAnio)
+
+	// SLC SEARCH MES
+	$('#slcOpcionMes').change(function(){
+		let slcOpcionMes = $(this).val()
+		if(parseInt(slcOpcionMes) == 1){
+			$('#inpFinMes').attr('disabled', true)
+		}else{
+			$('#inpFinMes').attr('disabled', false)
+		}
+		console.log(slcOpcionMes)
+	})
+
+	// SLC SEARCH ANIO
+	$('#slcOpcionAnio').change(function(){
+		let slcOpcionAnio = $(this).val()
+		if(parseInt(slcOpcionAnio) == 1){
+			$('#inpFinAnio').attr('disabled', true)
+		}else{
+			$('#inpFinAnio').attr('disabled', false)
+		}
+		console.log(slcOpcionAnio)
+	})
+
+
+	
+	
+	$("#slcOpciones").change(function(){
+		switch (parseInt($(this).val())) {
+		  case 1:
+		    showHidden("boxPacienteAnios");
+		    break;
+		  case 2:
+		    showHidden("boxPacienteMeses");
+		    break;
+		  case 3:
+		    showHidden("boxPacienteDatos");
+		    break;
+		  case 4:
+		    showHidden("boxPacienteDocumento");
+		    break;
+		  case 5:
+		  	showHidden("boxPacienteUbigeo");
+		    break;
+		  default:
+		    alert('Lo lamentamos, por el momento no disponemos la opcion de ' + $(this).val() + '.');
+		}
+
+	})
+
+	const showHidden  = (boxShow) =>{
+		let allDiv = [
+			"boxPacienteAnios",
+			"boxPacienteMeses",
+			"boxPacienteDatos",
+			"boxPacienteDocumento",
+			"boxPacienteUbigeo",
+		]
+		allDiv.map((e)=>{
+			if(boxShow.trim() === e.trim()){
+				$(`#${boxShow}`).show();
+			}else{
+				$(`#${e}`).hide();
+			}
+		})
+	}
+
+
+$("#slcDisa").change(function(){
+	let disa = $(this).val()
+	$("#slcEstablecimiento").empty();
+	buscarRed(disa)
+})
+
+const buscarRed = (disa) => {
+    fetch(`{{ Config::getUrl() }}/api/red/${disa}`)
+        .then((data) => {
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then((err) => {
+                    throw err;
+                });
+            }
+        })
+        .then((data) => {
+            $("#slcRed").empty();
+            $("#slcRed").append($("<option>").append("Seleccione...").attr({ disabled: "disabled", selected: "selected" }));
+            data.map((e) => {
+                $("#slcRed").append(
+                    $("<option>").append(`${e.red}`).attr({
+                        value: e.Codigo_Red,
+                    })
+                );
+            });
+        })
+        .catch(function (error) {
+            $("#nofound").removeAttr("style");
+            //console.log('Hubo un problema con la petición Fetch:' + error.message);
+        });
+};
+
+$("#slcRed").change(function(){
+	let disa = $("#slcDisa").val()
+	let red = $(this).val()
+	$("#slcEstablecimiento").empty();
+	buscarMicroRed(disa,red)
+})
+
+const buscarMicroRed = (disa, red) => {
+    fetch(`{{ Config::getUrl() }}/api/microred/${disa}/${red}`)
+        .then((data) => {
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then((err) => {
+                    throw err;
+                });
+            }
+        })
+        .then((data) => {
+            $("#slcMicroRed").empty();
+            $("#slcMicroRed").append($("<option>").append("Seleccione...").attr({ disabled: "disabled", selected: "selected" }));
+            data.map((e) => {
+                $("#slcMicroRed").append(
+                    $("<option>").append(`${e.microred}`).attr({
+                        value: e.codigo_microred,
+                    })
+                );
+            });
+        })
+        .catch(function (error) {
+            $("#nofound").removeAttr("style");
+            //console.log('Hubo un problema con la petición Fetch:' + error.message);
+        });
+};
+
+ 
+$("#slcMicroRed").change(function(){
+	let microRed = $(this).val()
+	let red = $("#slcRed").val()
+	let disa = $("#slcDisa").val()
+	buscarEstablecimiento(disa,red, microRed)
+})
+
+const buscarEstablecimiento = (disa,red,microRed) => {
+    fetch(`{{ Config::getUrl() }}/api/establecimiento/${disa}/${red}/${microRed}`)
+        .then((data) => {
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then((err) => {
+                    throw err;
+                });
+            }
+        })
+        .then((data) => {
+            $("#slcEstablecimiento").empty();
+            $("#slcEstablecimiento").append($("<option>").append("Seleccione...").attr({ disabled: "disabled", selected: "selected" }));
+            data.map((e) => {
+                $("#slcEstablecimiento").append(
+                    $("<option>").append(`${e.Nombre_Establecimiento}`).attr({
+                        value: e.Id_Establecimiento,
+                    })
+                );
+            });
+        })
+        .catch(function (error) {
+            $("#nofound").removeAttr("style");
+            //console.log('Hubo un problema con la petición Fetch:' + error.message);
+        });
+};
+
+
+// search
+
+$("#btnBuscarPaciente").click(function() {
+	let opcionBusqueda = $('#slcOpciones option').filter(':selected').val()
+	let datos = {}
+	switch(parseInt(opcionBusqueda)){
+		case 1:
+			datos.busqueda = 1;
+			datos.opcion = $('#slcOpcionAnio option').filter(':selected').val();
+			datos.inicio = $("#inpInicioAnio").val();
+			datos.fin = $("#inpFinAnio").val();
+			buscarPaciente(datos)
+			console.log(datos)
+		break;
+		case 2:
+			datos.busqueda = 2;
+			datos.opcion = $('#slcOpcionMes option').filter(':selected').val();
+			datos.inicio = $("#inpInicioMes").val();
+			datos.fin = $("#inpFinMes").val();
+			buscarPaciente(datos)
+			console.log(datos)
+		break;
+		case 3:
+		 	datos.busqueda = 3;
+			datos.datos = $("#inpNombres").val();
+			buscarPaciente(datos)
+			console.log(datos)
+		break;
+		case 4:
+		    datos.busqueda = 4;
+			datos.datos = $("#inpDocumento").val();
+			buscarPaciente(datos)
+			console.log(datos)
+		break;
+		case 5:
+		    datos.busqueda = 5;
+			datos.establecimiento = $('#slcEstablecimiento option').filter(':selected').val()
+			buscarPaciente(datos)
+			console.log(datos)
+		break;
+		default:
+		alert("error")
+		break;
+	}
+})
+
+$(document).ready( function () {
+	//$('#dtablePaciente').DataTable();
+});
+
+var tablaPacientes = $('#dtablePaciente').DataTable();
+
+const buscarPaciente = (datos) =>{
+	// LOPP DATA OBJECT
+	let datosForm = new FormData();
+	for (const key of Object.keys(datos)) {
+	    console.log(key, datos[key]);
+	    datosForm.append(key, datos[key]);
+	}
+
+    fetch(`{{ Config::getUrl() }}/api/buscarPaciente`,{
+            method: 'POST',
+            body: datosForm
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+                //return data.json().then(Promise.reject.bind(Promise));
+            }
+    })
+    .then((data) => {
+    	tablaPacientes.destroy();
+		tablaPacientes = $('#dtablePaciente').DataTable( {
+			data: data,
+			columns: [
+				{ data: 'nomb_per'},
+				{ data: 'nro_doc' },
+				{ data: 'nro_doc' },
+				{ data: 'id_genero' },
+				{ data: 'email' },
+				{ data: 'direccion' },
+				{ data: 'Id_persona' }
+			],
+			columnDefs: [
+				{
+					"targets": 0,
+					"render": function ( data, type, row ) {
+						return  row.ape_paterno_per +' '+ row.ape_materno_per +' '+ row.nomb_per ;
+					}
+				},
+				{
+					"targets": 6,
+					"render": function ( data, type, row ) {
+						return `
+							<a href='{{ Config::getUrl() }}/adm/paciente/modificar/${row.Id_persona}' class='btn btn-success btn-sm w-100 mb-2 text-white' target="_blank">Modificar</a>
+							<a href='{{ Config::getUrl() }}/adm/paciente/eliminar/${row.Id_persona}' class='text-white btn btn-danger btn-sm w-100' target="_blank">Eliminar</a>
+						`;
+ 
+					}
+				}
+			]
+		});
+
+    })
+    .catch(function(error) {
+         
+    });
+}
+
+
+const buttonAccessUser = (id_persona) =>{
+	let button = $("<a>")
+	button.addClass("btn btn-success")
+	button.append("USUARIO A")
+	return button
+}
+
+</script>
+
+
+{% endblock %}

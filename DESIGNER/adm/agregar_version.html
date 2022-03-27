@@ -1,0 +1,270 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center">
+	<div class="col-12"></div>
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos necesarios</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				<div class="row">
+
+					<div class="col-6"> 
+						<label>Version:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpVersion" autocomplete="off"> 
+							<input type="hidden" class="form-control"  value="0" id="inpIdVersion"> 
+							<div class="invalid-feedback order-last" style="display: none;">
+					        	Formato permitido: X.XX = 1.01 
+					    	</div>
+						</div>
+					</div> 
+
+					<div class="col-6"> 
+						<label>Estado:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcEstado">
+								<option value="1">Activo</option>
+								<option value="0">Inactivo</option>
+							</select>
+						</div>
+					</div> 
+
+					<div class="col-12 mb-3">
+						<label>Archivo APK:</label>
+						<div class="custom-file" id="customFile" lang="es">
+						    <input type="file" class="custom-file-input" id="inpArchivo" aria-describedby="fileHelp">
+						    <label class="custom-file-label" for="inpArchivo" id="filePath">
+						       Seleccionar APK
+						    </label>
+						</div>
+					</div> 
+
+					<div class="col-12">
+						<label>Descripcion:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<textarea class="form-control" rows="4" id="txtDescripcion"></textarea>
+						</div>
+					</div> 
+
+				</div>
+			</div>
+		</div>
+	</div> 
+	<div class="col-12"></div>
+	<div class="col-6 mb-3">
+		<button class="btn btn-success" id="btnRegistrar">REGISTRAR</button>
+		<button class="btn btn-primary" id="btnLimpiar">LIMPIAR</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Lista de versiones</label>
+			</div>
+			<div class="card-body" id="box-reg-cond" style="position: relative;">
+				 <div id="jsgVersion"></div> 
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+let objL_Version = false;
+let objL_Extension = false;
+
+$("#inpArchivo").on('change',function(){
+  var fileName = $(this).val();
+  if ( /\.(apk)$/i.test(fileName) === false ){
+   alert("Seleccione un archivo de tipo .apk");
+   objL_Extension = false
+   return
+  }
+  objL_Extension = true
+  $(this).next('#filePath').addClass("selected").html(fileName);
+})
+
+$('input#inpVersion').on("keyup", function() {
+	if ($(this).val().match(/^(?:[1-9]\d{0,4}|0)\.(?:\d{2})$/g, '')) { 
+	    console.log("yess")
+	    $(this).removeClass("is-invalid").addClass("is-valid")
+	    $(".invalid-feedback").hide()
+	    objL_Version = true
+	} else {
+	    console.log("nooo")
+	    $(this).removeClass("is-valid").addClass("is-invalid")
+	    $(".invalid-feedback").show()
+	    objL_Version = false
+	}
+});
+ 
+$("#btnLimpiar").click(function() {
+	mtd_LimpiarBanco()
+})
+ 
+ $("#btnRegistrar").click(function(){ 
+	/*let { state, msg } = fn_Validaciones()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	} */
+ 	mtd_CrearObjeto()
+ })
+
+ const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = ""; 
+	// VALIDACIONES DATOS PERSONALES 
+	if($('#inpNombre').val().trim()==''  || !$('#inpNombre').val()){
+ 	    strL_msg += 'Ingrese un nombre<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpAbreviatura').val().trim()==''  || !$('#inpAbreviatura').val()){
+ 	    strL_msg += 'Ingrese una abreviatura<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcEstado').val().trim() ==''  || !$('#slcEstado').val()){
+ 	    strL_msg += 'Seleccione un estado<br>'
+	    blnL_Validar = true;
+	} 
+	return {state:blnL_Validar,msg:strL_msg}
+}
+
+	const mtd_LimpiarBanco = () =>{
+		$("#inpIdBanco").val("") 
+	 	$("#inpNombre").val("")
+	 	$("#slcEstado").val(1)
+	 	$("#inpAbreviatura").val("") 
+	 	$("#txtDescripcion").val("")
+	 	$("#btnRegistrar").text("REGISTRAR")
+	}
+
+ const mtd_CrearObjeto = () =>{
+ 	let objL_Data = new FormData();
+	objL_Data.append('ve_version', 		$("#inpVersion").val());
+	objL_Data.append('ve_estado', 		$("#slcEstado").val());
+	objL_Data.append('ve_archivo', 		$("#inpArchivo").val());
+	objL_Data.append('ve_observacion', 	$("#txtDescripcion").val());
+	objL_Data.append('id_version ', 	$("#inpIdVersion").val()); 
+ 	mtd_MergeBanco(objL_Data)
+ }
+
+ const mtd_MergeBanco = (objL_Data) =>{
+    fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}banco`,{
+            body: objL_Data,
+        	method: "post"
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+	    console.log(data)  
+    })
+    .catch(function(error) { 
+    	 
+       	console.log(error)  
+    });
+}
+
+$("#jsgVersion").jsGrid({ 
+	  width: "100%",
+	  height: "auto",  
+      filtering: true, 
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 10,
+      pageButtonCount: 5,
+      pagerFormat: "Pagina: {first} {prev} {pages} {next} {last}    {pageIndex} de {pageCount}",
+	  pagePrevText: "Anterior",
+	  pageNextText: "Siguiente",
+	  pageFirstText: "Primero",
+	  pageLastText: "Ultima",
+	  pageNavigatorNextText: "...",
+      pageNavigatorPrevText: "...",
+      loadMessage: "Cargando, espero por favor...",
+	  controller: {
+	    loadData: function(filter) {
+	      return $.ajax({
+	        url: `{{ Config::getUrl() }}/adm/api/version`,
+	        dataType: "json"
+	      }).then(function(requests) {
+		        return $.grep(requests, function(request) {
+		            return (!filter.ba_estado || request.ba_estado === filter.ba_estado)
+		            && (!filter.ba_nombre || request.ba_nombre.indexOf(filter.ba_nombre) > -1)
+		        });
+		   });
+	    }
+	  },
+		rowClass: function(item, itemIndex) { 
+		  	let estado = parseInt(item.ba_estado);
+	    return estado==0 ? 'table-danger' : 'table-success';
+	  },
+	  fields: [
+        {name: 've_observacion', type: "text",title: "Descripcion"},
+        {name: 've_version',type: "text", title: "Version"},
+        {name: 've_fecha',type: "text", title: "Fecha"},
+        {name: 'estado', type: "text",title: "Estado"},
+        {type: "control", editButton: false, deleteButton: false,
+            itemTemplate: function(value, item) {
+			    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+			    var $customEditButton = $("<button>").attr({
+			            class: "customGridEditbutton jsgrid-button jsgrid-edit-button"
+			        })
+			        .click(function(e) { 
+			        	$("#inpIdVersion").val(item.id_version) 
+			            $("#inpVersion").val(item.ve_version) 
+					 	$("#slcEstado").val(item.ve_estado) 
+					 	$("#txtDescripcion").val(item.ve_observacion)   
+					 	$("#btnRegistrar").text("ACTUALIZAR")
+			            e.stopPropagation();
+			        }); 
+			    return $("<div>").append($customEditButton);
+			},
+        }
+	  ]
+}); 
+
+$(".jsgrid-search-mode-button").click()
+
+</script>
+
+{% endblock %}

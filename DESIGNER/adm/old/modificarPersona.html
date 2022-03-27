@@ -1,0 +1,931 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+<form method="post">
+{% foreach($personas as $persona): %}
+<div class="row">
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos personales</label>
+			</div>
+			<div class="card-body">
+				<!-- INIT FORM -->
+				<div class="form-row">
+					<div class="col-12"> 
+						<label>Nombre:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$persona->nomb_per}}" class="form-control" name="inpNombre" id="inpNombre" required>
+							<input id="inpIdPersonaPs" type="hidden" value="{{$persona->Id_persona}}">
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Apellido Paterno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$persona->ape_paterno_per}}" class="form-control" name="inpApellidoPaterno" id="inpApellidoPaterno" required>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Apellido Materno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$persona->ape_materno_per}}" class="form-control" name="inpApellidoMaterno" id="inpApellidoMaterno" required>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Fecha de nacimiento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="date" value="{{$persona->fecha_nac}}" class="form-control" name="inpFechaNac" id="inpFechaNac" required>
+						</div>
+					</div>
+				</div>
+				<!-- END FORM -->
+			</div>
+		</div>
+	</div>
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Documentos</label>
+			</div>
+			<div class="card-body">
+				<!-- INIT FORM -->
+				<div class="form-row">
+					<div class="col-12"> 
+						<label>Tipo de documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" name="slcTipoDocumento" id="slcTipoDocumento">
+								{% foreach($tipoDocumento as $tpDoc): %}
+								<option {{$persona->Id_Tipo_Documento == $tpDoc->Id_Tipo_Documento ? "selected" : "" }} value="{{$tpDoc->Id_Tipo_Documento}}">
+									{{$tpDoc->Descripcion_Tipo_Documento}}
+								</option>
+								{% endForeach; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$persona->nro_doc}}" class="form-control" name="inpDocumento" id="inpDocumento" required>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Genero:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" name="slcGenero" id="slcGenero">
+								{% foreach($generos as $genero): %}
+								<option {{$persona->id_genero == $genero->id_genero ? "selected" : "" }} value="{{$genero->id_genero}}">
+									{{$genero->desc_genero}}
+								</option>
+								{% endForeach; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Pais:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" name="slcPais" id="slcPais">
+								{% foreach($paises as $pais): %}
+								<option {{$persona->Id_Pais == $pais->Id_Pais ? "selected" : "" }} value="{{$pais->Id_Pais}}">
+									{{$pais->Descripcion_Pais}}
+								</option>
+								{% endForeach; %}
+							</select>
+						</div>
+					</div>
+				</div>
+				<!-- END FORM -->
+			</div>
+		</div>
+	</div>
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Direccion</label>
+			</div>
+			<div class="card-body">
+				<!-- INIT FORM -->
+				<div class="form-row">
+					<div class="col-12"> 
+						<label>Ubigeo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control select2" id="slcUbigeo" name="slcUbigeo">
+								<option value="{{$persona->IdUbigeoInei}}">{{$persona->Departamento."/".$persona->Provincia."/".$persona->Distrito}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Direccion:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$persona->direccion}}" class="form-control" name="inpDireccion" id="inpDireccion" required>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Telefono:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$persona->telefono1}}" class="form-control" name="inpTelefono" id="inpTelefono" required>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Telefono:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$persona->telefono2}}" class="form-control" name="inpTelefono2" id="inpTelefono2" required>
+						</div>
+					</div>
+				</div>
+				<!-- END FORM -->
+			</div>
+		</div>
+	</div>
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<label> Otros</label>
+			</div>
+			<div class="card-body">
+				<!-- INIT FORM -->
+				<div class="form-row">
+					<div class="col-12"> 
+						<label>Seguro:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" name="slcFinaciador" id="slcFinaciador">
+								{% foreach($financiadores as $financiador): %}
+								<option {{$persona->Id_Financiador == $financiador->Id_Financiador ? "selected" : "" }} value="{{$financiador->Id_Financiador}}">
+									{{$financiador->Descripcion_Financiador}}
+								</option>
+								{% endForeach; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Etnia:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control select2" id="slcEtnia" name="slcEtnia">
+								<option value="{{$persona->Id_Etnia}}">{{$persona->Descripcion_Etnia}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12"> 
+						<label>Email:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$persona->email}}" class="form-control" name="inpEmail" id="inpEmail" required>
+						</div>
+					</div>
+				</div>
+				<!-- END FORM -->
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header" data-toggle="collapse" href="#test-block" aria-expanded="true" aria-controls="test-block">
+				<div class="d-flex bd-highlight">
+				  <div class="flex-grow-1 bd-highlight">
+					<label> 
+						Mapa - GPS
+					</label>
+				  </div>
+				  <div class="bd-highlight">
+				  	 	Longitud : <strong id="longitudus">{{$persona->longitud}}</strong>
+				  	 	Latitud : <strong id="latitudus">{{$persona->latitud}}</strong>
+				  </div>
+				</div>
+			</div>
+			<div class="card-body collapse" id="test-block">
+				 <div style="height: 700px;">
+				 	<div id="map"></div>
+				 </div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> 
+					Modificar persona
+				</label>
+			</div>
+			<div class="card-body">
+				 <div class="row">
+					<div class="col-4">
+						<button type="submit" class="btn btn-primary" name="btnModificarPersona" id="btnModificarPersona">
+							<i class="far fa-plus-square"></i> 
+							Modificar
+						</button>
+					</div>
+					<div class="col-12 mt-2" id="box-success" style="display: none;">
+						<div class="alert alert-success">
+							<strong>Exito!</strong> Se ha modificado correctamente!
+						</div>
+					</div>
+					<div class="col-12 mt-2" id="box-fail" style="display: none;">
+						<div class="alert alert-danger">
+							<strong>Error!</strong> Hubo un problema!
+						</div>
+					</div>
+				 </div>
+			</div>
+		</div>
+	</div>
+
+{% endForeach; %}
+
+
+{% foreach($pacientes as $paciente): %}
+	<div class="col-12" id="boxPaciente">
+		<div class="card">
+			<div class="card-header">
+				Desea establecer el establecimiento a la persona : <strong id="personaFullName"></strong>
+				<input type="hidden" id="idPersonaRegi"  value="{{$paciente->Id_persona}}">
+			</div>
+			<div class="card-body">
+
+				<div class="form-row">
+					<div class="col-3"> 
+						<label>Disa:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcDisa">
+								{% print_r($disas) %}
+								{% foreach($disas as $disa): %}
+									<option {{$disa->codigo_disa == $paciente->Codigo_Disa ? "selected" : "" }} value="{{$disa->codigo_disa}}">
+										{{$disa->disa}}
+									</option>
+								{% endForeach; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-3"> 
+						<label>Red:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcRed" name="slcRed">
+								{% if(count($pacientes)>0): %}
+									<option value="{{$paciente->Codigo_Red}}">{{$paciente->Red}}</option>
+								{% endif; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-3"> 
+						<label>Microred:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcMicroRed" name="inpMricroRed">
+								{% if(count($pacientes)>0): %}
+									<option value="{{$paciente->Codigo_MicroRed}}">{{$paciente->MicroRed}}</option>
+								{% endif; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-3"> 
+						<label>Establecimiento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcEstablecimiento">
+								{% if(count($pacientes)>0): %}
+									<option value="{{$paciente->Id_Establecimiento}}">{{$paciente->Nombre_Establecimiento}}</option>
+								{% endif; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-3"> 
+						<label>HC:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" value="{{$paciente->id_pacHis}}" class="form-control" name="inpHC" id="inpHC" required>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="col-4">
+						{% if(count($pacientes)<=0): %}
+						<button type="submit" class="btn btn-success" name="btnRegistrarPaciente" id="btnRegistrarPaciente">
+							<i class="far fa-plus-square"></i> 
+							Establecer establecimeinto
+						</button>
+						{%else:%}
+						<button type="submit" class="btn btn-success" name="btnModificarPaciente" id="btnModificarPaciente">
+							<i class="far fa-plus-square"></i> 
+							Modificar establecimeinto
+						</button>
+						<input type="hidden" id="idPacienteReg" value="{{$paciente->id_paciente}}">
+						{% endif; %}
+					</div>
+					<div class="col-12 mt-2" id="box-success-pac" style="display: none;">
+						<div class="alert alert-success">
+							<strong>Exito!</strong> Operacion correcta!
+						</div>
+					</div>
+					<div class="col-12 mt-2" id="box-fail-pac" style="display: none;">
+						<div class="alert alert-danger">
+							<strong>Error!</strong> Hubo un problema!
+						</div>
+					</div>
+				</div>
+				   
+			</div>
+		</div>
+	</div>
+{% endForeach; %}
+
+{%if(count($pacientes)<=0):%}
+<div class="col-12" id="boxPaciente">
+		<div class="card">
+			<div class="card-header">
+				Desea establecer el establecimiento a la persona : <strong id="personaFullName"></strong>
+				<input type="hidden" id="idPersonaRegi" value="{{$persona->Id_persona}}">
+			</div>
+			<div class="card-body">
+
+				<div class="form-row">
+					<div class="col-3"> 
+						<label>Disa:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcDisa">
+								{% foreach($disas as $disa): %}
+									<option value="{{$disa->codigo_disa}}">
+										{{$disa->disa}}
+									</option>
+								{% endForeach; %}
+							</select>
+						</div>
+					</div>
+					<div class="col-3"> 
+						<label>Red:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcRed" name="slcRed">
+							
+							</select>
+						</div>
+					</div>
+					<div class="col-3"> 
+						<label>Microred:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcMicroRed" name="inpMricroRed">
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-3"> 
+						<label>Establecimiento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcEstablecimiento">
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-3"> 
+						<label>HC:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">
+									<i class="fas fa-file-signature"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" name="inpHC" id="inpHC" required>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="col-4">
+						<button type="submit" class="btn btn-success" name="btnRegistrarPaciente" id="btnRegistrarPaciente">
+							<i class="far fa-plus-square"></i> 
+							Establecer establecimeinto
+						</button>
+					</div>
+					<div class="col-12 mt-2" id="box-success-pac" style="display: none;">
+						<div class="alert alert-success">
+							<strong>Exito!</strong> Operacion correcta!
+						</div>
+					</div>
+					<div class="col-12 mt-2" id="box-fail-pac" style="display: none;">
+						<div class="alert alert-danger">
+							<strong>Error!</strong> Hubo un problema!
+						</div>
+					</div>
+				</div>
+				   
+			</div>
+		</div>
+	</div>
+{%endif;%}
+
+</div>
+
+</form>
+
+{% endblock %}
+
+{% block maps %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3ZUwudWnj_87jfmz7tgfFQVk3-cv6QDk&callback=initMap&libraries=&v=weekly" defer></script>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+
+
+$("#btnModificarPaciente").click(function(e){
+	e.preventDefault();
+	let paciente = {}
+	paciente.persona = $("#idPersonaRegi").val()
+	paciente.paciente = $("#idPacienteReg").val()
+	paciente.disa = $("#slcDisa").val()
+	paciente.microred = $("#slcMicroRed").val()
+	paciente.establecimeinto = $("#slcEstablecimiento").val()
+	paciente.historiaClinica = $("#inpHC").val()
+	console.log(paciente);
+	modificarPaciente(paciente);
+})
+
+
+const modificarPaciente = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/api/modificar/paciente`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	 console.log(data)
+    	 $("#box-success-pac").show('slow')
+    })
+    .catch(function(error) {  
+    	console.log(error)
+    	$("#box-fail-pac").show('slow')
+    });
+}
+
+
+$("#btnRegistrarPaciente").click(function(e){
+	e.preventDefault();
+	let paciente = {}
+	paciente.persona = $("#idPersonaRegi").val()
+	paciente.disa = $("#slcDisa").val()
+	paciente.microred = $("#slcMicroRed").val()
+	paciente.establecimeinto = $("#slcEstablecimiento").val()
+	paciente.historiaClinica = $("#inpHC").val()
+	console.log(paciente);
+	registrarPaciente(paciente);
+})
+
+const registrarPaciente = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/api/agregar/paciente`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	 console.log(data)
+    	 $("#box-success-pac").show('slow')
+    })
+    .catch(function(error) { 
+    	$("#box-fail-pac").show('slow')
+    	console.log(error)
+    });
+}
+
+$("#btnModificarPersona").click(function(e){
+	e.preventDefault();
+	let persona = {}
+	persona.persona = $("#inpIdPersonaPs").val()
+	persona.nombre = $("#inpNombre").val()
+	persona.apellidoPaterno = $("#inpApellidoPaterno").val()
+	persona.apellidoMaterno = $("#inpApellidoMaterno").val()
+	persona.fechaNacimiento = $("#inpFechaNac").val()
+	persona.tipoDocumento = $("#slcTipoDocumento").val()
+	persona.documento = $("#inpDocumento").val()
+	persona.genero = $("#slcGenero").val()
+	persona.pais = $("#slcPais").val()
+	persona.ubigeo = $("#slcUbigeo").val()
+	persona.direccion = $("#inpDireccion").val()
+	persona.telefono = $("#inpTelefono").val()
+	persona.telefono2 = $("#inpTelefono2").val()
+	persona.financiador = $("#slcFinaciador").val()
+	persona.etnia = $("#slcEtnia").val()
+	persona.email = $("#inpEmail").val()
+	persona.longitude = $("#latitudus").text()
+	persona.latitude = $("#longitudus").text()
+	console.log(persona);
+	modificarPersona(persona);
+})
+
+const modificarPersona = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/api/modificar/persona`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	 console.log(data)
+    	 $("#boxPaciente").show('slow')
+    	 $("#box-success").show('slow')
+    	 $("#personaFullName").text(`${datos.nombre} ${datos.apellidoPaterno} ${datos.apellidoMaterno}`)
+    	 $("#idPersonaRegi").val(data.id)
+    })
+    .catch(function(error) { 
+    	$("#box-fail").show('slow')
+    	console.log(error)
+    });
+}
+
+
+let map, infoWindow;
+function initMap() {
+  let latt = '{{$persona->latitud}}'
+  let lngg = '{{$persona->longitud}}'
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: {
+     lat: parseFloat(latt), 
+     lng: parseFloat(lngg)
+ 	},
+    zoom: 17,
+  });
+  infoWindow = new google.maps.InfoWindow();
+  const locationButton = document.createElement("button");
+  locationButton.textContent = "Mi ubicacion";
+  locationButton.classList.add("custom-map-control-button");
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  locationButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          $("#latitudus").text(pos.lat)
+          $("#longitudus").text(pos.lng)
+
+          infoWindow.setPosition(pos);
+          infoWindow.setContent("Aqui.");
+          infoWindow.open(map);
+          map.setCenter(pos);
+          const marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+          });
+
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter());
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+  });
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation."
+  );
+  infoWindow.open(map);
+}
+
+
+$("#slcUbigeo").select2({
+	theme:"bootstrap4"
+});
+
+$('#slcEtnia').select2({
+	  theme:'bootstrap4',
+	  ajax: {
+	    url: function (params) {
+	      return `{{ Config::getUrl() }}/api/etnia/${params.term}`;
+	    },
+	    dataType: 'json',
+	    processResults: function (data) {
+		  return {
+		    results: $.map(data, function(obj) {
+		      return { id: obj.Id_Etnia, text: obj.Descripcion_Etnia };
+		    })
+		  };
+		}
+	    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+	  }
+});
+
+$('#slcUbigeo').select2({
+	  theme:'bootstrap4',
+	  ajax: {
+	    url: function (params) {
+	      return `{{ Config::getUrl() }}/api/ubigeo/${params.term}`;
+	    },
+	    dataType: 'json',
+	    processResults: function (data) {
+		  return {
+		    results: $.map(data, function(obj) {
+		      return { 
+		      	id: obj.IdUbigeoInei, 
+		      	text: `${obj.Departamento} / ${obj.Provincia} / ${obj.Distrito}`
+		      };
+		    })
+		  };
+		}
+	    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+	  }
+});
+
+
+/*$(document).ready(function(){
+	let disa = $("#slcDisa").val()
+	if(parseInt(disa)>0){
+		buscarRed(disa)
+	}
+})*/
+
+$("#slcDisa").change(function(){
+	let disa = $(this).val()
+	$("#slcEstablecimiento").empty();
+	buscarRed(disa)
+})
+
+const buscarRed = (disa) => {
+    fetch(`{{ Config::getUrl() }}/api/red/${disa}`)
+        .then((data) => {
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then((err) => {
+                    throw err;
+                });
+            }
+        })
+        .then((data) => {
+            $("#slcRed").empty();
+            $("#slcMicroRed").empty();
+            $("#slcEstablecimiento").empty();
+            $("#slcRed").append($("<option>").append("Seleccione...").attr({ disabled: "disabled", selected: "selected" }));
+            data.map((e) => {
+                $("#slcRed").append(
+                    $("<option>").append(`${e.red}`).attr({
+                        value: e.Codigo_Red,
+                    })
+                );
+            });
+        })
+        .catch(function (error) {
+            $("#nofound").removeAttr("style");
+            //console.log('Hubo un problema con la petición Fetch:' + error.message);
+        });
+};
+
+$("#slcRed").change(function(){
+	let disa = $("#slcDisa").val()
+	let red = $(this).val()
+	$("#slcEstablecimiento").empty();
+	buscarMicroRed(disa,red)
+})
+
+const buscarMicroRed = (disa, red) => {
+    fetch(`{{ Config::getUrl() }}/api/microred/${disa}/${red}`)
+        .then((data) => {
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then((err) => {
+                    throw err;
+                });
+            }
+        })
+        .then((data) => {
+            $("#slcMicroRed").empty();
+            $("#slcMicroRed").append($("<option>").append("Seleccione...").attr({ disabled: "disabled", selected: "selected" }));
+            data.map((e) => {
+                $("#slcMicroRed").append(
+                    $("<option>").append(`${e.microred}`).attr({
+                        value: e.codigo_microred,
+                    })
+                );
+            });
+        })
+        .catch(function (error) {
+            $("#nofound").removeAttr("style");
+            //console.log('Hubo un problema con la petición Fetch:' + error.message);
+        });
+};
+
+ 
+$("#slcMicroRed").change(function(){
+	let microRed = $(this).val()
+	let red = $("#slcRed").val()
+	let disa = $("#slcDisa").val()
+	buscarEstablecimiento(disa,red, microRed)
+})
+
+const buscarEstablecimiento = (disa,red,microRed) => {
+    fetch(`{{ Config::getUrl() }}/api/establecimiento/${disa}/${red}/${microRed}`)
+        .then((data) => {
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then((err) => {
+                    throw err;
+                });
+            }
+        })
+        .then((data) => {
+            $("#slcEstablecimiento").empty();
+            $("#slcEstablecimiento").append($("<option>").append("Seleccione...").attr({ disabled: "disabled", selected: "selected" }));
+            data.map((e) => {
+                $("#slcEstablecimiento").append(
+                    $("<option>").append(`${e.Nombre_Establecimiento}`).attr({
+                        value: e.Id_Establecimiento,
+                    })
+                );
+            });
+        })
+        .catch(function (error) {
+            $("#nofound").removeAttr("style");
+            //console.log('Hubo un problema con la petición Fetch:' + error.message);
+        });
+};
+
+
+</script>
+{% endblock %}
+<style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+    
+
+      .custom-map-control-button {
+        appearance: button;
+        background-color: #fff;
+        border: 0;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        margin: 10px;
+        padding: 0 0.5em;
+        height: 40px;
+        font: 400 18px Roboto, Arial, sans-serif;
+        overflow: hidden;
+      }
+      .custom-map-control-button:hover {
+        background: #ebebeb;
+      }
+    </style>

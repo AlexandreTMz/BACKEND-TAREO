@@ -1,0 +1,952 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<label> Datos personales</label>
+			</div>
+			<div class="card-body" style="position: relative;">
+				<div class="row">
+					<div class="col-3"> 
+						<label>Nombres:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNombres" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Apellido paterno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpApellidoPa" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Apellido materno:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-address-card"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpApellidoMa" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Sexo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-venus-mars"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcSexo">
+								<option selected disabled>Seleccione!</option>
+								<option value="2">M - MASCULINO</option>
+								<option value="1">F - FEMENINO</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Nacionalidad:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-globe-americas"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcNacionalidad">
+								<option selected disabled>Seleccione!</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Tipo de documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" >
+									<i class="fas fa-passport"></i>
+								</span>
+							</div>
+							<select class="form-control" id="slcTipoDocumento">
+								<option selected disabled>Seleccione!</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Numero documento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-sort-numeric-up"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpNumeroDocumento" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Fecha de nacimiento:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-calendar-alt"></i>
+								</span>
+							</div>
+							<input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="inpFechaNacimiento" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Direccion:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-map-marked-alt"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpDireccion" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Celular:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-phone-square-alt"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCelular" required>
+							
+						</div>
+					</div>
+
+					<div class="col-3"> 
+						<label>Correo:</label>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<i class="fas fa-envelope-square"></i>
+								</span>
+							</div>
+							<input type="text" class="form-control" id="inpCorreo" required>
+							
+						</div>
+					</div> 
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body reg-datos-sueldo" style="position: relative;">
+				<ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="tb-laborales" data-toggle="pill" href="#tb-laboralesc" role="tab" aria-controls="tb-laboralesc" aria-selected="true">DATOS LABORALES</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="tb-formaspago" data-toggle="pill" href="#tb-formaspagoc" role="tab" aria-controls="tb-formaspagoc" aria-selected="false">FORMAS DE PAGO</a>
+					</li>
+				</ul>
+				<div class="tab-content" id="custom-content-below-tabContent">
+					<div class="tab-pane fade show active" id="tb-laboralesc" role="tabpanel" aria-labelledby="tb-laborales">
+
+						<div class="row">
+
+							<div class="col-3"> 
+								<label>Cargo:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-clinic-medical"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcCargo">
+										<option selected disabled>Seleccione!</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-3"> 
+								<label>Sede:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" >
+											<i class="fas fa-clinic-medical"></i>
+										</span>
+									</div>
+									<select class="form-control" id="slcSede">
+										<option selected disabled>Seleccione!</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-3"> 
+								<label>Fecha de ingreso:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-calendar-alt"></i>
+										</span>
+									</div>
+									<input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="inpFechaIngreso" required> 
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<h2>Sueldo</h2>
+								<hr>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3"> 
+								<label>Fecha de vigencia</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-calendar-alt"></i>
+										</span>
+									</div>
+									<input type="date" class="form-control" id="inpFechaVI" required> 
+								</div>
+							</div>
+							<div class="col-3"> 
+								<label>Final de vigencia:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-calendar-alt"></i>
+										</span>
+									</div>
+									<input type="date" class="form-control" id="inpFechaVF" required> 
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+
+							<div class="col-3"> 
+								<label>Sueldo basico:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo bruta" id="inpSueldoBasico" required> 
+								</div>
+							</div>
+
+							<div class="col-3"> 
+								<label>Asignacion familiar:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo bruta" id="inpAsignacionFamiliar" required> 
+								</div>
+							</div>
+
+							<div class="col-3"> 
+								<label>Bonificacion:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo" id="inpBonificacion" required> 
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<div class="col-3"> 
+								<label>Movilidad:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo" id="inpMovilidad" required> 
+								</div>
+							</div>
+
+							<div class="col-3"> 
+								<label>Alimentos:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control sueldo" id="inpAlimentos" required> 
+								</div>
+							</div>
+
+							<div class="col-12"></div>
+							<div class="col-3"> 
+								<label>Sueldo total:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-poll"></i>
+										</span>
+									</div>
+									<input type="number" value="0" class="form-control" id="inpSueldoTotal" readonly> 
+								</div>
+							</div>
+
+						</div> 
+
+						<div class="row"> 
+							<div class="col-3"> 
+								<label>Descanso:</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-address-card"></i>
+										</span>
+									</div>
+									<input type="hidden"  class="form-control" id="inpDescanso" value="12/12/2022" required>
+									<select id="slcDescanso" class="form-control">
+										<option value="Lunes">Lunes</option>
+										<option value="Martes">Martes</option>
+										<option value="Miercoles">Miercoles</option>
+										<option value="Jueves">Jueves</option>
+										<option value="Viernes">Viernes</option>
+										<option value="Sabado">Sabado</option>
+										<option value="Domingo">Domingo</option>
+									</select>
+								</div>
+							</div> 
+							<div class="col-3 d-flex justify-content-center flex-column" style="display:none !important;">
+								<label>Descanso:</label>
+								<span>
+									Dia de descanso: <strong id="diaDescanso"></strong>
+								</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="tb-formaspagoc" role="tabpanel" aria-labelledby="tb-formaspago">
+	                    
+	                    <div class="custom-control custom-switch custom-switch-on-success mt-3">
+	                      <input type="checkbox" class="custom-control-input" id="chbTitular" checked>
+	                      <label class="custom-control-label" for="chbTitular">¿Es titular?</label>
+	                    </div>
+	                    <div>
+	                    	<hr>
+	                    </div>
+	                    <div id="isTitular">
+	                    	<div class="row">
+	                    		<div class="col-3"> 
+	                    			<label>Banco:</label>
+	                    			<div class="input-group mb-3">
+	                    				<div class="input-group-prepend">
+	                    					<span class="input-group-text" >
+	                    						<i class="fas fa-university"></i>
+	                    					</span>
+	                    				</div>
+	                    				<select class="form-control" id="slcBanco">
+	                    					<option selected disabled>Seleccione!</option>
+	                    				</select>
+	                    			</div>
+	                    		</div> 
+	                    		<div class="col-3"> 
+	                    			<label>Tipo de cuenta:</label>
+	                    			<div class="input-group mb-3">
+	                    				<div class="input-group-prepend">
+	                    					<span class="input-group-text" >
+	                    						<i class="fas fa-university"></i>
+	                    					</span>
+	                    				</div>
+	                    				<select class="form-control" id="slcTipoCuenta">
+	                    					<option selected disabled>Seleccione!</option>
+	                    				</select>
+	                    			</div>
+	                    		</div> 
+	                    	</div>
+
+	                    	<div class="row">
+	                    		<div class="col-6"> 
+	                    			<label>Numero:</label>
+	                    			<div class="input-group mb-3">
+	                    				<div class="input-group-prepend">
+	                    					<span class="input-group-text">
+	                    						<i class="fab fa-cc-visa"></i>
+	                    					</span>
+	                    				</div>
+	                    				<input type="text" class="form-control" id="inpNumeroCuenta"> 
+	                    			</div>
+	                    		</div>  
+	                    	</div>
+
+	                    	<div class="row">
+	                    		<div class="col-6"> 
+	                    			<label>CCI:</label>
+	                    			<div class="input-group mb-3">
+	                    				<div class="input-group-prepend">
+	                    					<span class="input-group-text">
+	                    						<i class="fab fa-cc-visa"></i>
+	                    					</span>
+	                    				</div>
+	                    				<input type="text" class="form-control" id="inpCci"> 
+	                    			</div>
+	                    		</div>  
+	                    	</div>
+
+	                    </div>
+
+	                    <div id="notTitular" style="display:none;">
+	                    	<div class="row">
+	                    		<div class="col-12 col-md-12 col-lg-6"> 
+	                    			<label>Documento:</label>
+	                    			<div class="input-group mb-3">
+	                    				<input type="text" class="form-control" id="inpDocumentoSer"> 
+	                    				<div class="input-group-prepend">
+	                    					<button type="button" class="btn btn-primary" id="btnBuscarPersona">Buscar</button>
+	                    				</div>
+	                    				<div class="input-group-append">
+	                    					<button type="button" class="btn btn-success" id="btnAgregarSuplente">Agregar Persona</button>
+	                    				</div>
+	                    			</div>
+	                    		</div>
+	                    		<div class="col-12"></div>
+	                    		<div class="col-8">
+	                    			<ul style="list-style: none;" class="p-0 m-0" id="ulSuplentes">
+	                    				 
+	                    			</ul>
+	                    		</div> 
+	                    	</div>
+	                    </div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12 mb-3">
+		<button class="btn btn-success" id="btnRegistrar">REGISTRAR</button>
+	</div>
+
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+	
+let objL_Suplente = []
+
+$("#chbTitular").change(function(){
+	  if ($(this).is(':checked')){
+	  		$("#isTitular").show()
+	  		$("#notTitular").hide()
+	  }else{
+	  		$("#isTitular").hide()
+	  		$("#notTitular").show()
+	  }
+});
+
+$(".sueldo").on("input",function() {
+      var total=0;
+      $(".sueldo").each(function(){
+          if(!isNaN(parseInt($(this).val())))
+          {
+            total+=parseInt($(this).val());  
+          }
+      });
+      $("#inpSueldoTotal").val(total); 
+});
+
+$("#btnAgregarSuplente").click(function(){
+	window.open(`{{ Config::getUrl() }}/adm/persona`, '_blank');
+}) 
+
+// FUNCTIONS
+const mtd_TraerNombreDelDia = () => {
+	let dates = new Date($('#inpDescanso').val());
+	let diasSemana = new Array(7);
+	diasSemana[0] = "Lunes";
+	diasSemana[1] = "Martes";
+	diasSemana[2] = "Miercoles";
+	diasSemana[3] = "Jueves";
+	diasSemana[4] = "Viernes";
+	diasSemana[5] = "Sabado";
+	diasSemana[6] = "Domingo";
+	let nombreDia = diasSemana[dates.getDay()]; 
+	console.log(nombreDia, dates.getDay())
+	$('#diaDescanso').text(nombreDia)
+}
+
+$('#inpDescanso').on("change keyup paste", function() {
+   console.log(moment($('#inpDescanso').val()).format('MM/DD/YYYY'))
+   mtd_TraerNombreDelDia()
+});
+ 
+
+// BUSCAR PERSONA 
+
+$('#btnBuscarPersona').click(function() {
+   console.log($('#inpDocumentoSer').val())
+   mtd_BuscarPersona($('#inpDocumentoSer').val())
+}); 
+
+const mtd_CrearListaPersonas = (data) =>{
+	let objL_Padre = $("#ulSuplentes")
+	objL_Padre.empty()
+	data.forEach((e)=>{
+		let objL_Limaster = $("<li>")
+		objL_Limaster.append(
+			$("<div>").addClass("box d-flex align-items-center").append(
+				$("<img>").addClass("img-circle elevation-2 mr-3").attr({
+					"width":50,
+					"height":50,
+					"src":"{% Config::getAsset(); %}admlite/dist/img/user2-160x160.jpg"
+				}),
+				$("<div>").addClass("d-flex flex-column flex-grow-1").append(
+					$("<span>").append(e.datos),
+					$("<strong>").append(e.ba_abreviatura),
+					$("<strong>").append(e.phb_cuenta),
+				),
+				$("<div>").addClass("d-flex justify-content-end flex-grow-1").append(
+					fn_CrearBottonSustituto(e)
+				),
+			)
+		)
+		objL_Padre.append(objL_Limaster)
+	})
+}
+
+const fn_CrearBottonSustituto = (data) =>{
+	let objL_Master = $("<button>")
+	objL_Master.append(
+		"Seleccionar"
+	).addClass("btn btn-success btn-sm").click(function(event){
+		objL_Suplente[0] = {}
+		objL_Suplente.documento = data.per_documento
+		$("#inpDocumentoSer").val(data.per_documento)
+		$(this).closest('div').closest('div').closest('li').closest('ul').find('li').not($(this).closest('div').closest('div').closest('li')).remove();
+		$(this).closest('div').closest('div').closest('li').addClass("border-red")
+		Swal.fire(
+			'Mensaje del sistema!',
+			'Persona seleccionada',
+			'success'
+		)  
+		//console.log($(event.target).parents())
+	})
+	return objL_Master
+} 
+// REGISTRO DE PERSONA
+
+$("#btnRegistrar").click(function() {
+	mtd_CrearPersonaJson()
+})
+
+const mtd_CrearPersonaJson = () =>{
+	let { state, msg } = fn_Validaciones()
+	if(state){
+		Swal.fire({
+		  title: 'Complete la siguiente informacion!',
+		  html: `<div style='text-align: left;'>${msg}</div>`,
+		  icon: 'error',
+		  confirmButtonText: 'Aceptar'
+		})
+		return
+	}
+	let objL_Persona = {}
+	objL_Persona.nombres = $("#inpNombres").val()
+	objL_Persona.apellido_paterno = $("#inpApellidoPa").val()
+	objL_Persona.apellido_materno = $("#inpApellidoMa").val()
+	objL_Persona.sexo = $("#slcSexo").val()
+	objL_Persona.nacionalidad = $("#slcNacionalidad").val()
+	objL_Persona.tipo_documento = $("#slcTipoDocumento").val()
+	objL_Persona.documento = $("#inpNumeroDocumento").val()
+	objL_Persona.fecha_nacimiento = $("#inpFechaNacimiento").val()
+	objL_Persona.direccion = $("#inpDireccion").val()
+	objL_Persona.celular = $("#inpCelular").val()
+	objL_Persona.correo = $("#inpCorreo").val() 
+	objL_Persona.titular = $("#chbTitular").is(':checked') ? 1 : 0
+	objL_Persona.estado = 1
+	objL_Persona.fecha_ingreso = $("#inpFechaIngreso").val()
+	objL_Persona.usuario = 1
+	
+	objL_Persona.empleado = []
+	objL_Persona.empleado[0] = {}
+	objL_Persona.empleado[0].cargo = $("#slcCargo").val()
+	objL_Persona.empleado[0].sede = $("#slcSede").val() 
+	objL_Persona.empleado[0].fecha_ingreso = $("#inpFechaIngreso").val()
+	objL_Persona.empleado[0].sueldo_basico = $("#inpSueldoBasico").val() 
+	objL_Persona.empleado[0].asignacion_familiar = $("#inpAsignacionFamiliar").val() 
+	objL_Persona.empleado[0].bonificacion = $("#inpBonificacion").val() 
+	objL_Persona.empleado[0].movilidad = $("#inpMovilidad").val() 
+	objL_Persona.empleado[0].alimentos = $("#inpAlimentos").val()
+	objL_Persona.empleado[0].sueldo_total = $("#inpSueldoTotal").val()
+	objL_Persona.empleado[0].descanso = '2022-12-12' //$("#inpDescanso").val()
+	objL_Persona.empleado[0].descansoReferencia = $("#slcDescanso").val()
+	objL_Persona.empleado[0].costo_dia = 0
+
+	objL_Persona.empleado[0].ta_vigenciaInicio = $("#inpFechaVI").val()
+	objL_Persona.empleado[0].ta_vigenciaFin = !moment($('#inpFechaVF').val()).isValid() ? '2022-12-30' : $('#inpFechaVF').val();
+
+	objL_Persona.pago = []
+	if($("#chbTitular").is(':checked')){ 
+		objL_Persona.pago[0] = {}
+		objL_Persona.pago[0].tipo = $("#chbTitular").is(':checked') ? 1 : 0  // 1 titutal 0 no titular
+		objL_Persona.pago[0].banco = $("#slcBanco").val() 
+		objL_Persona.pago[0].tipo_cuenta = $("#slcTipoCuenta").val() 
+		objL_Persona.pago[0].cuenta = $("#inpNumeroCuenta").val()
+		objL_Persona.pago[0].cci = $("#inpCci").val() 
+	}else{
+		objL_Persona.pago[0] = {}
+		objL_Persona.pago[0].tipo = $("#chbTitular").is(':checked') ? 1 : 0  // 1 titutal 0 no titular
+		objL_Persona.pago[0].documento = $("#inpDocumentoSer").val() 
+		objL_Persona.pago[0].tipo_cuenta = $("#slcTipoCuenta").val() 
+		objL_Persona.pago[0].cuenta = $("#inpNumeroCuenta").val()
+	}   
+	console.log(objL_Persona)
+	mtd_RegistrarEmpleado(objL_Persona)
+}
+
+
+const fn_Validaciones = () =>{
+	let blnL_Validar = false;
+	let strL_msg = "";
+
+	// VALIDACIONES DATOS PERSONALES 
+	if($('#inpNombres').val()==''  || !$('#inpNombres').val()){
+ 	    strL_msg += 'Ingrese un nombre<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpApellidoPa').val()==''  || !$('#inpApellidoPa').val()){
+ 	    strL_msg += 'Ingrese un apellido paterno<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpApellidoMa').val()==''  || !$('#inpApellidoMa').val()){
+ 	    strL_msg += 'Ingrese un apellido materno<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcSexo').val()=='Seleccione!' || !$('#slcSexo').val()){
+ 	    strL_msg += 'Seleccione el sexo<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcNacionalidad').val()=='Seleccione!'  || !$('#slcNacionalidad').val()){
+ 	    strL_msg += 'Seleccione una nacionalidad<br>'
+	    blnL_Validar = true;
+	}
+	if($('#slcTipoDocumento').val()=='Seleccione!' || !$('#slcTipoDocumento').val()){
+ 	    strL_msg += 'Seleccione un tipo de documento<br>'
+	    blnL_Validar = true;
+	}
+	if($('#inpNumeroDocumento').val()==''  || !$('#inpNumeroDocumento').val()){
+ 	    strL_msg += 'Ingrese el numero de documento<br>'
+	    blnL_Validar = true;
+	}
+	 
+
+ 	// DATOS LABORALES
+	if($('#slcCargo').val()=='Seleccione!' || !$('#slcCargo').val()){
+ 	   strL_msg += 'Seleccione un cargo<br>'
+	   blnL_Validar = true;
+	}
+	if($('#slcSede').val()=='Seleccione!' || !$('#slcSede').val()){
+ 	    strL_msg += 'Seleccione la sede<br>'
+	    blnL_Validar = true;
+	}
+
+	if(!moment($('#inpFechaVI').val()).isValid()){
+ 	    strL_msg += 'La fecha de vigencia de inicio es incorrecto!<br>'
+	    blnL_Validar = true;
+	}
+
+	/*if(!moment($('#inpFechaVF').val()).isValid()){
+ 	    strL_msg += 'La fecha de vigencia de fin es incorrecto!<br>'
+	    blnL_Validar = true;
+	}*/
+
+	if(!moment($('#inpFechaIngreso').val()).isValid()){
+ 	    strL_msg += 'La fecha de ingreso es incorrecto!<br>'
+	    blnL_Validar = true;
+	}else{
+		let objL_fechaUsuario = moment($('#inpFechaIngreso').val(), "YYYY-MM-DD");
+		let objL_fechaServidor = moment().startOf('day'); 
+		if(moment.duration(objL_fechaUsuario.diff(objL_fechaServidor)).asDays() > 0){
+			strL_msg += 'La fecha de ingreso tiene que ser menor o igual a la fecha actual!<br>'
+	    	blnL_Validar = true;
+		}
+	}
+	if($('#inpSueldoBasico').val()==''  || !$('#inpSueldoBasico').val()){
+ 	    strL_msg += 'Ingrese el sueldo basico<br>'
+	    blnL_Validar = true;
+	}
+	if(!moment($('#inpDescanso').val()).isValid()){
+ 	    strL_msg += 'La fecha de descanso es incorrecto!<br>'
+	    blnL_Validar = true;
+	}  
+	// VALIDACIONES DE PAGO
+	if($("#chbTitular").is(':checked')){ 
+		if($('#slcBanco').val()=='Seleccione!' || !$('#slcBanco').val()){
+ 		    strL_msg += "Seleccione un banco<br>"
+		    blnL_Validar = true;
+		}  
+		if($('#slcTipoCuenta').val()=='Seleccione!' || !$('#slcTipoCuenta').val()){
+ 		    strL_msg += "Seleccione un tipo de cuenta<br>"
+		    blnL_Validar = true;
+		}
+		if($('#inpNumeroCuenta').val()=='' && $('#inpCci').val()==''){
+ 		    strL_msg += "Ingrese un numero de cuenta o un CCI<br>"
+		    blnL_Validar = true;
+		}
+	}else{ 
+		if($('#inpDocumentoSer').val()=='' || $('#inpDocumentoSer').val().length <= 4){
+ 		   strL_msg += "Ingrese un documento<br>"
+		   blnL_Validar = true;
+		} 
+		if(objL_Suplente.length == 0){
+  			strL_msg += "Seleccione un suplente<br>"
+		   blnL_Validar = true;
+		}
+	} 
+	return {state:blnL_Validar,msg:strL_msg}
+}
+
+// SEND API CREATE EMPLOYED
+
+const mtd_RegistrarEmpleado = (datos) =>{
+    fetch(`{{ Config::getUrl() }}/adm/api/registro/empleado`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+         console.log(data)
+         Swal.fire(
+			  'Mensaje del sistema!',
+			  	data.msg,
+			  'success'
+			)  
+         mtd_ClearInputs()
+    })
+    .catch(function(error) {
+    		Swal.fire("Error!", error.msg, "error");
+       	console.log(error)  
+    });
+}
+
+const mtd_ClearInputs = () =>{
+	$('.card-body').find('input:text').val('');
+	$('#slcBanco option')[0].selected = true;
+	$('#slcTipoCuenta option')[0].selected = true;
+	$('#slcSexo option')[0].selected = true;
+	$('#slcNacionalidad option')[0].selected = true;
+	$('#slcTipoDocumento option')[0].selected = true;
+	$('#slcCargo option')[0].selected = true;
+	$('#slcSede option')[0].selected = true; 
+ 	$('.reg-datos-sueldo').find('input').val('');
+	$('#tb-laborales').click()
+	$('#chbTitular').click()
+	$('#ulSuplentes').empty() 
+	$('#inpFechaNacimiento').val(new Date()) 
+	$('#inpFechaVI').val(new Date()) 
+	$('#inpFechaVF').val(new Date()) 
+	//$('#inpFechaNacimiento').val(new Date()) 
+ }
+
+// BUSCAR PERSONA
+const mtd_BuscarPersona = (documento) =>{ 
+	fetch(`{{ Config::getUrl() }}/adm/persona/suplente/tareo/${documento}`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	mtd_CrearListaPersonas(data)
+    	console.log(data) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+
+// LISTA DE MAESTROS
+const mtd_ListarNacionalidad = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}nacionalidad`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => {
+    	data.forEach((e)=>{
+			$(`#slcNacionalidad`).append(new Option(e.datos, e.id_nacionalidad)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarTipoDocumento = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_documento`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTipoDocumento`).append(new Option(e.datos, e.id_tpdocumento)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarSede = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}sede`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarCargo = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}cargo`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcCargo`).append(new Option(e.datos, e.id_cargo)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarBanco = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}banco`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcBanco`).append(new Option(e.datos, e.id_banco)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ListarTipoCuenta = () =>{ 
+	fetch(`{{ Config::getUrl() }}{{ Config::URL_API }}tipo_cuenta`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	data.forEach((e)=>{
+			$(`#slcTipoCuenta`).append(new Option(e.datos, e.id_tpcuenta)); 
+		}) 
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+ 
+mtd_ListarCargo()
+mtd_ListarTipoDocumento()
+mtd_ListarNacionalidad()
+mtd_ListarSede()
+mtd_ListarBanco()
+mtd_ListarTipoCuenta()
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+<h1 onclick="precionado()"></h1>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+	
+const precionado = (e) =>{
+	getMovie()
+    .then(data => console.log(data))
+    .catch(reason => console.log(reason.message))
+}
+
+const getMovie = async () =>{
+	let result = await fetch('https://jsonplaceholder.typicode.com/posts')
+	let json = await result.json();
+	return json;
+}
+
+</script>
+{% endblock %}

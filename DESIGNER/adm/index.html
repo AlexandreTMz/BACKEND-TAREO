@@ -1,0 +1,289 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+<div class="row">
+ <!-- ./col -->
+ <div class="col-lg-3 col-6">
+  <!-- small box -->
+  <div class="small-box bg-primary">
+    <div class="inner">
+      <h3 id="dvEmpleados">0</h3>
+      <p>Empleados registrados</p>
+    </div>
+    <div class="icon">
+      <i class="ion ion-person-add"></i>
+    </div>
+    <a href="{{ Config::getUrl(); }}/adm/empleados" class="small-box-footer">Ver más <i class="fas fa-arrow-circle-right"></i></a>
+  </div>
+</div>
+<div class="col-lg-3 col-6">
+  <!-- small box -->
+  <div class="small-box bg-info">
+    <div class="inner">
+      <h3 id="dvTareo">0</h3>
+      <p>Tareos registrados</p>
+    </div>
+    <div class="icon">
+      <i class="fas fa-pencil-ruler"></i>
+    </div>
+    <a href="{{ Config::getUrl(); }}/adm/tareo/anular" class="small-box-footer">Ver más <i class="fas fa-arrow-circle-right"></i></a>
+  </div>
+</div> 
+<!-- ./col -->
+<div class="col-lg-3 col-6">
+  <!-- small box -->
+  <div class="small-box bg-danger">
+    <div class="inner">
+      <h3 id="dvSnAprobar">0</h3> 
+      <p>Empleados sin aprobar</p>
+    </div>
+    <div class="icon">
+      <i class="fas fa-user-check"></i>
+    </div>
+    <a href="{{ Config::getUrl(); }}/adm/aprobar/persona" class="small-box-footer">Ver más <i class="fas fa-arrow-circle-right"></i></a>
+  </div>
+</div>
+<!-- ./col -->
+<!-- ./col -->
+<div class="col-lg-3 col-6">
+  <!-- small box -->
+  <div class="small-box bg-success">
+    <div class="inner">
+      <h3>0.0<sup style="font-size: 20px">%</sup></h3>
+
+      <p>Proximante...</p>
+    </div>
+    <div class="icon">
+      <i class="ion ion-stats-bars"></i>
+    </div>
+    <a href="#" class="small-box-footer">...<i class="fas fa-arrow-circle-right"></i></a>
+  </div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card card-success">
+  <div class="card-header">
+    <h3 class="card-title">
+        Tareos registrados
+    </h3>
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <fieldset class="border p-2">
+           <legend  class="w-auto">Opciones de busqueda</legend>
+           <div class="row justify-content-md-center">
+            <div class="col-3">
+              <select class="form-control" id="slcSede" name="sede"> </select>
+            </div>
+            <div class="col-3">
+              <input id="inpFirstDay" type="date" class="form-control">
+            </div>
+            <div class="col-3">
+              <input id="inpLastDay" type="date" class="form-control">
+            </div>
+            <div class="col-3">
+              <button class="btn btn-success w-100" id="btnGenerarLineChart">Generar</button>
+            </div>
+          </div>
+        </fieldset>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <canvas id="barChart" width="800" height="200"></canvas>
+   </div>
+</div> 
+
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$("#btnGenerarLineChart").click(function(){
+  myChart.destroy();
+  mtd_TareoReporteLineaChar({
+    fechaInicio : $("#inpFirstDay").val(),
+    fechaFin : $("#inpLastDay").val(),
+    sede : $("#slcSede").val()
+  })
+})
+
+//-------------
+//- BAR CHART -
+//-------------
+let myChart;
+
+const createChar = (labelsSet = [], dataSet = []) =>{
+  const data = {
+    labels: labelsSet,
+    datasets: [{
+      label: 'Cantidad de tareos',
+      borderColor: 'rgb(255, 99, 132)',
+      data: dataSet,
+    }]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            stepSize: 1
+          }
+        }]
+      }
+    }
+  };
+  myChart = new Chart(
+    document.getElementById('barChart'),
+    config
+  );
+}
+
+/*
+* funcios
+*/
+
+const mapData = (data = [], type = 1) =>{
+  return data.map((e)=>(
+      type === 1 ? e.FECHA : e.CANTIDAD
+  ))
+}
+
+var date = new Date();
+var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+$("#inpFirstDay").val(firstDay.toISOString().slice(0,10))
+$("#inpLastDay").val(lastDay.toISOString().slice(0,10))
+
+/*
+* Fetchs
+*/
+const mtd_ListarSede = () =>{ 
+    fetch(`{{ Config::getUrl() }}/adm/api/sede`)
+    .then((data) =>{
+            if (data.ok) {
+               return data.json();
+            } else {
+               return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {  
+            $("#slcSede").append(new Option('Todos', 'T'));
+        data.forEach((e)=>{
+            $(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+        }) 
+    })
+    .catch(function(error) {
+        console.log(error) 
+    });
+}
+
+
+const mtd_TareoReporteLineaChar = (datos) =>{   
+    fetch(`{{ Config::getUrl() }}/adm/api/dashboard/linea-tareo`,{
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {
+       createChar(mapData(data,1), mapData(data,2));
+    })
+    .catch(function(error) {  
+        console.log(error)  
+    });
+}
+
+const mtd_ContarEmpleado = () =>{ 
+	fetch(`{{ Config::getUrl() }}/adm/api/dashboard/empleados`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	$("#dvEmpleados").text(data.CANTIDAD)
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+}
+
+const mtd_ContarTareo = () =>{ 
+	fetch(`{{ Config::getUrl() }}/adm/api/dashboard/tareo`)
+    .then((data) =>{
+            if (data.ok) {
+			   return data.json();
+			} else {
+			   return data.json().then(err => {throw err;});
+			}
+    })
+    .then((data) => { 
+    	$("#dvTareo").text(data.CANTIDAD)
+    })
+    .catch(function(error) {
+    	console.log(error) 
+    });
+} 
+
+const mtd_SinAprobar = () =>{ 
+  fetch(`{{ Config::getUrl() }}/adm/api/dashboard/por-aprobar`)
+    .then((data) =>{
+            if (data.ok) {
+         return data.json();
+      } else {
+         return data.json().then(err => {throw err;});
+      }
+    })
+    .then((data) => { 
+      $("#dvSnAprobar").text(data.CANTIDAD)
+    })
+    .catch(function(error) {
+      console.log(error) 
+    });
+} 
+
+mtd_ContarEmpleado()
+mtd_ContarTareo()
+mtd_SinAprobar()
+mtd_TareoReporteLineaChar({
+  fechaInicio : 'T',
+  fechaFin : 'T',
+  sede : 'T'
+})
+mtd_ListarSede();
+
+</script>
+
+{% endblock %}

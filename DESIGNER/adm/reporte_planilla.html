@@ -1,0 +1,184 @@
+{% extends layout/plantilla.html %}
+
+{% block titulo %}{{ $titulo }}{% endblock %}
+
+{% block contenido %}
+
+<form target="_blank" action="{{ Config::getUrl() }}/adm/administrador/planilla/tareo"  method="post" id="myform">
+<div class="row justify-content-md-center">
+    <div class="col-9">
+        <div class="card">
+            <div class="card-header">
+                <label> Opciones de busqueda</label>
+            </div>
+            <div class="card-body" style="position: relative;"> 
+                <div class="row">
+                    <!-- POR SEDES --->
+                    <div class="col-3" id="lySedes">
+                        <label>Sedes</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcSede" name="sede"> </select>
+                        </div>
+                    </div>
+                    <!-- POR SEDES --->
+
+                    <div class="col-3">
+                        <label>Mes:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcMes" name="mes">
+								<option value="01">Enero</option> 
+								<option value="02">Febrero</option>
+								<option value="03">Marzo</option>
+								<option value="04">Abril</option> 
+								<option value="05">Mayo</option>
+								<option value="06">Junio</option>
+								<option value="07">Julio</option>
+								<option value="08">Agosto</option> 
+								<option value="09">Septiembre</option>
+								<option value="10">Octubre</option> 
+								<option value="11">Noviembre</option>
+								<option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label>Año:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcAnio" name="anio">
+                               	{% for($i = 2021 ; $i < date('Y')+1; $i++): %}
+									<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+								{% endFor; %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label>Periodo:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-file-signature"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" id="slcPeriodo" name="periodo">
+                                <option value="1">1 Quincena</option>
+                                <option value="2">2 Quincena</option> 
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-12"></div>
+    <div class="col-9 mb-3"> 
+        <a class="btn btn-success text-white" id="btnValidar" type="submit">GENERAR</a>
+        <button class="btn btn-success" id="btnGenerarPlanilla" type="submit" style="display: none;">GENERAR</button>
+    </div>
+</div>
+</form>
+
+
+<div class="row">
+    <div class="col-12">
+        <!---<button id="btnExportar">EXPORTAR</button>-->
+        <div id="jsgTareo" class="p-2"></div> 
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$("#btnValidar").click(function(e){
+    e.preventDefault();
+    mtd_CrearObjeto();
+	//mtd_CrearObjeto();
+})
+
+const mtd_CrearObjeto = () =>{
+	let planilla = {}
+	planilla.mes = $("#slcMes").val();
+	planilla.anio =$("#slcAnio").val();
+    planilla.sede =$("#slcSede").val();
+    planilla.periodo =$("#slcPeriodo").val(); 
+    console.log(planilla);
+	mtd_ValidarPlanilla(planilla)
+} 
+
+const mtd_ValidarPlanilla = (planilla) =>{
+    let formData = new FormData()
+    formData.append("mes", planilla.mes)
+    formData.append("anio", planilla.anio)
+    formData.append("sede", planilla.sede)
+    formData.append("periodo", planilla.periodo) 
+    fetch(`{{ Config::getUrl() }}/adm/reportes/planilla/validar`,{
+            method: 'POST', 
+            body:formData
+    })
+    .then((data) =>{
+            if (data.ok) {
+                return data.json();
+            } else {
+                return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => {   
+        Swal.fire(
+            'Mensaje del sistema!',
+            data.msg,
+            'success'
+        ) 
+        document.getElementById('myform').submit();
+    })
+    .catch(function(error) { 
+        Swal.fire("Error!", error.msg, "error");
+        console.log(error)  
+    });
+}
+
+const mtd_ListarSede = () =>{ 
+    fetch(`{{ Config::getUrl() }}/adm/api/sede`)
+    .then((data) =>{
+            if (data.ok) {
+               return data.json();
+            } else {
+               return data.json().then(err => {throw err;});
+            }
+    })
+    .then((data) => { 
+        data.forEach((e)=>{
+            $(`#slcSede`).append(new Option(e.datos, e.id_sede)); 
+        }) 
+    })
+    .catch(function(error) {
+        console.log(error) 
+    });
+}
+
+mtd_ListarSede();
+
+</script>
+
+{% endblock %}
