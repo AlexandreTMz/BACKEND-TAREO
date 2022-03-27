@@ -916,7 +916,8 @@ class EmpleadoDAO{
 				$datos['documento'],
 				$datos['sede'],
 				$datos['cargo'],
-				$datos['opcionSede'] 
+				$datos['opcionSede'],
+				$datos['estadoEmpleado'] 
 			));
 			$data = $this->easyPDO->getData();
 			$this->easyPDO->stm->closeCursor(); 
